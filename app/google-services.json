@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "815870307986",
+    "firebase_url": "https://gifproject-60db8.firebaseio.com",
+    "project_id": "gifproject-60db8",
+    "storage_bucket": "gifproject-60db8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815870307986:android:c38f241e54a70cad",
+        "android_client_info": {
+          "package_name": "com.example.chlru.gifproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815870307986-ub0tuku8um7h9b0qelq50jvue60cktkd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chlru.gifproject",
+            "certificate_hash": "5ebff3ed1c1105d78ae28bf4acbb0f2f82d3b3ba"
+          }
+        },
+        {
+          "client_id": "815870307986-jllha8t79qm2stin6sfsjt54d1f57k12.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaeE0qn8dZTJbpPm1T1LT0hX7c9SnWp_U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "815870307986-jllha8t79qm2stin6sfsjt54d1f57k12.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
