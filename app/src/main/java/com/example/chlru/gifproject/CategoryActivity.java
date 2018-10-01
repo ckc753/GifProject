@@ -27,7 +27,6 @@ public class CategoryActivity extends AppCompatActivity {
     Intent intent;
     GifAdapter adapter;
     FirebaseStorage storage;
-    EditText editText;
     InputMethodManager mInputMethodManager;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
