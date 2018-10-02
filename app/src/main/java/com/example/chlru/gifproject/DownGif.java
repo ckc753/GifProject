@@ -27,7 +27,7 @@ public class DownGif {
 
     public StorageReference downloadUrl(String gif){
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference StorageRef = storage.getReferenceFromUrl("gs://doitgif.appspot.com");
+        StorageReference StorageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com");
 
         //다운로드할 파일을 가르키는 참조 만들기
         StorageReference pathRef = StorageRef.child(gif);
@@ -35,7 +35,7 @@ public class DownGif {
         pathRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Toast.makeText(context, "다운로드 성공" + uri, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "다운로드 성공!!", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -76,7 +76,7 @@ public class DownGif {
                     String scanning_path = string_path+tempFile.getName();
                     context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + scanning_path))); //갤러리 갱신
                     //textView5.setText("tempFile 이름 = " + scanning_path);
-                    Toast.makeText(context, "파일 저장 성공", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "파일 저장 성공!!", Toast.LENGTH_SHORT).show();
                     tempFile.deleteOnExit();
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -86,7 +86,7 @@ public class DownGif {
                 }
             });
         }catch (IOException e){
-            Toast.makeText(context, "예외발생!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "해당앱의 저장권한을 확인하세요!!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

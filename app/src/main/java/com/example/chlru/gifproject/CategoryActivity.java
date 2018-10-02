@@ -25,7 +25,8 @@ import com.google.firebase.storage.FirebaseStorage;
 
 public class CategoryActivity extends AppCompatActivity {
     Intent intent;
-    GifAdapter adapter;
+    //GifAdapter adapter;
+    RecyclerAdapter adapter;
     FirebaseStorage storage;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -46,7 +47,7 @@ public class CategoryActivity extends AppCompatActivity {
         /*mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);*/
         context=this;
-        adapter = new GifAdapter(context);//adapter
+        adapter = new RecyclerAdapter(context);//adapter
 /*
         TextView textView = findViewById(R.id.resultView);
 

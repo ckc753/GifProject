@@ -27,7 +27,7 @@ import com.google.firebase.storage.StorageReference;
 public class Fragment1 extends Fragment {
 
     Intent intent;
-    GifAdapter adapter;
+    RecyclerAdapter adapter;
     FirebaseStorage storage;
     InputMethodManager mInputMethodManager;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -44,7 +44,7 @@ public class Fragment1 extends Fragment {
         storage = FirebaseStorage.getInstance();
 
         context=getContext();
-        adapter = new GifAdapter(context);//adapter
+        adapter = new RecyclerAdapter(context);//adapter
 
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
 

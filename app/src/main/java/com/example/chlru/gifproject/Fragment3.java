@@ -37,7 +37,6 @@ import java.util.Date;
 
 
 public class Fragment3 extends Fragment {
-    GifAdapter adapter;
     int reCode;
     Uri filePath;
     ImageView img;
