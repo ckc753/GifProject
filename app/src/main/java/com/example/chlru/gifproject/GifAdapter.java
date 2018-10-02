@@ -80,7 +80,7 @@ public class GifAdapter extends RecyclerView.Adapter<GifViewHolder>implements Ad
 
 
         });
-       //gifViewHolder.
+
 
 
 
@@ -157,7 +157,7 @@ public class GifAdapter extends RecyclerView.Adapter<GifViewHolder>implements Ad
                 }
             });
         } catch (Exception e) {
-            Toast.makeText(gContext, "오류발생!! 저장실패!!", Toast.LENGTH_LONG).show();
+            Toast.makeText(gContext, "앱 권한 설정을 확인해 주세요!!", Toast.LENGTH_LONG).show();
         }
 
     }

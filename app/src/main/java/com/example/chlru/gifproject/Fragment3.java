@@ -150,6 +150,7 @@ public class Fragment3 extends Fragment {
                     // count=(int) dataSnapshot.getChildrenCount();
                     GifItem gitem = dataSnapshot.getValue(GifItem.class);
                     count=gitem.getNumber();
+                    Toast.makeText(getContext(), String.valueOf(count), Toast.LENGTH_SHORT).show();
 
                 }
 
