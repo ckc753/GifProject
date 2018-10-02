@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragment1;
     Fragment fragment2;
     Fragment fragment3;
-    Fragment fragment5;
+
     final String[] navItems = {"내가올린움짤", "공지사항", "이벤트", "광고문의"};
     ListView listView;
     DrawerLayout drawerLayout;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         fragment1 = new Fragment1();
         fragment2 = new Fragment2();
         fragment3 = new Fragment3();
-        fragment5 = new Fragment5();
+
 
         listView = (ListView) findViewById(R.id.slide_listView);
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.addTab(tabs.newTab().setText("베스트 움짤"));
         tabs.addTab(tabs.newTab().setText("주제별 움짤"));
         tabs.addTab(tabs.newTab().setText("업로드 하기"));
-        tabs.addTab(tabs.newTab().setText("파이어연동다운"));
+
 
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -87,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
                     selected = fragment2;
                 } else if (position == 2) {
                     selected = fragment3;
-                } else if (position == 3) {
-                    selected = fragment5;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.container2, selected).commit();
             }
