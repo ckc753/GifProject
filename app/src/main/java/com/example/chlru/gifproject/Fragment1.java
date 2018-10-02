@@ -42,14 +42,10 @@ public class Fragment1 extends Fragment {
 
         recycler=(RecyclerView)view1.findViewById(R.id.recycler);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
-        /*mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);*/
+
         context=getContext();
         adapter = new GifAdapter(context);//adapter
-/*
-        TextView textView = findViewById(R.id.resultView);
 
-        textView.setText("주제 id = " + result + " 버튼이름 = " + name);*/
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
 
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
@@ -73,7 +69,7 @@ public class Fragment1 extends Fragment {
                 adapter.addItem(new GifItem(url, filename, name, day, number));//변화값 adapter에 추가
                 adapter.notifyDataSetChanged();
 
-                /*mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);*/
+
 
 
 
@@ -102,7 +98,7 @@ public class Fragment1 extends Fragment {
                 adapter.addItem(new GifItem(url, filename, name, day, number));
                 adapter.notifyDataSetChanged();
 
-                // mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
 
             }
 

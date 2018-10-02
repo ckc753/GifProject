@@ -10,9 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragment1;
     Fragment fragment2;
     Fragment fragment3;
-
+    EditText editText;
+    InputMethodManager mInputMethodManager;
     final String[] navItems = {"내가올린움짤", "공지사항", "이벤트", "광고문의"};
     ListView listView;
     DrawerLayout drawerLayout;
@@ -51,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
         fragment1 = new Fragment1();
         fragment2 = new Fragment2();
         fragment3 = new Fragment3();
-
+        editText=(EditText)findViewById(R.id.editText);
+        mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
         listView = (ListView) findViewById(R.id.slide_listView);
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
@@ -77,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 int position = tab.getPosition();
                 Log.d("MainActivity", "선택된 탭 : " + position);
 
