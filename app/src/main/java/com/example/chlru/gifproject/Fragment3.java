@@ -122,7 +122,7 @@ public class Fragment3 extends Fragment {
     private void uploadFile() {
         //Toast.makeText(getContext(),editText.getText().toString(),Toast.LENGTH_SHORT).show();
 
-        if ((filePath != null)&&(editText.getText().toString()!=null)) {
+        if ((filePath != null)&&(editText.getText().toString().length()!=0)) {
             final ProgressDialog progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("업로드중...");
             progressDialog.show();
@@ -149,7 +149,7 @@ public class Fragment3 extends Fragment {
                     // count=(int) dataSnapshot.getChildrenCount();
                     GifItem gitem = dataSnapshot.getValue(GifItem.class);
                     count=gitem.getNumber();
-                    Toast.makeText(getContext(), String.valueOf(count), Toast.LENGTH_SHORT).show();
+
 
                 }
 
@@ -219,7 +219,7 @@ public class Fragment3 extends Fragment {
             }).start();*/
 
 
-        } else if((filePath != null)&&(editText.getText().toString()==null)){
+        } else if((filePath != null)&&(editText.getText().toString().length()==0)){
             Toast.makeText(getContext(), "움짤제목을 정해주세요!!", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(getContext(), "파일을 선택하세요!!", Toast.LENGTH_SHORT).show();
