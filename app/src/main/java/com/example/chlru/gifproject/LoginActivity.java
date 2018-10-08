@@ -55,8 +55,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     Intent intent;
     String ID;
     String PW;
-    Button BasicLoginButton;
 
+    Button BasicLoginButton;
     SessionCallback callback;
 
     @Override
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }else{
                     String temp1 = "이메일 입력 내용 : " + editTextEmail.getText().toString();
                     String temp2 = "비번 입력 내용 : " + editTextPw.getText().toString();
-                    Toast.makeText(getApplicationContext(), temp1+" "+temp2, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), temp1+" "+temp2, Toast.LENGTH_SHORT).show();
                     signUser(editTextEmail.getText().toString(), editTextPw.getText().toString());
                 }
             }
@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SignActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -156,7 +157,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
-        Toast.makeText(getApplicationContext(), "test-1", Toast.LENGTH_LONG).show();
     }//onCreate_end
 
     public void signUser(String email, String password){
@@ -167,10 +167,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         if (!task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(),"로그인실패",Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(getApplicationContext(),"로그인완료",Toast.LENGTH_LONG).show();
-
+                            //Toast.makeText(getApplicationContext(),"로그인완료",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                     }
                 });
@@ -201,10 +201,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),"아이디생성완료",Toast.LENGTH_LONG).show();
-
+                            //Toast.makeText(getApplicationContext(),"아이디생성완료",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
+                            finish();
                         } else {
 
                         }
@@ -265,6 +265,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         public void onSessionOpenFailed(KakaoException exception) {
         }
     }//SessionCallBack_end
+
+
 }
 
 

@@ -16,7 +16,7 @@ public class SplashActivity extends Activity {
         }catch(InterruptedException e){
             e.printStackTrace();
         }
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
+        startActivity(new Intent(this, MainActivity.class));
+        finish(); //프래그먼트가 아니기에 띄워져있는 엑티비티 종료
     }
 }

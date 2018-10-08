@@ -1,9 +1,11 @@
 package com.example.chlru.gifproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,7 +22,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -36,7 +42,15 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     DrawerLayout drawerLayout;
     Button menuBtn;
+
+    TextView MainLoginButton;
     Intent intent;
+    FirebaseAuth auth;
+    FirebaseUser user;
+
+    SharedPreferences Sessionsetting;
+    SharedPreferences.Editor Sessioneditor;
+    String SessionID;
 
     @Override
     public void onBackPressed() {
@@ -54,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 
@@ -72,10 +88,42 @@ public class MainActivity extends AppCompatActivity {
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "open", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "open", Toast.LENGTH_SHORT).show();
                 drawerLayout.openDrawer(listView);
             }
         });
+
+        MainLoginButton = (TextView)findViewById(R.id.MainLoginButton);
+        intent = getIntent();
+        String name = intent.getStringExtra("name");
+        if (name != null | user != null){
+            //String username = user.getDisplayName();
+            //String email = user.getEmail();
+            //Uri photo_url = user.getPhotoUrl();
+            //String uid = user.getUid();
+            MainLoginButton.setText("로그아웃 ");
+            MainLoginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }else{
+            MainLoginButton.setText("로그인하시오 ");
+            MainLoginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }
+
+
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
 
@@ -114,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         getHashKey();
-    }
+    }//onCreate_end
     ////////////////////////////////////////////////////
     private void getHashKey(){
         PackageInfo packageInfo = null;
