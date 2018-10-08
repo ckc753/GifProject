@@ -73,9 +73,10 @@ public class SignActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),"회원가입 완료",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(),"회원가입 완료",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                             startActivity(intent);
+                            finish();
                         }else {
                             Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_LONG).show();
                         }

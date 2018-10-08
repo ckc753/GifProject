@@ -17,6 +17,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.view.textclassifier.TextClassificationSessionId;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,10 +48,7 @@ public class MainActivity extends AppCompatActivity {
     Intent intent;
     FirebaseAuth auth;
     FirebaseUser user;
-
-    SharedPreferences Sessionsetting;
-    SharedPreferences.Editor Sessioneditor;
-    String SessionID;
+    String temp;
 
     @Override
     public void onBackPressed() {
@@ -96,21 +94,39 @@ public class MainActivity extends AppCompatActivity {
         MainLoginButton = (TextView)findViewById(R.id.MainLoginButton);
         intent = getIntent();
         String name = intent.getStringExtra("name");
-        if (name != null | user != null){
+
+        SharedPreferences sessionsp = getSharedPreferences("session", 0);
+        final SharedPreferences.Editor sessionedit = sessionsp.edit();
+        temp = sessionsp.getString("sessionid",null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
+
+        if(temp != null){
+        //if (temp != null | name != null | user != null){
+            Toast.makeText(this, temp+"님 환영합니다", Toast.LENGTH_SHORT).show();
+
             //String username = user.getDisplayName();
-            //String email = user.getEmail();
+            ////String email = user.getEmail();
             //Uri photo_url = user.getPhotoUrl();
             //String uid = user.getUid();
+
+            //if(email != null) { //구글회원정보
+            //    Toast.makeText(getApplicationContext(), email+"님 환영합니다", Toast.LENGTH_LONG).show();
+            //}else if(name != null ){ //카카오회원정보
+            //    Toast.makeText(getApplicationContext(),name+"님 환영합니다.",Toast.LENGTH_LONG).show();
+            //}
+
             MainLoginButton.setText("로그아웃 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    sessionedit.remove("sessionid");
+                    sessionedit.commit();
                     intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                     finish();
                 }
             });
-        }else{
+        }else if(temp ==null | name == null & user ==null){
+            Toast.makeText(getApplicationContext(),"로그인하세요",Toast.LENGTH_LONG).show();
             MainLoginButton.setText("로그인하시오 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.kakao.auth.ErrorCode;
 import com.kakao.auth.ISessionCallback;
@@ -58,6 +59,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     Button BasicLoginButton;
     SessionCallback callback;
+
+    SharedPreferences sessionsp;
+    SharedPreferences.Editor sessionedit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +113,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 if(editTextEmail.getText().toString().getBytes().length <= 0 || editTextPw.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
                     Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
                 }else{
-                    String temp1 = "이메일 입력 내용 : " + editTextEmail.getText().toString();
-                    String temp2 = "비번 입력 내용 : " + editTextPw.getText().toString();
+                    //String temp1 = "이메일 입력 내용 : " + editTextEmail.getText().toString();
+                    //String temp2 = "비번 입력 내용 : " + editTextPw.getText().toString();
                     //Toast.makeText(getApplicationContext(), temp1+" "+temp2, Toast.LENGTH_SHORT).show();
                     signUser(editTextEmail.getText().toString(), editTextPw.getText().toString());
                 }
@@ -167,6 +171,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         if (!task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(),"로그인실패",Toast.LENGTH_LONG).show();
                         } else {
+
+                            sessionsp = getSharedPreferences("session", 0);
+                            sessionedit = sessionsp.edit();
+                            sessionedit.putString("sessionid", editTextEmail.getText().toString());
+                            sessionedit.commit();
+
                             //Toast.makeText(getApplicationContext(),"로그인완료",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
@@ -201,6 +211,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
+                            sessionsp = getSharedPreferences("session", 0);
+                            sessionedit = sessionsp.edit();
+                            sessionedit.putString("sessionid", mAuth.getCurrentUser().getEmail());
+                            sessionedit.commit();
+
+                            //구글로그인시 입력값이 들어간다면 Session할 수 있도록
                             //Toast.makeText(getApplicationContext(),"아이디생성완료",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
@@ -251,8 +268,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 public void onSuccess(UserProfile userProfile) {
 
                     Log.e("★UserProfile★", userProfile.toString()); //Logcat ==> Debug로 확인가능하다.
-                    Toast.makeText(getApplicationContext(), "test1.2", Toast.LENGTH_LONG).show();
                     String name = userProfile.getNickname();
+
+                    sessionsp = getSharedPreferences("session", 0);
+                    sessionedit = sessionsp.edit();
+                    sessionedit.putString("sessionid", userProfile.getUUID());
+                    sessionedit.commit();
+
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("name", name);
                     startActivityForResult(intent, 1);
