@@ -11,10 +11,19 @@ public class GifItem {
     String gifname;//gif파일의 제목 ex) 댕댕이
     String day;
     int number;
+    String category;
 
     public GifItem() {
     }
 
+    public GifItem(String downloadUrl, String filename, String gifname,String day,int number,String category) {
+        this.downloadUrl = downloadUrl;
+        this.filename = filename;
+        this.gifname = gifname;
+        this.day=day;
+        this.number=number;
+        this.category=category;
+ }
     public GifItem(String downloadUrl, String filename, String gifname,String day,int number) {
         this.downloadUrl = downloadUrl;
         this.filename = filename;
@@ -22,7 +31,13 @@ public class GifItem {
         this.day=day;
         this.number=number;
 
+    }
+    public String getCategory() {
+        return category;
+    }
 
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public int getNumber() {
@@ -65,13 +80,7 @@ public class GifItem {
         this.gifname = gifname;
     }
 
-    @Override
-    public String toString() {
-        return "gifItem{" +
-                "downloadUrl=" + downloadUrl +
-                ", filename='" + filename + '\'' +
-                ", g_name='" + gifname + '\'' +
-                '}';
+    public void setGifname(String gifname) {
+        this.gifname = gifname;
     }
-
 }

@@ -15,9 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +36,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -45,49 +49,66 @@ public class Fragment3 extends Fragment {
     FirebaseStorage storage;
     EditText editText;
     InputMethodManager mInputMethodManager;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     Query myquery;
     int count;
+    Spinner spinner;
+   // String[] items = {"ㅋㅋㅋㅋ","신기방기","애니몰~","불곰국","사이다","간지","살빼쟈..","스포츠","기타"};
+    String category;
+    private Button [] cButton = new Button[9];
 
-
+    ArrayList<String> arr;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view3 = (ViewGroup) inflater.inflate(R.layout.fragment3, container, false);
+        ViewGroup view2 = (ViewGroup) inflater.inflate(R.layout.fragment2, container, false);
 
-        /*RecyclerView recyclerView = (RecyclerView) view3.findViewById(R.id.recyclerview);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
+        arr=new ArrayList<String>();
+        cButton[0] = (Button) view2.findViewById(R.id.CBtn1);
+        cButton[1] = (Button) view2.findViewById(R.id.CBtn2);
+        cButton[2] = (Button) view2.findViewById(R.id.CBtn3);
+        cButton[3] = (Button) view2.findViewById(R.id.CBtn4);
+        cButton[4] = (Button) view2.findViewById(R.id.CBtn5);
+        cButton[5] = (Button) view2.findViewById(R.id.CBtn6);
+        cButton[6] = (Button) view2.findViewById(R.id.CBtn7);
+        cButton[7] = (Button) view2.findViewById(R.id.CBtn8);
+        cButton[8] = (Button) view2.findViewById(R.id.CBtn9);
 
-        FirebaseStorage fs = FirebaseStorage.getInstance();
-        StorageReference ref1 = fs.getReference("sample01.gif");
-        StorageReference ref2 = fs.getReference("sample02.gif");
-        StorageReference ref3 = fs.getReference("sample03.gif");
-        StorageReference ref4 = fs.getReference("sample04.gif");
-
-        List<Item> items = new ArrayList<>();
-        Item[] item = new Item[4];
-        item[0] = new Item(ref1, "마 이게 수비다");
-        item[1] = new Item(ref2, "방방");
-        item[2] = new Item(ref3, "어이쿠야");
-        item[3] = new Item(ref4, "ㅋㅋㅋㅋ");
-        //item[2] = new Item(R.drawable.zebry, "지브리");
-
-        for (int i = 0; i < item.length; i++) {
-            items.add(item[i]);
+        for(int i =0; i<cButton.length;i++){
+            arr.add(cButton[i].getText().toString());
         }
 
-        recyclerView.setAdapter(new RecyclerAdapter(getContext(), items, R.layout.activity_main));*/
+       // Toast.makeText(getContext(), "확인!!!  "+cate, Toast.LENGTH_SHORT).show();
         storage = FirebaseStorage.getInstance();
-        StorageReference storageRef =storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com");
+        //StorageReference storageRef =storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com");
         //Toast.makeText(getContext(), "확인!"+String.valueOf(storageRef), Toast.LENGTH_SHORT).show();
-
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
         searchbtu = (Button) view3.findViewById(R.id.searchbutton);
         upbtu = (Button) view3.findViewById(R.id.upbutton);
         img = (ImageView) view3.findViewById(R.id.preimg);
         editText = (EditText) view3.findViewById(R.id.editText);
+
+
+        spinner=(Spinner)view3.findViewById(R.id.spin);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, arr);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
+               category =arr.get(position);
+                Toast.makeText(getContext(), "확인합시다! "+category, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         //업로드할 이미지 선택
         searchbtu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,21 +147,13 @@ public class Fragment3 extends Fragment {
             final ProgressDialog progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("업로드중...");
             progressDialog.show();
-/*
-            new Thread(new Runnable() {
-                @Override
-                public void run() {*/
 
-            // final int temp=10000;
             SimpleDateFormat Dateformat = new SimpleDateFormat("yyyyMMddHHmmss");
             Date now = new Date();
             final String file = Dateformat.format(now);
             final String filename = file + ".gif";
             final StorageReference storageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com").child(filename);
             myquery = databaseReference.child("gif").orderByChild("number").limitToFirst(1);
-                   /* handler2.post(new Runnable() {
-                        @Override
-                        public void run() {*/
 
 
             myquery.addChildEventListener(new ChildEventListener() {
@@ -183,7 +196,7 @@ public class Fragment3 extends Fragment {
                     String down = String.valueOf(taskSnapshot.getDownloadUrl());
                     //Toast.makeText(getApplicationContext(), down, Toast.LENGTH_SHORT).show();
 
-                    GifItem gitem = new GifItem(down, filename, editText.getText().toString(), file,count-1);
+                    GifItem gitem = new GifItem(down, filename, editText.getText().toString(), file,count-1,category);
                     //gifItem gitem = new gifItem(filename, editText.getText().toString(), file);
                     databaseReference.child("gif").push().setValue(gitem);
                     editText.setText("");
@@ -208,15 +221,7 @@ public class Fragment3 extends Fragment {
 
 
             Log.d("태그", " 파일명 : " + filename);
-            //adapter.addItem(new gifItem("06","실험"));
 
-
-                 /*       }
-                    });*/
-
-
-           /*     }
-            }).start();*/
 
 
         } else if((filePath != null)&&(editText.getText().toString().length()==0)){
@@ -232,18 +237,21 @@ public class Fragment3 extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
        // mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         if (requestCode == 101) {
-
+            try {
             filePath = data.getData();
 
             Log.d("TAG!!", "uri : " + String.valueOf(filePath) + " 파일명 입니다");
 
-            try {
+
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
                 img.setImageBitmap(bitmap);
 
             } catch (IOException e) {
                 e.printStackTrace();
+            }catch (NullPointerException e1){
+                e1.printStackTrace();
+                Log.e("exception : "," nullpoint 널널널널");
             }
         }
 
