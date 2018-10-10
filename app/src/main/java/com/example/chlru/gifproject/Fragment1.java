@@ -41,9 +41,14 @@ public class Fragment1 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup view1 = (ViewGroup) inflater.inflate(R.layout.fragment1, container, false);
-        final ViewGroup view2 = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
-        edit=(EditText)view2.findViewById(R.id.editText);
-        search=edit.getText().toString();
+
+        try {
+            search = getArguments().getString("SearchTxt");
+        }catch (NullPointerException e){
+
+        }
+
+
         Toast.makeText(getContext(), "서치! "+search, Toast.LENGTH_SHORT).show();
 
         recycler=(RecyclerView)view1.findViewById(R.id.recycler);//리사이클러뷰
@@ -53,7 +58,7 @@ public class Fragment1 extends Fragment {
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
 
-        if(search.length()>0){
+        if(search!=null){
             Toast.makeText(getContext(), "검색후! "+search, Toast.LENGTH_SHORT).show();
             myquery=databaseReference.child("gif").orderByChild("number").equalTo(search);
         }else {

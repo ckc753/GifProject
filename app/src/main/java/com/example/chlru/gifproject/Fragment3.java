@@ -98,7 +98,7 @@ public class Fragment3 extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
                category =arr.get(position);
-                Toast.makeText(getContext(), "확인합시다! "+category, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), "확인합시다! "+category, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

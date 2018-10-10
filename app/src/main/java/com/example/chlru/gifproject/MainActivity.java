@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
         searchBtu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String searchtxt=editText.getText().toString();
+                Bundle searchbundle = new Bundle();
+                searchbundle.putString("SearchTxt",searchtxt);
+                fragment1.setArguments(searchbundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
                 editText.setText("");
             }
