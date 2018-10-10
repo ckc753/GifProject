@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.ChildEventListener;
@@ -33,10 +35,16 @@ public class Fragment1 extends Fragment {
     Query myquery;
     RecyclerView recycler;
     Context context;
+    EditText edit;
+    String search;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup view1 = (ViewGroup) inflater.inflate(R.layout.fragment1, container, false);
+        final ViewGroup view2 = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
+        edit=(EditText)view2.findViewById(R.id.editText);
+        search=edit.getText().toString();
+        Toast.makeText(getContext(), "서치! "+search, Toast.LENGTH_SHORT).show();
 
         recycler=(RecyclerView)view1.findViewById(R.id.recycler);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
@@ -44,7 +52,14 @@ public class Fragment1 extends Fragment {
         adapter = new RecyclerAdapter(context);//adapter
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
-        myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
+
+        if(search.length()>0){
+            Toast.makeText(getContext(), "검색후! "+search, Toast.LENGTH_SHORT).show();
+            myquery=databaseReference.child("gif").orderByChild("number").equalTo(search);
+        }else {
+            Toast.makeText(getContext(), "검색전! "+search, Toast.LENGTH_SHORT).show();
+            myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
+        }
 
         myquery.addChildEventListener(new ChildEventListener() {
             @Override

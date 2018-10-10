@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
     String temp;
-
+    Button searchBtu;
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(listView)) {
@@ -74,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
         fragment2 = new Fragment2();
         fragment3 = new Fragment3();
         editText=(EditText)findViewById(R.id.editText);
+        searchBtu=(Button)findViewById(R.id.searchBtu);
+        searchBtu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
+                editText.setText("");
+            }
+        });
+
+
+
         mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
@@ -99,19 +110,10 @@ public class MainActivity extends AppCompatActivity {
         temp = sessionsp.getString("sessionid",null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
 
         if(temp != null){
-        //if (temp != null | name != null | user != null){
-            Toast.makeText(this, temp+"님 환영합니다", Toast.LENGTH_SHORT).show();
 
-            //String username = user.getDisplayName();
-            ////String email = user.getEmail();
-            //Uri photo_url = user.getPhotoUrl();
-            //String uid = user.getUid();
+            //Toast.makeText(this, temp+"님 환영합니다", Toast.LENGTH_SHORT).show();
 
-            //if(email != null) { //구글회원정보
-            //    Toast.makeText(getApplicationContext(), email+"님 환영합니다", Toast.LENGTH_LONG).show();
-            //}else if(name != null ){ //카카오회원정보
-            //    Toast.makeText(getApplicationContext(),name+"님 환영합니다.",Toast.LENGTH_LONG).show();
-            //}
+
 
             MainLoginButton.setText("로그아웃 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }else if(temp ==null | name == null & user ==null){
-            Toast.makeText(getApplicationContext(),"로그인하세요",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"로그인하세요",Toast.LENGTH_LONG).show();
             MainLoginButton.setText("로그인하시오 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
