@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     DrawerLayout drawerLayout;
     Button menuBtn;
-
     TextView MainLoginButton;
     Intent intent;
     FirebaseAuth auth;

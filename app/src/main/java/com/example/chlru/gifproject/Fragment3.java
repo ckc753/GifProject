@@ -48,13 +48,11 @@ public class Fragment3 extends Fragment {
     Button searchbtu;
     FirebaseStorage storage;
     EditText editText;
-    InputMethodManager mInputMethodManager;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     Query myquery;
     int count;
     Spinner spinner;
-   // String[] items = {"ㅋㅋㅋㅋ","신기방기","애니몰~","불곰국","사이다","간지","살빼쟈..","스포츠","기타"};
     String category;
     private Button [] cButton = new Button[9];
 
@@ -108,7 +106,6 @@ public class Fragment3 extends Fragment {
             }
         });
 
-
         //업로드할 이미지 선택
         searchbtu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,8 +114,6 @@ public class Fragment3 extends Fragment {
                 Intent intent = new Intent();
                 intent.setType("image/gif");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-
-
                 startActivityForResult(Intent.createChooser(intent, "이미지 선택!"), reCode);
                 //onBackPressed();
 
@@ -154,16 +149,12 @@ public class Fragment3 extends Fragment {
             final String filename = file + ".gif";
             final StorageReference storageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com").child(filename);
             myquery = databaseReference.child("gif").orderByChild("number").limitToFirst(1);
-
-
             myquery.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     // count=(int) dataSnapshot.getChildrenCount();
                     GifItem gitem = dataSnapshot.getValue(GifItem.class);
                     count=gitem.getNumber();
-
-
                 }
 
                 @Override
@@ -218,12 +209,7 @@ public class Fragment3 extends Fragment {
 
                 }
             });
-
-
             Log.d("태그", " 파일명 : " + filename);
-
-
-
         } else if((filePath != null)&&(editText.getText().toString().length()==0)){
             Toast.makeText(getContext(), "움짤제목을 정해주세요!!", Toast.LENGTH_SHORT).show();
         }else{
@@ -239,14 +225,9 @@ public class Fragment3 extends Fragment {
         if (requestCode == 101) {
             try {
             filePath = data.getData();
-
             Log.d("TAG!!", "uri : " + String.valueOf(filePath) + " 파일명 입니다");
-
-
-
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
                 img.setImageBitmap(bitmap);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }catch (NullPointerException e1){
@@ -254,9 +235,5 @@ public class Fragment3 extends Fragment {
                 Log.e("exception : "," nullpoint 널널널널");
             }
         }
-
-
     }
-
-
 }

@@ -1,7 +1,6 @@
 package com.example.chlru.gifproject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,10 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,9 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-public class Fragment1 extends Fragment {
+public class Fragment_cat extends Fragment {
 
     RecyclerAdapter adapter;
     FirebaseStorage storage;
@@ -36,9 +32,12 @@ public class Fragment1 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final ViewGroup view1 = (ViewGroup) inflater.inflate(R.layout.fragment1, container, false);
+        final ViewGroup view_cat = (ViewGroup) inflater.inflate(R.layout.fragment_cat, container, false);
 
-        recycler=(RecyclerView)view1.findViewById(R.id.recycler);//리사이클러뷰
+        String Buttonname = getArguments().getString("Buttonname");
+        Toast.makeText(getContext(),"Buttonname="+Buttonname, Toast.LENGTH_SHORT).show();
+
+        recycler=(RecyclerView)view_cat.findViewById(R.id.recycler_cat);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         context=getContext();
         adapter = new RecyclerAdapter(context);//adapter
@@ -51,7 +50,6 @@ public class Fragment1 extends Fragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {//DB에 추가 있을때마다 실행
 
                 final GifItem gitem = dataSnapshot.getValue(GifItem.class);//Gifitem형식으로 데이터 받아옴
-
                 final String url = gitem.getDownloadUrl();//url주소
                 final String filename = gitem.getFilename();//파일이름(ex)sample.gif
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
@@ -74,7 +72,6 @@ public class Fragment1 extends Fragment {
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                 final GifItem gitem = dataSnapshot.getValue(GifItem.class);
-
                 final String url = gitem.getDownloadUrl();
                 final String filename = gitem.getFilename();
                 final String name = gitem.getGifname();
@@ -90,7 +87,7 @@ public class Fragment1 extends Fragment {
             }
         });
 
-       return view1;
+       return view_cat;
     }
 
 }

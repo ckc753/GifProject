@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -18,6 +17,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     private Button [] cButton = new Button[9];
     private ArrayList<String> cDataList;
     Intent intent;
+    Fragment fragment_cat;
 
     @Nullable
     @Override
@@ -53,18 +53,16 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         //클릭된 뷰를 버튼으로 받아옴
         Button newButton = (Button) v;
-
+        fragment_cat = new Fragment_cat();
         for(Button tempButton : cButton){
             if(tempButton == newButton){
                 int position = (Integer)v.getTag();
                 String name = newButton.getText().toString();
-                intent = new Intent(getContext(),CategoryActivity.class);
-                intent.putExtra("주제 id",position);
-                intent.putExtra("Buttonname",name);
-                startActivity(intent);
-
-                Toast.makeText(getContext(), cDataList.get(position), Toast.LENGTH_SHORT).show();
-
+                Bundle bundle = new Bundle();
+                //bundle.putInt("id", position);
+                bundle.putString("Buttonname",name);
+                fragment_cat.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_cat).commit();
             }
         }//for
 
