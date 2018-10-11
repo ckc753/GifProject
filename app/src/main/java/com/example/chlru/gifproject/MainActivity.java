@@ -14,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragment1;
     Fragment fragment2;
     Fragment fragment3;
+    Fragment fragment_search;
     EditText editText;
     InputMethodManager mInputMethodManager;
     final String[] navItems = {"내가올린움짤", "공지사항", "이벤트", "광고문의"};
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
     String temp;
+    Button searchBtu;
     //뒤로가기 버튼 입력시간이 담길long 객체
     private  long pressedTime = 0;
     //리스너 생성
@@ -106,9 +110,85 @@ public class MainActivity extends AppCompatActivity {
         fragment1 = new Fragment1();
         fragment2 = new Fragment2();
         fragment3 = new Fragment3();
+        fragment_search=new Fragment_search();
         editText=(EditText)findViewById(R.id.editText);
         mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
+
+
+
+
+        searchBtu=(Button)findViewById(R.id.searchBtu);
+        searchBtu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean k=fragment_search.isVisible();
+                if(k!=true){
+                    String searchtxt = editText.getText().toString();
+                    Bundle searchbundle = new Bundle();
+                    searchbundle.putString("SearchTxt", searchtxt);
+                    fragment_search.setArguments(searchbundle);
+                    //Toast.makeText(getApplicationContext(), "검색1회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
+                    editText.setText("");
+                }else{
+                    getSupportFragmentManager().beginTransaction()
+                            .remove(fragment_search).commit();
+                    // fragment_search.onDestroy();
+                    String searchtxt = editText.getText().toString();
+                    Bundle searchbundle = new Bundle();
+                    searchbundle.putString("SearchTxt", searchtxt);
+                    fragment_search.setArguments(searchbundle);
+                    //Toast.makeText(getApplicationContext(), "검색다회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
+                    editText.setText("");
+                }
+            }
+        });
+        editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener(){
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    boolean k=fragment_search.isVisible();
+                    if(k!=true){
+                        String searchtxt = editText.getText().toString();
+                        Bundle searchbundle = new Bundle();
+                        searchbundle.putString("SearchTxt", searchtxt);
+                        fragment_search.setArguments(searchbundle);
+                        // Toast.makeText(getApplicationContext(), "검색1회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
+                        editText.setText("");
+                        return true;
+                    }else{
+                        getSupportFragmentManager().beginTransaction()
+                                .remove(fragment_search).commit();
+                        // fragment_search.onDestroy();
+                        String searchtxt = editText.getText().toString();
+                        Bundle searchbundle = new Bundle();
+                        searchbundle.putString("SearchTxt", searchtxt);
+                        fragment_search.setArguments(searchbundle);
+                        // Toast.makeText(getApplicationContext(), "검색다회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
+                        editText.setText("");
+                        return true;
+                    }
+                }
+
+
+                return false;
+            }//onEditorAction_end
+        });
+
+
+
+
+
+
+
+
 
         listView = (ListView) findViewById(R.id.slide_listView);
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
