@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
-public class Fragment_cat extends Fragment {
-
+public class Fragment_cat extends Fragment implements MainActivity.onBackPressedListener{
+    Fragment2 fragment2;
     RecyclerAdapter adapter;
     FirebaseStorage storage;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -33,6 +34,8 @@ public class Fragment_cat extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup view_cat = (ViewGroup) inflater.inflate(R.layout.fragment_cat, container, false);
+
+        fragment2 = (Fragment2) new Fragment2();
 
         String Buttonname = getArguments().getString("Buttonname");
         Toast.makeText(getContext(),"Buttonname="+Buttonname, Toast.LENGTH_SHORT).show();
@@ -88,6 +91,24 @@ public class Fragment_cat extends Fragment {
         });
 
        return view_cat;
+    }
+
+    @Override
+    public void onBack() {
+        Log.e("Other","onBack()");
+        //리스너를 설정하기 위해 Activity 받기
+        MainActivity activity = (MainActivity)getActivity();
+        //한번 뒤로가기 버튼을 누르면 Listner를 null로 해제
+        activity.setOnBackPressedListener(null);
+        //Mainframent(우리는 Fragment1)로 교체
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment2).commit();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.e("Other","onAttach()");
+        ((MainActivity)context).setOnBackPressedListener(this);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.chlru.gifproject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +15,6 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     ViewGroup view2;
     private Button [] cButton = new Button[9];
     private ArrayList<String> cDataList;
-    Intent intent;
     Fragment fragment_cat;
 
     @Nullable
@@ -67,6 +65,8 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
         }//for
 
     }
+
+
 }
 
 

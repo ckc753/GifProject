@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,7 +16,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.view.textclassifier.TextClassificationSessionId;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,13 +46,48 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
     String temp;
-    Button searchBtu;
+    //뒤로가기 버튼 입력시간이 담길long 객체
+    private  long pressedTime = 0;
+    //리스너 생성
+    public interface onBackPressedListener{
+        public void onBack();
+    }
+    //리스너 객체 생성
+    private onBackPressedListener mBackListener;
+    //리스너 설정 메소드
+    public void setOnBackPressedListener(onBackPressedListener listener){
+        mBackListener = listener;
+    }
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(listView)) {
             drawerLayout.closeDrawer(listView);
         } else {
-            super.onBackPressed();
+            if(mBackListener != null){ //다른 Fragment에서 리스너를 설정했을 때 처리
+                mBackListener.onBack();
+                Log.e("!!!","Listener is not null");
+            }else{ //리스너가 설정되지 않은상태(ex.메인Fragment)라면 뒤로가기 연속2번클릭시 앱종료
+                Log.e("!!!","Listener is null");
+                if(pressedTime == 0){
+                    Toast.makeText(getApplicationContext(),
+                            "한번더 누르면 종료됩니다.",Toast.LENGTH_LONG).show();
+                    pressedTime = System.currentTimeMillis();
+                }else{ // pressedTime != 0인 경우
+                    int seconds = (int)(System.currentTimeMillis() - pressedTime);
+                    if(seconds > 2000){
+                        Toast.makeText(getApplicationContext(),
+                                "한번더 누르면 종료됩니다.",Toast.LENGTH_LONG).show();
+                        pressedTime = 0;
+                    }else{
+                        super.onBackPressed();
+                        Log.e("!!!","onBakcPressed : finish,KillProcess");
+                        finish();
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                    }
+                }
+            }
+
         }
     }
 
@@ -74,21 +107,6 @@ public class MainActivity extends AppCompatActivity {
         fragment2 = new Fragment2();
         fragment3 = new Fragment3();
         editText=(EditText)findViewById(R.id.editText);
-        searchBtu=(Button)findViewById(R.id.searchBtu);
-        searchBtu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String searchtxt=editText.getText().toString();
-                Bundle searchbundle = new Bundle();
-                searchbundle.putString("SearchTxt",searchtxt);
-                fragment1.setArguments(searchbundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
-                editText.setText("");
-            }
-        });
-
-
-
         mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
@@ -114,10 +132,19 @@ public class MainActivity extends AppCompatActivity {
         temp = sessionsp.getString("sessionid",null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
 
         if(temp != null){
+        //if (temp != null | name != null | user != null){
+            Toast.makeText(this, temp+"님 환영합니다", Toast.LENGTH_SHORT).show();
 
-            //Toast.makeText(this, temp+"님 환영합니다", Toast.LENGTH_SHORT).show();
+            //String username = user.getDisplayName();
+            ////String email = user.getEmail();
+            //Uri photo_url = user.getPhotoUrl();
+            //String uid = user.getUid();
 
-
+            //if(email != null) { //구글회원정보
+            //    Toast.makeText(getApplicationContext(), email+"님 환영합니다", Toast.LENGTH_LONG).show();
+            //}else if(name != null ){ //카카오회원정보
+            //    Toast.makeText(getApplicationContext(),name+"님 환영합니다.",Toast.LENGTH_LONG).show();
+            //}
 
             MainLoginButton.setText("로그아웃 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }else if(temp ==null | name == null & user ==null){
-            //Toast.makeText(getApplicationContext(),"로그인하세요",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"로그인하세요",Toast.LENGTH_LONG).show();
             MainLoginButton.setText("로그인하시오 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -142,17 +169,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-
-
         getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
 
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("베스트 움짤"));
         tabs.addTab(tabs.newTab().setText("주제별 움짤"));
         tabs.addTab(tabs.newTab().setText("업로드 하기"));
-
 
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -214,29 +236,21 @@ public class MainActivity extends AppCompatActivity {
             String name = vo.toString();
             switch (pos) {
                 case 0:
-
                     Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-
                     break;
 
                 case 1:
-
                     Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-
                     break;
 
                 case 2:
-
                     Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-
                     break;
 
                 case 3: {
-
                     intent = new Intent(getApplicationContext(), AdActivity.class);
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-
                     break;
                 }
             }
