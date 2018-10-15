@@ -95,6 +95,7 @@ public class SignActivity extends AppCompatActivity {
             // 여기서 액션바는 뒤로가기액션바 : 따라서 뒤로가기 커스터마이징
             //https://m.blog.naver.com/PostView.nhn?blogId=alens82&logNo=220754226712&proxyReferer=https%3A%2F%2Fwww.google.co.kr%2F
             startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            finish();
 
             //2. 원래 코드
             //finish();

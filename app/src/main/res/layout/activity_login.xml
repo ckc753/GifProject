@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             android:background="@color/colorAccent"
             android:orientation="vertical">
 
@@ -25,7 +25,7 @@
                 android:text="로그인 도우미"
                 android:textColor="#ffffff"
                 android:textSize="30sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,9 +64,10 @@
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:background="#c77489fc"
-                android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
                 android:drawableStart="@drawable/ic_mail_outline_black_24dp"
+                android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
                 android:hint="이메일"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
@@ -121,7 +122,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="70dp"
                 android:background="@android:color/transparent"
                 android:orientation="vertical"> <!--투명색 레이아웃 -->
 

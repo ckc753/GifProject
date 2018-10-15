@@ -272,7 +272,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                     sessionsp = getSharedPreferences("session", 0);
                     sessionedit = sessionsp.edit();
-                    sessionedit.putString("sessionid", userProfile.getUUID());
+                    sessionedit.putString("sessionid", userProfile.getNickname());
                     sessionedit.commit();
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
