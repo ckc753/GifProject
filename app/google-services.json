@@ -23,11 +23,19 @@
           }
         },
         {
-          "client_id": "815870307986-v381nv3ot8s6982cbvml1j04h36ul2q2.apps.googleusercontent.com",
+          "client_id": "815870307986-qfb05caulsiu7nk7q5fc5q8c16patp1k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.chlru.gifproject",
-            "certificate_hash": "809a6998aafb49fe1eeb2021629e579957334c64"
+            "certificate_hash": "5ce75a9aa465b895a2d59d90c762acb1e285346f"
+          }
+        },
+        {
+          "client_id": "815870307986-md2spboavd089n7bpihgd4jbd3k33ll9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chlru.gifproject",
+            "certificate_hash": "3ce42ff2532f82556cfdc23c771339bd5fa583ae"
           }
         },
         {

@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        keystore {
+            keyAlias 'gitproject'
+            keyPassword '123456'
+            storeFile file('C:/Users/app/AndroidStudioProjects/GifProject-master/GifProject/key/keystore.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.chlru.gifproject"
@@ -10,11 +18,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.keystore
         }
     }
     buildToolsVersion '28.0.2'
