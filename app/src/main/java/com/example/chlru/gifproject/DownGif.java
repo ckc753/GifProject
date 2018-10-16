@@ -35,12 +35,12 @@ public class DownGif {
         pathRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Toast.makeText(context, "다운로드 성공!!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "다운로드 성공!!", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "다운로드 실패", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "다운로드 실패", Toast.LENGTH_SHORT).show();
             }
         });
 
