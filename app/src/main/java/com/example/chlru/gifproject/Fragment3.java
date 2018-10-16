@@ -2,6 +2,7 @@ package com.example.chlru.gifproject;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -39,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static android.support.v4.content.ContextCompat.getSystemService;
+
 
 public class Fragment3 extends Fragment {
     int reCode;
@@ -55,6 +58,7 @@ public class Fragment3 extends Fragment {
     Spinner spinner;
     String category;
     private Button [] cButton = new Button[9];
+    InputMethodManager mInputMethodManager;
 
     ArrayList<String> arr;
     @Nullable
@@ -78,10 +82,8 @@ public class Fragment3 extends Fragment {
             arr.add(cButton[i].getText().toString());
         }
 
-       // Toast.makeText(getContext(), "확인!!!  "+cate, Toast.LENGTH_SHORT).show();
+
         storage = FirebaseStorage.getInstance();
-        //StorageReference storageRef =storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com");
-        //Toast.makeText(getContext(), "확인!"+String.valueOf(storageRef), Toast.LENGTH_SHORT).show();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         searchbtu = (Button) view3.findViewById(R.id.searchbutton);
@@ -190,9 +192,12 @@ public class Fragment3 extends Fragment {
                     GifItem gitem = new GifItem(down, filename, editText.getText().toString(), file,count-1,category);
                     //gifItem gitem = new gifItem(filename, editText.getText().toString(), file);
                     databaseReference.child("gif").push().setValue(gitem);
+                    ////업로드창 초기화////
                     editText.setText("");
-
-
+                    img.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher_round));
+                    filePath=null;
+                    mInputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);//키보드 내리기
+                    mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
                 }
             }).addOnFailureListener(new OnFailureListener() {

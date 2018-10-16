@@ -11,10 +11,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragment_search2;
     EditText editText;
     InputMethodManager mInputMethodManager;
-    final String[] navItems = {"내가올린움짤", "공지사항", "이벤트", "광고문의"};
     ListView listView;
     DrawerLayout drawerLayout;
     Button menuBtn;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     String temp;
     Button searchBtu;
+    AlertDialog.Builder aDialog;
     //뒤로가기 버튼 입력시간이 담길long 객체
     private  long pressedTime = 0;
     //리스너 생성
@@ -104,6 +106,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        aDialog = new AlertDialog.Builder(new ContextThemeWrapper(this,R.style.AlertDialog));
+        SharedPreferences sessionsp = getSharedPreferences("session", 0);
+        final SharedPreferences.Editor sessionedit = sessionsp.edit();
+        temp = sessionsp.getString("sessionid",null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
+
+
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -116,8 +124,7 @@ public class MainActivity extends AppCompatActivity {
         fragment_search=new Fragment_search();
         fragment_search2=new Fragment_search2();
         editText=(EditText)findViewById(R.id.editText);
-        mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
 
 
 
@@ -137,17 +144,23 @@ public class MainActivity extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
                     openSearchFragment1();
                     editText.setText("");
+                    mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);//키보드 내리기
+                    mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
                 }else if(k==false&&k2==true){
                     //Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_LONG).show();
                     removeFragment2();
                     openSearchFragment1();
                     editText.setText("");
+                    mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);//키보드 내리기
+                    mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 }else if(k==true&&k2==false){
                     //Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_LONG).show();
                     removeFragment1();
                     openSearchFragment2();
                     editText.setText("");
+                    mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);//키보드 내리기
+                    mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 }else{
                     removeFragment1();
                     removeFragment2();
@@ -194,8 +207,16 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.slide_listView);
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
-        listView.setOnItemClickListener(new DrawerItemListener());
+        if(temp!=null){
+            final String navItems[] = {temp+"님 환영합니다", "내가올린움짤", "공지사항", "이벤트", "광고문의"};
+            listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
+            listView.setOnItemClickListener(new DrawerItemListener());
+        }else{
+            final String navItems[] = {"비회원님 환영합니다", "공지사항", "이벤트"};
+            listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
+            listView.setOnItemClickListener(new DrawerItemListener());
+        }
+
         menuBtn = (Button) findViewById(R.id.menuBtn);
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,10 +229,6 @@ public class MainActivity extends AppCompatActivity {
         MainLoginButton = (TextView)findViewById(R.id.MainLoginButton);
         intent = getIntent();
         String name = intent.getStringExtra("name");
-
-        SharedPreferences sessionsp = getSharedPreferences("session", 0);
-        final SharedPreferences.Editor sessionedit = sessionsp.edit();
-        temp = sessionsp.getString("sessionid",null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
 
         if(temp != null){
             Toast.makeText(this, temp+"님 환영합니다", Toast.LENGTH_SHORT).show();
@@ -248,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
                 int position = tab.getPosition();
                 Log.d("MainActivity", "선택된 탭 : " + position);
 
@@ -325,34 +342,61 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     ////////////////////////////////////////////////////
-
+    //listView를 이용한 메뉴슬라이드 (ListView.OnItemClickListener 이용)
     private class DrawerItemListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
             Object vo = (Object)av.getAdapter().getItem(pos);
             String name = vo.toString();
-            switch (pos) {
-                case 0:
-                    Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-                    break;
+            if(temp!=null) {
+                switch (pos) {
+                    case 0:
+                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                        break;
 
-                case 1:
-                    Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-                    break;
+                    case 2:
 
-                case 2:
-                    Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-                    break;
+                        aDialog.setTitle("＊＊＊ 2018/10/16공지 ＊＊＊");
+                        aDialog.setMessage("어플이 개발중입니다.\n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
+                        aDialog.setPositiveButton("확인", null);
+                        aDialog.show();
+                        break;
 
-                case 3: {
-                    intent = new Intent(getApplicationContext(), AdActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-                    finish();
-                    break;
-                }
+                    case 3:
+                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case 4: {
+                        intent = new Intent(getApplicationContext(), AdActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                        finish();
+                        break;
+                    }
+                }//switch_end
+            }else{//if_end
+                switch (pos) {
+                    case 0:
+                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case 2:
+
+                        aDialog.setTitle("＊＊＊ 2018/10/16공지 ＊＊＊");
+                        aDialog.setMessage("어플이 개발중입니다.\n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
+                        aDialog.setPositiveButton("확인", null);
+                        aDialog.show();
+                        break;
+                }//switch_end
             }
             drawerLayout.closeDrawer(listView);
         }
     }
+
 }
