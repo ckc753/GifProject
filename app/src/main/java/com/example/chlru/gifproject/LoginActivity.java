@@ -276,9 +276,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     sessionedit.commit();
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("name", name);
-                    startActivityForResult(intent, 1);
+                    startActivity(intent);
+
+                    //intent.putExtra("name", name);
+                    //startActivityForResult(intent, 1);
                     finish();
+                    finishAffinity();
                 }
             });
         }

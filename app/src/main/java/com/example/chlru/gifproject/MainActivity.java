@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         super.onBackPressed();
                         Log.e("!!!","onBakcPressed : finish,KillProcess");
                         finish();
+                        finishAffinity(); //카카오톡 종료 (로그인 ->메인 -> 로그인 Activity중복에러완료)
                         android.os.Process.killProcess(android.os.Process.myPid());
                     }
                 }
@@ -134,14 +135,13 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
                     editText.setText("");
                 }else{
-                    getSupportFragmentManager().beginTransaction()
-                            .remove(fragment_search).commit();
+                    getSupportFragmentManager().beginTransaction().remove(fragment_search).commit();
                     // fragment_search.onDestroy();
                     String searchtxt = editText.getText().toString();
                     Bundle searchbundle = new Bundle();
                     searchbundle.putString("SearchTxt", searchtxt);
                     fragment_search.setArguments(searchbundle);
-                    //Toast.makeText(getApplicationContext(), "검색다회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
+                    //                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Toast.makeText(getApplicationContext(), "검색다회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
                     editText.setText("");
                 }
@@ -183,14 +183,6 @@ public class MainActivity extends AppCompatActivity {
             }//onEditorAction_end
         });
 
-
-
-
-
-
-
-
-
         listView = (ListView) findViewById(R.id.slide_listView);
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
@@ -213,20 +205,7 @@ public class MainActivity extends AppCompatActivity {
         temp = sessionsp.getString("sessionid",null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
 
         if(temp != null){
-        //if (temp != null | name != null | user != null){
             Toast.makeText(this, temp+"님 환영합니다", Toast.LENGTH_SHORT).show();
-
-            //String username = user.getDisplayName();
-            ////String email = user.getEmail();
-            //Uri photo_url = user.getPhotoUrl();
-            //String uid = user.getUid();
-
-            //if(email != null) { //구글회원정보
-            //    Toast.makeText(getApplicationContext(), email+"님 환영합니다", Toast.LENGTH_LONG).show();
-            //}else if(name != null ){ //카카오회원정보
-            //    Toast.makeText(getApplicationContext(),name+"님 환영합니다.",Toast.LENGTH_LONG).show();
-            //}
-
             MainLoginButton.setText("로그아웃 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -332,6 +311,7 @@ public class MainActivity extends AppCompatActivity {
                     intent = new Intent(getApplicationContext(), AdActivity.class);
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                    finish();
                     break;
                 }
             }

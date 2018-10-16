@@ -40,7 +40,7 @@ public class Fragment_search extends Fragment {
 
         }
 
-        Toast.makeText(getContext(), search+" 검색! ", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), search+" 검색! ", Toast.LENGTH_SHORT).show();
 
 
         recycler=(RecyclerView)view_cat.findViewById(R.id.recycler_cat);//리사이클러뷰
@@ -51,8 +51,10 @@ public class Fragment_search extends Fragment {
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
 
         if(search!=null){
+            Toast.makeText(getContext(), search+" 1검색! ", Toast.LENGTH_SHORT).show();
             myquery=databaseReference.child("gif").orderByChild("gifname").startAt(search).endAt(search+"\uf8ff");
         }else {
+            Toast.makeText(getContext(), search+" 2검색! ", Toast.LENGTH_SHORT).show();
             myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
         }
 
