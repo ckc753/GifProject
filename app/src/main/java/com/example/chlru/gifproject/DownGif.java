@@ -65,7 +65,7 @@ public class DownGif {
         }
         return file_path;
     }
-
+//
     //로컬 저장소에 저장
     public void downloadLocal(StorageReference pathRef, File file_path){
         try{
