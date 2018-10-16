@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                     Bundle searchbundle = new Bundle();
                     searchbundle.putString("SearchTxt", searchtxt);
                     fragment_search.setArguments(searchbundle);
-                    //                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Toast.makeText(getApplicationContext(), "검색다회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getApplicationContext(), "검색다회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
                     editText.setText("");
                 }
