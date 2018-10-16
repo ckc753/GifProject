@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragment2;
     Fragment fragment3;
     Fragment fragment_search;
+    Fragment fragment_search2;
     EditText editText;
     InputMethodManager mInputMethodManager;
     final String[] navItems = {"내가올린움짤", "공지사항", "이벤트", "광고문의"};
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         fragment2 = new Fragment2();
         fragment3 = new Fragment3();
         fragment_search=new Fragment_search();
+        fragment_search2=new Fragment_search2();
         editText=(EditText)findViewById(R.id.editText);
         mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
@@ -120,31 +122,37 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        //검색 시작////////////////////////////////////////////
 
         searchBtu=(Button)findViewById(R.id.searchBtu);
         searchBtu.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
                 boolean k=fragment_search.isVisible();
-                if(k!=true){
-                    String searchtxt = editText.getText().toString();
-                    Bundle searchbundle = new Bundle();
-                    searchbundle.putString("SearchTxt", searchtxt);
-                    fragment_search.setArguments(searchbundle);
-                    //Toast.makeText(getApplicationContext(), "검색1회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
+                boolean k2=fragment_search2.isVisible();
+                //Toast.makeText(getApplicationContext(), String.valueOf(k)+" "+String.valueOf(k2), Toast.LENGTH_LONG).show();
+                if(k==false&&k2==false){
+                    //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
+                    openSearchFragment1();
+                    editText.setText("");
+
+                }else if(k==false&&k2==true){
+                    //Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_LONG).show();
+                    removeFragment2();
+                    openSearchFragment1();
+                    editText.setText("");
+                }else if(k==true&&k2==false){
+                    //Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_LONG).show();
+                    removeFragment1();
+                    openSearchFragment2();
                     editText.setText("");
                 }else{
-                    getSupportFragmentManager().beginTransaction().remove(fragment_search).commit();
-                    // fragment_search.onDestroy();
-                    String searchtxt = editText.getText().toString();
-                    Bundle searchbundle = new Bundle();
-                    searchbundle.putString("SearchTxt", searchtxt);
-                    fragment_search.setArguments(searchbundle);
-                    // Toast.makeText(getApplicationContext(), "검색다회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
-                    editText.setText("");
+                    removeFragment1();
+                    removeFragment2();
                 }
+
             }
         });
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -154,27 +162,26 @@ public class MainActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE){
                     boolean k=fragment_search.isVisible();
-                    if(k!=true){
-                        String searchtxt = editText.getText().toString();
-                        Bundle searchbundle = new Bundle();
-                        searchbundle.putString("SearchTxt", searchtxt);
-                        fragment_search.setArguments(searchbundle);
-                        // Toast.makeText(getApplicationContext(), "검색1회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
+                    boolean k2=fragment_search2.isVisible();
+                    //Toast.makeText(getApplicationContext(), String.valueOf(k)+" "+String.valueOf(k2), Toast.LENGTH_LONG).show();
+                    if(k==false&&k2==false){
+                        //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
+                        openSearchFragment1();
                         editText.setText("");
-                        return true;
+
+                    }else if(k==false&&k2==true){
+                        //Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_LONG).show();
+                        removeFragment2();
+                        openSearchFragment1();
+                        editText.setText("");
+                    }else if(k==true&&k2==false){
+                        //Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_LONG).show();
+                        removeFragment1();
+                        openSearchFragment2();
+                        editText.setText("");
                     }else{
-                        getSupportFragmentManager().beginTransaction()
-                                .remove(fragment_search).commit();
-                        // fragment_search.onDestroy();
-                        String searchtxt = editText.getText().toString();
-                        Bundle searchbundle = new Bundle();
-                        searchbundle.putString("SearchTxt", searchtxt);
-                        fragment_search.setArguments(searchbundle);
-                        // Toast.makeText(getApplicationContext(), "검색다회차 "+String.valueOf(k), Toast.LENGTH_LONG).show();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
-                        editText.setText("");
-                        return true;
+                        removeFragment1();
+                        removeFragment2();
                     }
                 }
 
@@ -182,6 +189,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }//onEditorAction_end
         });
+
+        //검색 끝////////////////////////////////////////////
 
         listView = (ListView) findViewById(R.id.slide_listView);
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
@@ -266,6 +275,34 @@ public class MainActivity extends AppCompatActivity {
         });
         getHashKey();
     }//onCreate_end
+    ////////////////////////////////////////////////////
+
+    private void openSearchFragment1(){
+        String searchtxt = editText.getText().toString();
+        Bundle searchbundle = new Bundle();
+        searchbundle.putString("SearchTxt", searchtxt);
+        fragment_search.setArguments(searchbundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
+        //Toast.makeText(getApplicationContext(), "search1 open", Toast.LENGTH_LONG).show();
+
+    }
+    private void openSearchFragment2(){
+        String searchtxt = editText.getText().toString();
+        Bundle searchbundle = new Bundle();
+        searchbundle.putString("SearchTxt", searchtxt);
+        fragment_search2.setArguments(searchbundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search2).commit();
+        //Toast.makeText(getApplicationContext(), "search2 open", Toast.LENGTH_LONG).show();
+    }
+    private void removeFragment1() {
+        getSupportFragmentManager().beginTransaction()
+                .remove(fragment_search).commit();
+    }
+    private void removeFragment2() {
+        getSupportFragmentManager().beginTransaction()
+                .remove(fragment_search2).commit();
+    }
+
     ////////////////////////////////////////////////////
     private void getHashKey(){
         PackageInfo packageInfo = null;

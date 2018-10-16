@@ -7,11 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -22,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
-public class Fragment_search extends Fragment {
+public class Fragment_search2 extends Fragment {
 
     RecyclerAdapter adapter;
     FirebaseStorage storage;
@@ -32,23 +30,23 @@ public class Fragment_search extends Fragment {
     RecyclerView recycler;
     Context context;
     String search;
-    ViewGroup view_sear;
+    ViewGroup view_sear2;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view_sear = (ViewGroup) inflater.inflate(R.layout.fragment_sear1, container, false);
+        view_sear2 = (ViewGroup) inflater.inflate(R.layout.fragment_sear2, container, false);
 
         try {
             search = getArguments().getString("SearchTxt");
         }catch (NullPointerException e){
 
         }
+       
+      //  Toast.makeText(getContext(), search+" 검색! ", Toast.LENGTH_SHORT).show();
 
-        // Toast.makeText(getContext(), search+" 검색! ", Toast.LENGTH_SHORT).show();
 
-
-        recycler=(RecyclerView)view_sear.findViewById(R.id.recycler_sear1);//리사이클러뷰
+        recycler=(RecyclerView)view_sear2.findViewById(R.id.recycler_sear2);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         context=getContext();
         adapter = new RecyclerAdapter(context);//adapter
@@ -100,6 +98,6 @@ public class Fragment_search extends Fragment {
 
 
 
-        return view_sear;
+       return view_sear2;
     }
 }
