@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     String temp;
     Button searchBtu;
     AlertDialog.Builder aDialog;
+    SharedPreferences sessionsp;
 
     //뒤로가기 버튼 입력시간이 담길long 객체
     private  long pressedTime = 0;
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         aDialog = new AlertDialog.Builder(new ContextThemeWrapper(this,R.style.AlertDialog));
-        SharedPreferences sessionsp = getSharedPreferences("session", 0);
+        sessionsp = getSharedPreferences("session", 0);
         final SharedPreferences.Editor sessionedit = sessionsp.edit();
         temp = sessionsp.getString("sessionid",null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
 
@@ -229,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
 
         MainLoginButton = (TextView)findViewById(R.id.MainLoginButton);
         intent = getIntent();
-        String name = intent.getStringExtra("name");
+        final String name = intent.getStringExtra("name");
 
         if(temp != null){
             Toast.makeText(this, temp+"님 환영합니다", Toast.LENGTH_SHORT).show();
@@ -239,12 +240,24 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     sessionedit.remove("sessionid");
                     sessionedit.commit();
-                    intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+                    temp = sessionsp.getString("sessionid",null);
+                    //intent = new Intent(getApplicationContext(), MainActivity.class);
+                    //startActivity(intent);
+                    //finish();
+
+                    MainLoginButton.setText("로그인하시오 ");
+                    MainLoginButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
                 }
             });
-        }else if(temp ==null | name == null & user ==null){
+        }
+        else if(temp ==null | name == null & user ==null){
             Toast.makeText(getApplicationContext(),"로그인하세요",Toast.LENGTH_LONG).show();
             MainLoginButton.setText("로그인하시오 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -276,7 +289,16 @@ public class MainActivity extends AppCompatActivity {
                 } else if (position == 1) {
                     selected = fragment2;
                 } else if (position == 2) {
-                    selected = fragment3;
+                    if(temp!=null) {
+                        selected = fragment3;
+                    }else{
+                        //Toast.makeText(getApplicationContext(), "로그인하세요", Toast.LENGTH_LONG).show();
+                        aDialog.setTitle("＊＊＊ 로그인 하세요 ＊＊＊");
+                        aDialog.setMessage("회원이 아니기때문에 업로드를 이용할 수 없습니다.");
+                        aDialog.setPositiveButton("확인", null);
+                        aDialog.show();
+                        selected = fragment1;
+                    }
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.container2, selected).commit();
             }
