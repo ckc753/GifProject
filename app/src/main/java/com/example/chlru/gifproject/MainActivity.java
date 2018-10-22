@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     String temp;
     Button searchBtu;
     AlertDialog.Builder aDialog;
+
     //뒤로가기 버튼 입력시간이 담길long 객체
     private  long pressedTime = 0;
     //리스너 생성
@@ -124,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
         fragment_search=new Fragment_search();
         fragment_search2=new Fragment_search2();
         editText=(EditText)findViewById(R.id.editText);
-
 
 
 

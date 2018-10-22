@@ -1,7 +1,9 @@
 package com.example.chlru.gifproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,18 +23,12 @@ import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     Context context;
-    //List<Item> items;
     int item_layout;
     final String folderName = "움짤공방";
     private ArrayList<GifItem> items = new ArrayList<GifItem>();
     private Context gContext;
     private LayoutInflater inflater;
 
-    /*public RecyclerAdapter(Context context, List<Item> items, int item_layout) {
-        this.context = context;
-        this.items = items;
-        this.item_layout = item_layout;
-    }*/
     public RecyclerAdapter(Context context) {
         this.context = context;
 
@@ -48,13 +44,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        /*final Item item = items.get(position);
-        //Drawable drawable = ContextCompat.getDrawable(context, item.getImage());
-        Glide.with(context)
-                .load(items.get(position).getImage())
-                .into(holder.image);*/
-        //holder.image.setBackground(drawable);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final String urladd = items.get(position).getDownloadUrl();
+
         holder.title.setText(items.get(position).getGifname());
         Glide.with(context)
                 .load(Uri.parse(items.get(position).getDownloadUrl()))
@@ -62,7 +54,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context,BigImageActivity.class);
+                intent.putExtra("url",urladd);
+                context.startActivity(intent);
+                //Intent intent = new Intent(context, BigImageActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //intent.putExtra("url",urladd);
+                //context.startActivity(intent);
+
+
+
+
+                //Toast.makeText(context, items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
             }
         });
 

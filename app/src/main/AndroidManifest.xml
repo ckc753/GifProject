@@ -25,11 +25,18 @@
             <category android:name="android.intent.category.LAUNCHER"/>
         </intent-filter>
 </activity>
+
+        <activity
+            android:name=".BigImageActivity"
+            android:theme="@style/NoDisplay"
+            />
+
     <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/kakao_app_key"/>
     <activity android:name=".MainActivity"/>
     <activity android:name=".AdActivity"/>
     <activity android:name=".CategoryActivity"/>
     <activity android:name=".SignActivity"/>
     <activity android:name=".LoginActivity"/>
+
 </application>
 </manifest>
