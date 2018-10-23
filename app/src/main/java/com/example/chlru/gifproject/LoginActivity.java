@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     SharedPreferences sessionsp;
     SharedPreferences.Editor sessionedit;
+    private  long pressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -291,7 +292,33 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }//SessionCallBack_end
 
+    @Override
+    public void onBackPressed() {
 
+
+                Log.e("!!!","Listener is null");
+                if(pressedTime == 0){
+                    Toast.makeText(getApplicationContext(),
+                            "한번더 누르면 종료됩니다.",Toast.LENGTH_LONG).show();
+                    pressedTime = System.currentTimeMillis();
+                }else{ // pressedTime != 0인 경우
+                    int seconds = (int)(System.currentTimeMillis() - pressedTime);
+                    if(seconds > 2000){
+                        Toast.makeText(getApplicationContext(),
+                                "한번더 누르면 종료됩니다.",Toast.LENGTH_LONG).show();
+                        pressedTime = 0;
+                    }else{
+                        super.onBackPressed();
+                        Log.e("!!!","onBakcPressed : finish,KillProcess");
+                        finish();
+                        finishAffinity(); //카카오톡 종료 (로그인 ->메인 -> 로그인 Activity중복에러완료)
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                    }
+                }
+
+
+
+    }
 }
 
 

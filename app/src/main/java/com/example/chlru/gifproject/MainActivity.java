@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.slide_listView);
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
         if(temp!=null){
-            final String navItems[] = {temp+"님 환영합니다", "내가올린움짤", "공지사항", "이벤트", "광고문의"};
+            final String navItems[] = {temp+"님 환영합니다", "내가올린움짤", "공지사항", "이벤트"};
             listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
             listView.setOnItemClickListener(new DrawerItemListener());
         }else{
@@ -242,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     sessionedit.commit();
                     temp = sessionsp.getString("sessionid",null);
                     Toast.makeText(getApplicationContext(),"로그아웃하셨습니다.",Toast.LENGTH_LONG).show();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
                     //intent = new Intent(getApplicationContext(), MainActivity.class);
                     //startActivity(intent);
                     //finish();
@@ -393,13 +394,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
                         break;
 
-                    case 4: {
-                        intent = new Intent(getApplicationContext(), AdActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-                        finish();
-                        break;
-                    }
+
                 }//switch_end
             }else{//if_end
                 switch (pos) {

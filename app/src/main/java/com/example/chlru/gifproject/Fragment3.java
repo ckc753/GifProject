@@ -150,7 +150,7 @@ public class Fragment3 extends Fragment {
             final String file = Dateformat.format(now);
             final String filename = file + ".gif";
             final StorageReference storageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com").child(filename);
-            myquery = databaseReference.child("gif").orderByChild("number").limitToFirst(1);
+            myquery = databaseReference.child("gifManager").orderByChild("number").limitToFirst(1);
             myquery.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -191,7 +191,7 @@ public class Fragment3 extends Fragment {
 
                     GifItem gitem = new GifItem(down, filename, editText.getText().toString(), file,count-1,category);
                     //gifItem gitem = new gifItem(filename, editText.getText().toString(), file);
-                    databaseReference.child("gif").push().setValue(gitem);
+                    databaseReference.child("gifManager").push().setValue(gitem);
                     ////업로드창 초기화////
                     editText.setText("");
                     img.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher_round));
