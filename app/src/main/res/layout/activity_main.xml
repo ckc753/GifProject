@@ -30,7 +30,7 @@
                     android:id="@+id/menuBtn"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorTransparent"
+                    android:background="@color/colorTransparent2"
                     android:text="메뉴"
                     android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title" />
 

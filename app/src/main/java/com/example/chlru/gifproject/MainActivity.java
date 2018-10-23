@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     sessionedit.remove("sessionid");
                     sessionedit.commit();
                     temp = sessionsp.getString("sessionid",null);
+                    Toast.makeText(getApplicationContext(),"로그아웃하셨습니다.",Toast.LENGTH_LONG).show();
                     //intent = new Intent(getApplicationContext(), MainActivity.class);
                     //startActivity(intent);
                     //finish();
@@ -258,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         else if(temp ==null | name == null & user ==null){
-            Toast.makeText(getApplicationContext(),"로그인하세요",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"로그인하세요",Toast.LENGTH_LONG).show();
             MainLoginButton.setText("로그인하시오 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
