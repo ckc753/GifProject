@@ -169,19 +169,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),"로그인실패",Toast.LENGTH_LONG).show();
-                        } else {
-
-                            sessionsp = getSharedPreferences("session", 0);
-                            sessionedit = sessionsp.edit();
-                            sessionedit.putString("sessionid", editTextEmail.getText().toString());
-                            sessionedit.commit();
-
-                            //Toast.makeText(getApplicationContext(),"로그인완료",Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                        if(editTextEmail.getText().toString().equals("manager") && editTextPw.getText().toString().equals("manager")){
+                            Intent intent = new Intent(getApplicationContext(), ManagerActivity.class);
                             startActivity(intent);
                             finish();
+
+                        }else {
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "로그인실패", Toast.LENGTH_LONG).show();
+                            } else {
+
+                                sessionsp = getSharedPreferences("session", 0);
+                                sessionedit = sessionsp.edit();
+                                sessionedit.putString("sessionid", editTextEmail.getText().toString());
+                                sessionedit.commit();
+
+                                //Toast.makeText(getApplicationContext(),"로그인완료",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
                         }
                     }
                 });
