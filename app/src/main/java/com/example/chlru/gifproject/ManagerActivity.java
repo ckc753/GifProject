@@ -1,12 +1,14 @@
 package com.example.chlru.gifproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -23,15 +25,19 @@ public class ManagerActivity extends AppCompatActivity {
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
     Query myquery;
     RecyclerView recycler;
-    //Context context는 Fragment에서만 사용하는거ㅣ까 필요없다. (handler스려면 사용할 것)
-
     AlertDialog.Builder dialog;
+    Toolbar managertoolbar;
+    //Context context는 Fragment에서만 사용하는거ㅣ까 필요없다. (handler스려면 사용할 것)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager);
 
+        managertoolbar = (Toolbar) findViewById(R.id.managertoolbar);
+        setSupportActionBar(managertoolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dialog = new AlertDialog.Builder(new ContextThemeWrapper(this,R.style.AlertDialog));
         dialog.setTitle("＊＊＊ 관리자 모드 ＊＊＊");
         dialog.setMessage("사용자가 올린 DB값을 조회/승인/삭제할 수 있습니다");
@@ -88,4 +94,18 @@ public class ManagerActivity extends AppCompatActivity {
             }
         });
     }
+
+    //toolbar_back기능넣기
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // NavUtils.navigateUpFromSameTask(this);
+                //작성안하면 바로종료
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    };
 }

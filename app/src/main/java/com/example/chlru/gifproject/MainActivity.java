@@ -249,6 +249,8 @@ public class MainActivity extends AppCompatActivity {
                     sessionedit.commit();
                     temp = sessionsp.getString("sessionid",null);
                     Toast.makeText(getApplicationContext(),"로그아웃하셨습니다.",Toast.LENGTH_LONG).show();
+
+                    //로그인시, 업로드창에서 로그아웃하면 이용하지못하도록 Fragment.replace처리
                     getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
                     //intent = new Intent(getApplicationContext(), MainActivity.class);
                     //startActivity(intent);
@@ -421,20 +423,26 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
                         break;
+
                     case 1:
-                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                        aDialog.setTitle("＊＊＊ 내가 올린 움짤 ＊＊＊");
+                        aDialog.setMessage("내가 올린 움짤 기능은 개발중입니다! \n좀 더 편리한 기능으로 찾아뵙겠습니다. ^_^");
+                        aDialog.setPositiveButton("확인", null);
+                        aDialog.show();
                         break;
 
                     case 2:
-
                         aDialog.setTitle("＊＊＊ 2018/10/16공지 ＊＊＊");
-                        aDialog.setMessage("어플이 개발중입니다.\n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
+                        aDialog.setMessage("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
                         aDialog.setPositiveButton("확인", null);
                         aDialog.show();
                         break;
 
                     case 3:
-                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                        aDialog.setTitle("＊＊＊ 이달의 이벤트 ＊＊＊");
+                        aDialog.setMessage("현재 진행중인 이벤트가 없습니다. \n 추후에 공지사항을 통해 미리 알려드리겠습니다. ^_^");
+                        aDialog.setPositiveButton("확인", null);
+                        aDialog.show();
                         break;
 
 
@@ -445,13 +453,15 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
                         break;
                     case 1:
-                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                        aDialog.setTitle("＊＊＊ 2018/10/16공지 ＊＊＊");
+                        aDialog.setMessage("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
+                        aDialog.setPositiveButton("확인", null);
+                        aDialog.show();
                         break;
 
                     case 2:
-
-                        aDialog.setTitle("＊＊＊ 2018/10/16공지 ＊＊＊");
-                        aDialog.setMessage("어플이 개발중입니다.\n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
+                        aDialog.setTitle("＊＊＊ 이달의 이벤트 ＊＊＊");
+                        aDialog.setMessage("현재 진행중인 이벤트가 없습니다. \n추후에 공지사항을 통해 미리 알려드리겠습니다. ^_^");
                         aDialog.setPositiveButton("확인", null);
                         aDialog.show();
                         break;

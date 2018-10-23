@@ -17,6 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.keystore
     }
     buildTypes {
         release {
@@ -26,6 +27,8 @@ android {
         }
     }
     buildToolsVersion '28.0.2'
+    productFlavors {
+    }
 }
 
 dependencies {

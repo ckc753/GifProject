@@ -23,14 +23,14 @@
                 android:id="@+id/signappbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/appbar_padding_top"
                 android:background="@color/colorAccent"
+                android:paddingTop="@dimen/appbar_padding_top"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/signtoolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="42dp"
                     android:background="?attr/colorAccent"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="?attr/actionBarTheme">
@@ -38,20 +38,21 @@
                     <!-- 정렬 https://dreamaz.tistory.com/102
                     https://code.i-harness.com/ko-kr/q/2b5820 -->
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="회원가입 도우미"
-                            android:textColor="#ffffff"
-                            android:textSize="30sp"
-                            android:textStyle="bold"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="회원가입 도우미"
+                        android:textColor="#ffffff"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
                     <!-- <Button
                          android:id="@+id/backButton"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:background="@drawable/ic_arrow_back_black_24dp" />-->
                 </android.support.v7.widget.Toolbar>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -59,7 +60,7 @@
                     android:text="- 전체 이용가 -"
                     android:textColor="#ffffff"
                     android:textSize="18dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </android.support.design.widget.AppBarLayout>
         </LinearLayout>
 
@@ -71,15 +72,16 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:text="움짤술사입니다"
                 android:textSize="20dp"
-                android:textStyle="bold"
-                android:text="움짤술사입니다" />
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginBottom="20dp"
                 android:text="지금 바로 시작해보세요" />
 
             <EditText
@@ -87,10 +89,10 @@
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:background="#c77489fc"
-                android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
                 android:drawableStart="@drawable/ic_mail_outline_black_24dp"
+                android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
                 android:hint="*이메일"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
