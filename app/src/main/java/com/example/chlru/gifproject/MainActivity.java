@@ -1,14 +1,21 @@
 package com.example.chlru.gifproject;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -56,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     Button searchBtu;
     AlertDialog.Builder aDialog;
     SharedPreferences sessionsp;
+    private static final int MY_PERMISSON_STORAGE = 1111;
 
     //뒤로가기 버튼 입력시간이 담길long 객체
     private  long pressedTime = 0;
@@ -113,8 +121,7 @@ public class MainActivity extends AppCompatActivity {
         sessionsp = getSharedPreferences("session", 0);
         final SharedPreferences.Editor sessionedit = sessionsp.edit();
         temp = sessionsp.getString("sessionid",null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
-
-
+        checkPermission();
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -318,6 +325,42 @@ public class MainActivity extends AppCompatActivity {
         getHashKey();
     }//onCreate_end
     ////////////////////////////////////////////////////
+
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                new AlertDialog.Builder(this).setTitle("알림").setMessage("저장소 권한이 거부되었습니다. 사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.").setNeutralButton("설정", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.setData(Uri.parse("package:" + getPackageName()));
+                        startActivity(intent);
+                    }
+                }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                }).setCancelable(false).create().show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSON_STORAGE);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSON_STORAGE:
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] < 0) {
+                        Toast.makeText(MainActivity.this, "해당 권한을 활성화 하셔야 합니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                break;
+        }
+    }
 
     private void openSearchFragment1(){
         String searchtxt = editText.getText().toString();
