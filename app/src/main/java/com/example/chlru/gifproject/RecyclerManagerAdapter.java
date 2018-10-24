@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -97,14 +99,18 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
 
             }
         });
+        ////////////////////////////////////////////////////삭제
         holder.delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "!!"+String.valueOf(count), Toast.LENGTH_SHORT).show();
-               // Toast.makeText(context, "삭제!! "+items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
+                //delete_content(position);
+               Toast.makeText(context, "삭제!! "+items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
+
 
             }
         });
+        ///////////////////////////////////////////////////승인
         holder.agreeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,9 +120,11 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
                 String gifname=items.get(position).getGifname();
                 String day=items.get(position).getDay();
                 String category=items.get(position).getCategory();
-                GifItem gitem = new GifItem(downloadUrl, filename, gifname, gifname,count-1,category);
+                Toast.makeText(context, "카테고리 : "+category, Toast.LENGTH_SHORT).show();
+                GifItem gitem = new GifItem(downloadUrl, filename, gifname, day,count-1,category);
                 //gifItem gitem = new gifItem(filename, editText.getText().toString(), file);
                 databaseReference.child("gif").push().setValue(gitem);
+                delete_db(position);
                 Toast.makeText(context, "승인!! "+items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
 
             }
@@ -128,6 +136,38 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
     public int getItemCount() {
         return this.items.size();
     }
+    ////////////////////////////////////////삭제메소드
+    private void delete_content(final int position) {
+        Toast.makeText(context, items.get(position).getFilename()+" 삭제하자 "+String.valueOf(storage.getReference()), Toast.LENGTH_SHORT).show();
+        storage.getReference().child(items.get(position).getFilename()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, "삭제 완료", Toast.LENGTH_SHORT).show();
+                delete_db(position);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, "삭제 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void delete_db(final int position) {
+        Toast.makeText(context, "삭제 "+items.get(position).getDay(), Toast.LENGTH_SHORT).show();
+        databaseReference.child("gifManager").child(items.get(position).getDay()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
 
 
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+    }
 }
