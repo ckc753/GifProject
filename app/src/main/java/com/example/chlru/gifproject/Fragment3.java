@@ -191,7 +191,7 @@ public class Fragment3 extends Fragment {
 
                     GifItem gitem = new GifItem(down, filename, editText.getText().toString(), file,count-1,category);
                     //gifItem gitem = new gifItem(filename, editText.getText().toString(), file);
-                    databaseReference.child("gifManager").push().setValue(gitem);
+                    databaseReference.child("gifManager").push().setValue(gitem); //DB값 넣기
                     ////업로드창 초기화////
                     editText.setText("");
                     img.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher_round));
