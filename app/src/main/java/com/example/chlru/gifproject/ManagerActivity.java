@@ -19,7 +19,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
 public class ManagerActivity extends AppCompatActivity {
-    RecyclerAdapter adapter;
+    RecyclerManagerAdapter adapter;
     FirebaseStorage storage;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -27,7 +27,7 @@ public class ManagerActivity extends AppCompatActivity {
     RecyclerView recycler;
     AlertDialog.Builder dialog;
     Toolbar managertoolbar;
-    //Context context는 Fragment에서만 사용하는거ㅣ까 필요없다. (handler스려면 사용할 것)
+    //Context context는 Fragment에서만 사용하는거ㅣ까 필요없다. (어댑터 쓰려면 사용할 것)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class ManagerActivity extends AppCompatActivity {
 
         recycler=(RecyclerView)findViewById(R.id.managerrecycler);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
-        adapter = new RecyclerAdapter(getApplicationContext());//adapter
+        adapter = new RecyclerManagerAdapter(getApplicationContext());//adapter
         recycler.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
         myquery = databaseReference.child("gifManager").orderByChild("number");//gif 밑 number값으로 sort
@@ -77,15 +77,7 @@ public class ManagerActivity extends AppCompatActivity {
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                final GifItem gitem = dataSnapshot.getValue(GifItem.class);
 
-                final String url = gitem.getDownloadUrl();
-                final String filename = gitem.getFilename();
-                final String name = gitem.getGifname();
-                final String day = gitem.getDay();
-                final int number = gitem.getNumber();
-                adapter.addItem(new GifItem(url, filename, name, day, number));
-                adapter.notifyDataSetChanged();
             }
 
             @Override

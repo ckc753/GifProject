@@ -26,8 +26,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     int item_layout;
     final String folderName = "움짤공방";
     private ArrayList<GifItem> items = new ArrayList<GifItem>();
-    private Context gContext;
-    private LayoutInflater inflater;
+
 
     public RecyclerAdapter(Context context) {
         this.context = context;
