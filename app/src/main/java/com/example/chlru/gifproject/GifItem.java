@@ -6,16 +6,25 @@ package com.example.chlru.gifproject;
  */
 
 public class GifItem {
-    String downloadUrl;
-    String filename;//파일 이름  ex) sample.gif
-    String gifname;//gif파일의 제목 ex) 댕댕이
-    String day;
-    int number;
-    String category;
+    private String downloadUrl;
+    private String filename;//파일 이름  ex) sample.gif
+    private String gifname;//gif파일의 제목 ex) 댕댕이
+    private String day;
+    private int number;
+    private String category;
+    private String pkKey;
 
     public GifItem() {
     }
-
+    public GifItem(String downloadUrl, String filename, String gifname,String day,int number,String category,String pkKey) {
+        this.downloadUrl = downloadUrl;
+        this.filename = filename;
+        this.gifname = gifname;
+        this.day=day;
+        this.number=number;
+        this.category=category;
+        this.pkKey=pkKey;
+    }
     public GifItem(String downloadUrl, String filename, String gifname,String day,int number,String category) {
         this.downloadUrl = downloadUrl;
         this.filename = filename;
@@ -31,6 +40,13 @@ public class GifItem {
         this.day=day;
         this.number=number;
 
+    }
+    public String getPkKey() {
+        return pkKey;
+    }
+
+    public void setPkKey(String pkKey) {
+        pkKey = pkKey;
     }
     public String getCategory() {
         return category;
