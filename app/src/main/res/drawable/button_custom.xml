@@ -4,8 +4,9 @@
         android:radius="200dp"
         />
     <solid
-        android:color="#03a9f4"
+        android:color="#05B9FA"
         />
+    <!--"#05B9FA" 젤 나은 색-->
     <padding
         android:left="0dp"
         android:top="0dp"

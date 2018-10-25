@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_gravity="center">
+    android:layout_gravity="center_vertical"
+    android:layout_marginTop="70dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,23 +13,36 @@
 
         <Button
             android:id="@+id/CBtn1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:background="@drawable/button_custom"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp"
             android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:text="ㅋㅋㅋㅋ" />
 
         <Button
             android:id="@+id/CBtn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:background="@drawable/button_custom"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp"
             android:layout_weight="1"
+            android:layout_marginRight="10dp"
             android:text="신기방기" />
 
         <Button
             android:id="@+id/CBtn3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:background="@drawable/button_custom"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp"
             android:layout_weight="1"
+            android:layout_marginRight="10dp"
             android:text="애니몰~" />
     </LinearLayout>
 
@@ -40,23 +54,36 @@
 
         <Button
             android:id="@+id/CBtn4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:background="@drawable/button_custom"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp"
             android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:text="불곰국" />
 
         <Button
             android:id="@+id/CBtn5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:background="@drawable/button_custom"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp"
             android:layout_weight="1"
+            android:layout_marginRight="10dp"
             android:text="사이다" />
 
         <Button
             android:id="@+id/CBtn6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:background="@drawable/button_custom"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp"
             android:layout_weight="1"
+            android:layout_marginRight="10dp"
             android:text="간지" />
 
     </LinearLayout>
@@ -69,23 +96,36 @@
 
         <Button
             android:id="@+id/CBtn7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:background="@drawable/button_custom"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp"
             android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:text="살빼쟈.." />
 
         <Button
             android:id="@+id/CBtn8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:background="@drawable/button_custom"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp"
             android:layout_weight="1"
+            android:layout_marginRight="10dp"
             android:text="스포츠" />
 
         <Button
             android:id="@+id/CBtn9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:background="@drawable/button_custom"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp"
             android:layout_weight="1"
+            android:layout_marginRight="10dp"
             android:text="기타" />
 
     </LinearLayout>
