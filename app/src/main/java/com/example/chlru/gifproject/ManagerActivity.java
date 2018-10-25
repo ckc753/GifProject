@@ -63,7 +63,6 @@ public class ManagerActivity extends AppCompatActivity {
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
                 final String category=gitem.getCategory();//카테고리
-                Toast.makeText(getApplicationContext(),"카테고리 : "+category,Toast.LENGTH_SHORT).show();
                 adapter.addItem(new GifItem(url, filename, name, day, number,category,key));//변화값 adapter에 추가
                 adapter.notifyDataSetChanged();
             }
