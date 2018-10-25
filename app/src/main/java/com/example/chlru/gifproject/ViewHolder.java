@@ -23,7 +23,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         image = (ImageView) itemView.findViewById(R.id.image);
         title = (TextView) itemView.findViewById(R.id.title);
         cardview = (CardView) itemView.findViewById(R.id.cardview);
-        recBtn = (Button) itemView.findViewById(R.id.recoBtn);
+        //recBtn = (Button) itemView.findViewById(R.id.recoBtn);
         saveBtn = (Button) itemView.findViewById(R.id.saveBtn);
 
     }

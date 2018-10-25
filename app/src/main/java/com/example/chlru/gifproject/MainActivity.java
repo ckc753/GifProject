@@ -32,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
     String temp;
-    Button searchBtu;
+    ImageButton searchBtu;
     AlertDialog.Builder aDialog;
     SharedPreferences sessionsp;
     private static final int MY_PERMISSON_STORAGE = 1111;
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         //검색 시작////////////////////////////////////////////
 
-        searchBtu=(Button)findViewById(R.id.searchBtu);
+        searchBtu=(ImageButton)findViewById(R.id.searchBtu);
         searchBtu.setOnClickListener(new View.OnClickListener() {
 
             @Override
