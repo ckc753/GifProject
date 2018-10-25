@@ -43,15 +43,22 @@
 
                     <Button
                         android:id="@+id/delBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="41dp"
+                        android:layout_height="41dp"
+                        android:background="@drawable/button_custom"
+                        android:textColor="#F8FFF7"
+                        android:textSize="20sp"
                         android:layout_weight="1"
+                        android:layout_marginRight="3dp"
                         android:text="삭제" />
 
                     <Button
                         android:id="@+id/agreeBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="41dp"
+                        android:layout_height="41dp"
+                        android:background="@drawable/button_custom"
+                        android:textColor="#F8FFF7"
+                        android:textSize="20sp"
                         android:layout_weight="1"
                         android:text="승인" />
                 </LinearLayout>
