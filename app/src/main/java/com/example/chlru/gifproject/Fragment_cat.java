@@ -38,7 +38,7 @@ public class Fragment_cat extends Fragment implements MainActivity.onBackPressed
         fragment2 = (Fragment2) new Fragment2();
 
         String Buttonname = getArguments().getString("Buttonname");
-        Toast.makeText(getContext(),"Buttonname="+Buttonname, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getContext(),"Buttonname="+Buttonname, Toast.LENGTH_SHORT).show();
 
         recycler=(RecyclerView)view_cat.findViewById(R.id.recycler_cat);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
@@ -46,7 +46,7 @@ public class Fragment_cat extends Fragment implements MainActivity.onBackPressed
         adapter = new RecyclerAdapter(context);//adapter
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
-        myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
+        myquery = databaseReference.child("gif").orderByChild("category").equalTo(Buttonname);//gif 밑 number값으로 sort
 
         myquery.addChildEventListener(new ChildEventListener() {
             @Override

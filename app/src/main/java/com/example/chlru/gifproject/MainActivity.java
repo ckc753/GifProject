@@ -34,6 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
     InputMethodManager mInputMethodManager;
     ListView listView;
     DrawerLayout drawerLayout;
-    Button menuBtn;
-    TextView MainLoginButton;
+    LinearLayout linearLayout;
+    ImageButton menuBtn;
+    Button MainLoginButton;
+    TextView slidetext;
     Intent intent;
     FirebaseAuth auth;
     FirebaseUser user;
@@ -81,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(listView)) {
-            drawerLayout.closeDrawer(listView);
+        if (drawerLayout.isDrawerOpen(linearLayout)) {
+            drawerLayout.closeDrawer(linearLayout);
         } else {
             if(mBackListener != null){ //다른 Fragment에서 리스너를 설정했을 때 처리
                 mBackListener.onBack();
@@ -217,30 +220,34 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.slide_listView);
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
+        linearLayout=(LinearLayout)findViewById(R.id.slide_layout);
+        slidetext=(TextView)findViewById(R.id.slide_text);
         if(temp!=null){
-            final String navItems[] = {temp+"님 환영합니다", "내가올린움짤", "공지사항", "이벤트"};
+            slidetext.setText(temp);
+            final String navItems[] = {"공지사항", "이벤트"};
             listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
             listView.setOnItemClickListener(new DrawerItemListener());
         }else{
-            final String navItems[] = {"비회원님 환영합니다", "공지사항", "이벤트"};
+            final String navItems[] = {"공지사항", "이벤트"};
             listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
             listView.setOnItemClickListener(new DrawerItemListener());
         }
 
-        menuBtn = (Button) findViewById(R.id.menuBtn);
+        menuBtn = (ImageButton) findViewById(R.id.menuBtn);
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(getApplicationContext(), "open", Toast.LENGTH_SHORT).show();
-                drawerLayout.openDrawer(listView);
+                drawerLayout.openDrawer(linearLayout);
             }
         });
 
-        MainLoginButton = (TextView)findViewById(R.id.MainLoginButton);
+        MainLoginButton = (Button)findViewById(R.id.MainLoginButton);
         intent = getIntent();
         final String name = intent.getStringExtra("name");
 
         if(temp != null){
+            slidetext.setText(temp);
             Toast.makeText(this, temp+"님 환영합니다", Toast.LENGTH_SHORT).show();
             MainLoginButton.setText("로그아웃 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -250,14 +257,14 @@ public class MainActivity extends AppCompatActivity {
                     sessionedit.commit();
                     temp = sessionsp.getString("sessionid",null);
                     Toast.makeText(getApplicationContext(),"로그아웃하셨습니다.",Toast.LENGTH_LONG).show();
-
+                    drawerLayout.closeDrawer(linearLayout);
                     //로그인시, 업로드창에서 로그아웃하면 이용하지못하도록 Fragment.replace처리
                     getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
                     //intent = new Intent(getApplicationContext(), MainActivity.class);
                     //startActivity(intent);
                     //finish();
-
-                    MainLoginButton.setText("로그인하시오 ");
+                    slidetext.setText("환영합니다.");
+                    MainLoginButton.setText("로그인 ");
                     MainLoginButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -271,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(temp ==null | name == null & user ==null){
             //Toast.makeText(getApplicationContext(),"로그인하세요",Toast.LENGTH_LONG).show();
-            MainLoginButton.setText("로그인하시오 ");
+            MainLoginButton.setText("로그인 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -421,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
             String name = vo.toString();
             if(temp!=null) {
                 switch (pos) {
-                    case 0:
+                    /*case 0:
                         Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
                         break;
 
@@ -430,16 +437,16 @@ public class MainActivity extends AppCompatActivity {
                         aDialog.setMessage("내가 올린 움짤 기능은 개발중입니다! \n좀 더 편리한 기능으로 찾아뵙겠습니다. ^_^");
                         aDialog.setPositiveButton("확인", null);
                         aDialog.show();
-                        break;
+                        break;*/
 
-                    case 2:
+                    case 0:
                         aDialog.setTitle("＊＊＊ 2018/10/16공지 ＊＊＊");
                         aDialog.setMessage("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
                         aDialog.setPositiveButton("확인", null);
                         aDialog.show();
                         break;
 
-                    case 3:
+                    case 1:
                         aDialog.setTitle("＊＊＊ 이달의 이벤트 ＊＊＊");
                         aDialog.setMessage("현재 진행중인 이벤트가 없습니다. \n 추후에 공지사항을 통해 미리 알려드리겠습니다. ^_^");
                         aDialog.setPositiveButton("확인", null);
@@ -450,17 +457,17 @@ public class MainActivity extends AppCompatActivity {
                 }//switch_end
             }else{//if_end
                 switch (pos) {
-                    case 0:
+                    /*case 0:
                         Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
+                        break;*/
+                    case 0:
                         aDialog.setTitle("＊＊＊ 2018/10/16공지 ＊＊＊");
                         aDialog.setMessage("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
                         aDialog.setPositiveButton("확인", null);
                         aDialog.show();
                         break;
 
-                    case 2:
+                    case 1:
                         aDialog.setTitle("＊＊＊ 이달의 이벤트 ＊＊＊");
                         aDialog.setMessage("현재 진행중인 이벤트가 없습니다. \n추후에 공지사항을 통해 미리 알려드리겠습니다. ^_^");
                         aDialog.setPositiveButton("확인", null);
@@ -468,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }//switch_end
             }
-            drawerLayout.closeDrawer(listView);
+            drawerLayout.closeDrawer(linearLayout);
         }
     }
 
