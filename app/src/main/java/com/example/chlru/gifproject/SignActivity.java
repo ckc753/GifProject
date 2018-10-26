@@ -104,6 +104,8 @@ public class SignActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }//액션바 뒤로가기도 생성
+
+    //취소버튼클릭시, Sign->LoginActivity로 이동하도록 onBackPressed메소드사용
     @Override
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(),LoginActivity.class));

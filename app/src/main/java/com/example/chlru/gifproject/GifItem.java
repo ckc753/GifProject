@@ -12,8 +12,8 @@ public class GifItem {
     private String day;
     private int number;
     private String category;
-    private String pkKey;
-    private String member;
+    private String pkKey;  //필요X
+    private String member; //pk값을 저장할 변수추가 (ManagerActivity와 ManagerRecyclerAdapter에 member추가된 생성자로 변경)
 
     public GifItem() {
     }

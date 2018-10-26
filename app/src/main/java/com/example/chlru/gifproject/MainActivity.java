@@ -45,7 +45,9 @@ import com.google.firebase.auth.FirebaseUser;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MainActivity extends HannaFontActivity{
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+public class MainActivity extends HannaFontActivity{ //한나체 클래스 상속을 통해 폰트적용
     Toolbar toolbar;
     Fragment fragment1;
     Fragment fragment2;
@@ -69,6 +71,8 @@ public class MainActivity extends HannaFontActivity{
     ImageButton searchBtu;
     AlertDialog.Builder aDialog;
     SharedPreferences sessionsp;
+    SweetAlertDialog sweetalert;
+
     private static final int MY_PERMISSON_STORAGE = 1111;
 
     //뒤로가기 버튼 입력시간이 담길long 객체
@@ -227,6 +231,7 @@ public class MainActivity extends HannaFontActivity{
         linearLayout=(LinearLayout)findViewById(R.id.slide_layout);
         slidetext=(TextView)findViewById(R.id.slide_text);
         if(temp!=null){
+            //google이메일 @로 끊어서 배열만들기
             String tempname[]=temp.split("@");
             slidetext.setText(tempname[0]);
             final String navItems[] = {"공지사항", "이벤트","내가올린 움짤"};
@@ -243,7 +248,7 @@ public class MainActivity extends HannaFontActivity{
             @Override
             public void onClick(View view) {
                 //Toast.makeText(getApplicationContext(), "open", Toast.LENGTH_SHORT).show();
-                drawerLayout.openDrawer(linearLayout);
+                drawerLayout.openDrawer(linearLayout); //메뉴버튼클릭시 drawerLayout.openDrawer속성에의해 만들어져있던 linearLayout을 슬라이드효과로 연다.(listView대신 LinearLayout를 사용함으로써 메뉴버튼클릭시, linearLayout내부에 MainLoginButton을 적용시킨채로 표현가능)
             }
         });
 
@@ -323,10 +328,15 @@ public class MainActivity extends HannaFontActivity{
                         selected = fragment3;
                     }else{
                         //Toast.makeText(getApplicationContext(), "로그인하세요", Toast.LENGTH_LONG).show();
-                        aDialog.setTitle("＊＊＊ 로그인 하세요 ＊＊＊");
+                        /*aDialog.setTitle("＊＊＊ 로그인 하세요 ＊＊＊");
                         aDialog.setMessage("회원이 아니기때문에 업로드를 이용할 수 없습니다.");
                         aDialog.setPositiveButton("확인", null);
-                        aDialog.show();
+                        aDialog.show();*/
+                        sweetalert = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE);
+                        sweetalert.setTitleText("＊＊＊ 로그인 하세요 ＊＊＊");
+                        sweetalert.setContentText("회원이 아니기때문에 업로드를 이용할 수 없습니다.");
+                        sweetalert.setConfirmText("확인");
+                        sweetalert.show();
                         selected = fragment1;
                     }
                 }
@@ -431,6 +441,7 @@ public class MainActivity extends HannaFontActivity{
         }
     }
     ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
     //listView를 이용한 메뉴슬라이드 (ListView.OnItemClickListener 이용)
     private class DrawerItemListener implements ListView.OnItemClickListener {
         @Override
@@ -441,16 +452,6 @@ public class MainActivity extends HannaFontActivity{
                 switch (pos) {
                     /*case 0:
                         Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-                        break;
-
-                    case 1:
-                        aDialog.setTitle("＊＊＊ 내가 올린 움짤 ＊＊＊");
-                        aDialog.setMessage("내가 올린 움짤 기능은 개발중입니다! \n좀 더 편리한 기능으로 찾아뵙겠습니다. ^_^");
-                        aDialog.setPositiveButton("확인", null);
-                        aDialog.show();
-                        break;*/
-
-                    case 0:
                         aDialog.setTitle("＊＊＊ 2018/10/16공지 ＊＊＊");
                         aDialog.setMessage("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
                         aDialog.setPositiveButton("확인", null);
@@ -462,39 +463,43 @@ public class MainActivity extends HannaFontActivity{
                         aDialog.setMessage("현재 진행중인 이벤트가 없습니다. \n 추후에 공지사항을 통해 미리 알려드리겠습니다. ^_^");
                         aDialog.setPositiveButton("확인", null);
                         aDialog.show();
+                        break;*/
+                    case 0:
+                        sweetalert=new SweetAlertDialog(MainActivity.this,SweetAlertDialog.WARNING_TYPE);
+                        sweetalert.setTitleText("＊＊＊ 2018/10/16공지 ＊＊＊");
+                        sweetalert.setContentText("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
+                        sweetalert.setConfirmText("확인");
+                        sweetalert.show();
                         break;
-                    case 2:
-                        Bundle memberpk = new Bundle();
-                       // Toast.makeText(getApplicationContext(), pkid, Toast.LENGTH_SHORT).show();
-                        memberpk.putString("pkid", pkid);
-                        fragment_member.setArguments(memberpk);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_member).commit();
+                    case 1:
+                        sweetalert=new SweetAlertDialog(MainActivity.this,SweetAlertDialog.WARNING_TYPE);
+                        sweetalert.setTitleText("＊＊＊ 2018/10/16공지 ＊＊＊");
+                        sweetalert.setContentText("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
+                        sweetalert.setConfirmText("확인");
+                        sweetalert.show();
                         break;
 
 
                 }//switch_end
             }else{//if_end
                 switch (pos) {
-                    /*case 0:
-                        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-                        break;*/
                     case 0:
-                        aDialog.setTitle("＊＊＊ 2018/10/16공지 ＊＊＊");
-                        aDialog.setMessage("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
-                        aDialog.setPositiveButton("확인", null);
-                        aDialog.show();
+                        sweetalert=new SweetAlertDialog(MainActivity.this,SweetAlertDialog.WARNING_TYPE);
+                        sweetalert.setTitleText("＊＊＊ 2018/10/16공지 ＊＊＊");
+                        sweetalert.setContentText("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
+                        sweetalert.setConfirmText("확인");
+                        sweetalert.show();
                         break;
-
                     case 1:
-                        aDialog.setTitle("＊＊＊ 이달의 이벤트 ＊＊＊");
-                        aDialog.setMessage("현재 진행중인 이벤트가 없습니다. \n추후에 공지사항을 통해 미리 알려드리겠습니다. ^_^");
-                        aDialog.setPositiveButton("확인", null);
-                        aDialog.show();
+                        sweetalert=new SweetAlertDialog(MainActivity.this,SweetAlertDialog.WARNING_TYPE);
+                        sweetalert.setTitleText("＊＊＊ 2018/10/16공지 ＊＊＊");
+                        sweetalert.setContentText("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
+                        sweetalert.setConfirmText("확인");
+                        sweetalert.show();
                         break;
                 }//switch_end
             }
             drawerLayout.closeDrawer(linearLayout);
         }
     }
-
 }

@@ -46,7 +46,7 @@ public class Fragment_cat extends Fragment implements MainActivity.onBackPressed
         adapter = new RecyclerAdapter(context);//adapter
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
-        myquery = databaseReference.child("gif").orderByChild("category").equalTo(Buttonname);//gif 밑 number값으로 sort
+        myquery = databaseReference.child("gif").orderByChild("category").equalTo(Buttonname);//gif 밑 category값으로 sort(현재 선택된 Buttonname값과 같은 것만)
 
         myquery.addChildEventListener(new ChildEventListener() {
             @Override

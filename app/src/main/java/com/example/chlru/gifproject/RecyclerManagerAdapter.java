@@ -126,7 +126,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
                 //Toast.makeText(context, "카테고리 : "+category, Toast.LENGTH_SHORT).show();
                 GifItem gitem = new GifItem(downloadUrl, filename, gifname, day,count-1,category,member);
                 //gifItem gitem = new gifItem(filename, editText.getText().toString(), file);
-                databaseReference.child("gif").push().setValue(gitem);
+                databaseReference.child("gif").push().setValue(gitem); //승인클릭시 아래의 메소드로인해 gifManager db삭제& 또 gif db항목으로 하나입력됨.
                 delete_db(position);
                 Toast.makeText(context, "승인!! "+items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
 
@@ -141,6 +141,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
         return this.items.size();
     }
     ////////////////////////////////////////삭제메소드
+
     private void delete_content(final int position) {
         //Toast.makeText(context, items.get(position).getFilename()+" 삭제하자 "+String.valueOf(storage.getReference()), Toast.LENGTH_SHORT).show();
         storage.getReference().child(items.get(position).getFilename()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -148,7 +149,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(context, "삭제 완료", Toast.LENGTH_SHORT).show();
-                delete_db(position);
+                delete_db(position); //삭제버튼클릭시 -> 스토리지삭제 -> DB삭제
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -163,7 +164,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
         databaseReference.child("gifManager").child(items.get(position).getPkKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-            items.remove(position);
+            items.remove(position); //승인클릭시 -> db삭제
              notifyDataSetChanged();
             }
         }).addOnFailureListener(new OnFailureListener() {

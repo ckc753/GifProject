@@ -72,6 +72,7 @@ public class DownGif {
     public void downloadLocal(StorageReference pathRef, File file_path){
         try{
             final ProgressDialog progressDialog = new ProgressDialog(context);
+            //1.다운로드 프로그레스바 표시
             progressDialog.setTitle("파일저장중...");
             progressDialog.show();
             final File tempFile = File.createTempFile("images",".gif",file_path);
@@ -81,6 +82,7 @@ public class DownGif {
                     String scanning_path = string_path+tempFile.getName();
                     context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + scanning_path))); //갤러리 갱신
                     //textView5.setText("tempFile 이름 = " + scanning_path);
+                    //2.다운로드 프로그레스바 종료
                     progressDialog.cancel();
                     Toast.makeText(context, "파일 저장 성공!!", Toast.LENGTH_SHORT).show();
                     tempFile.deleteOnExit();
@@ -91,6 +93,7 @@ public class DownGif {
                     Toast.makeText(context, "파일 저장 실패", Toast.LENGTH_SHORT).show();
                 }
             }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                //3.프로그레스바 리스너 (진행되는동안 표시되는 메시지 설정)
                 @Override
                 public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();

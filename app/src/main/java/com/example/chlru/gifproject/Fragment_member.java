@@ -45,7 +45,7 @@ public class Fragment_member extends Fragment implements MainActivity.onBackPres
         adapter = new RecyclerAdapter(context);//adapter
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
-        myquery = databaseReference.child("gif").orderByChild("member").equalTo(pkid);//gif 밑 number값으로 sort
+        myquery = databaseReference.child("gif").orderByChild("member").equalTo(pkid);//gif아래에 member값으로 sort(현재사용중인 pkid값과 같은 것만)
 
         myquery.addChildEventListener(new ChildEventListener() {
             @Override

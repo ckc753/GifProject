@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class ManagerActivity extends AppCompatActivity {
     RecyclerManagerAdapter adapter;
     FirebaseStorage storage;
@@ -28,6 +30,7 @@ public class ManagerActivity extends AppCompatActivity {
     RecyclerView recycler;
     AlertDialog.Builder dialog;
     Toolbar managertoolbar;
+    SweetAlertDialog sweetalert;
     //Context context는 Fragment에서만 사용하는거ㅣ까 필요없다. (어댑터 쓰려면 사용할 것)
 
     @Override
@@ -35,16 +38,23 @@ public class ManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager);
 
+/*dialog = new AlertDialog.Builder(new ContextThemeWrapper(this,R.style.AlertDialog));
+        dialog.setTitle("＊＊＊ 관리자 모드 ＊＊＊");
+        dialog.setMessage("사용자가 올린 DB값을 조회/승인/삭제할 수 있습니다");
+        dialog.setPositiveButton("확인", null);
+        dialog.show();*/
+
+        //툴바보다 먼저 선언하지않으면 sweetalert는 사용x
+        sweetalert=new SweetAlertDialog(ManagerActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+        sweetalert.setTitleText("＊＊＊ 관리자 모드 ＊＊＊");
+        sweetalert.setContentText("사용자가 올린 DB값을 조회/승인/삭제할 수 있습니다");
+        sweetalert.setConfirmText("확인");
+        sweetalert.show();
+
         managertoolbar = (Toolbar) findViewById(R.id.managertoolbar);
         setSupportActionBar(managertoolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        dialog = new AlertDialog.Builder(new ContextThemeWrapper(this,R.style.AlertDialog));
-        dialog.setTitle("＊＊＊ 관리자 모드 ＊＊＊");
-        dialog.setMessage("사용자가 올린 DB값을 조회/승인/삭제할 수 있습니다");
-        dialog.setPositiveButton("확인", null);
-        dialog.show();
-
         recycler=(RecyclerView)findViewById(R.id.managerrecycler);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         adapter = new RecyclerManagerAdapter(getApplicationContext());//adapter

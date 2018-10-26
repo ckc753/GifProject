@@ -181,8 +181,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 sessionsp = getSharedPreferences("session", 0);
                                 sessionedit = sessionsp.edit();
-                                sessionedit.putString("sessionid", editTextEmail.getText().toString());
-                                sessionedit.putString("sessonpk",user.getUid());
+                                sessionedit.putString("sessionid", editTextEmail.getText().toString()); //아이디값 세션처리
+                                sessionedit.putString("sessonpk",user.getUid()); //pk값 세션처리
                                 sessionedit.commit();
 
                                 //Toast.makeText(getApplicationContext(),"로그인완료",Toast.LENGTH_LONG).show();
@@ -223,8 +223,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                             sessionsp = getSharedPreferences("session", 0);
                             sessionedit = sessionsp.edit();
-                            sessionedit.putString("sessionid", mAuth.getCurrentUser().getEmail());
-                            sessionedit.putString("sessonpk",mAuth.getCurrentUser().getUid());
+                            sessionedit.putString("sessionid", mAuth.getCurrentUser().getEmail()); //id값 세션처리
+                            sessionedit.putString("sessonpk",mAuth.getCurrentUser().getUid()); //pk값 세션처리
                             sessionedit.commit();
 
                             //구글로그인시 입력값이 들어간다면 Session할 수 있도록
@@ -284,8 +284,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                     sessionsp = getSharedPreferences("session", 0);
                     sessionedit = sessionsp.edit();
-                    sessionedit.putString("sessionid", userProfile.getNickname());
-                    sessionedit.putString("sessonpk",userProfile.getUUID());
+                    sessionedit.putString("sessionid", userProfile.getNickname()); //아이디값 세션처리
+                    sessionedit.putString("sessonpk",userProfile.getUUID()); //pk값 세션처리
                     sessionedit.commit();
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);

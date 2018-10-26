@@ -59,13 +59,15 @@ public class Fragment3 extends Fragment {
     String category;
     private Button [] cButton = new Button[9];
     InputMethodManager mInputMethodManager;
-    String member;
+    String member; //내가올린자료를 위한 pk값을 저장할 변수
     ArrayList<String> arr;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view3 = (ViewGroup) inflater.inflate(R.layout.fragment3, container, false);
         ViewGroup view2 = (ViewGroup) inflater.inflate(R.layout.fragment2, container, false);
+
+        //사용자의 고유 pk값저장(카카오, 구글, firebase유저의 pk값)
         member=getArguments().getString("pkid");
         //Toast.makeText(getContext(),member,Toast.LENGTH_SHORT).show();
         arr=new ArrayList<String>();
