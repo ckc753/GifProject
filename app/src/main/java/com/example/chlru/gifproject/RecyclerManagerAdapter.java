@@ -106,6 +106,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
                 //Toast.makeText(context, "!!"+String.valueOf(count), Toast.LENGTH_SHORT).show();
                 delete_content(position);
                // Toast.makeText(context, "삭제!! "+items.get(position).getPkKey(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "삭제!! "+items.get(position).getMember(), Toast.LENGTH_SHORT).show();
                Toast.makeText(context, "삭제!! "+items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
                // Toast.makeText(context, "번호!! "+String.valueOf(position), Toast.LENGTH_SHORT).show();
 
@@ -121,8 +122,9 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
                 String gifname=items.get(position).getGifname();
                 String day=items.get(position).getDay();
                 String category=items.get(position).getCategory();
+                String member=items.get(position).getMember();
                 //Toast.makeText(context, "카테고리 : "+category, Toast.LENGTH_SHORT).show();
-                GifItem gitem = new GifItem(downloadUrl, filename, gifname, day,count-1,category);
+                GifItem gitem = new GifItem(downloadUrl, filename, gifname, day,count-1,category,member);
                 //gifItem gitem = new gifItem(filename, editText.getText().toString(), file);
                 databaseReference.child("gif").push().setValue(gitem);
                 delete_db(position);

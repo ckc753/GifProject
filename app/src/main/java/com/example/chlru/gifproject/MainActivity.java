@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragment3;
     Fragment fragment_search;
     Fragment fragment_search2;
+    Fragment fragment_member;
     EditText editText;
     InputMethodManager mInputMethodManager;
     ListView listView;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
     String temp;
+    String pkid;
     ImageButton searchBtu;
     AlertDialog.Builder aDialog;
     SharedPreferences sessionsp;
@@ -125,8 +127,9 @@ public class MainActivity extends AppCompatActivity {
         sessionsp = getSharedPreferences("session", 0);
         final SharedPreferences.Editor sessionedit = sessionsp.edit();
         temp = sessionsp.getString("sessionid",null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
+        pkid=sessionsp.getString("sessonpk",null);
         checkPermission();
-
+        //Toast.makeText(getApplicationContext(), pkid, Toast.LENGTH_LONG).show();
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         ActionBar actionBar = getSupportActionBar();
@@ -137,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         fragment3 = new Fragment3();
         fragment_search=new Fragment_search();
         fragment_search2=new Fragment_search2();
+        fragment_member=new Fragment_member();
         editText=(EditText)findViewById(R.id.editText);
 
 
@@ -224,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
         slidetext=(TextView)findViewById(R.id.slide_text);
         if(temp!=null){
             slidetext.setText(temp);
-            final String navItems[] = {"공지사항", "이벤트"};
+            final String navItems[] = {"공지사항", "이벤트","내가올린 움짤"};
             listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
             listView.setOnItemClickListener(new DrawerItemListener());
         }else{
@@ -254,8 +258,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     sessionedit.remove("sessionid");
+                    sessionedit.remove("sessonpk");
                     sessionedit.commit();
                     temp = sessionsp.getString("sessionid",null);
+                    pkid=sessionsp.getString("sessonpk",null);
                     Toast.makeText(getApplicationContext(),"로그아웃하셨습니다.",Toast.LENGTH_LONG).show();
                     drawerLayout.closeDrawer(linearLayout);
                     //로그인시, 업로드창에서 로그아웃하면 이용하지못하도록 Fragment.replace처리
@@ -309,6 +315,9 @@ public class MainActivity extends AppCompatActivity {
                     selected = fragment2;
                 } else if (position == 2) {
                     if(temp!=null) {
+                        Bundle searchbundle = new Bundle();
+                        searchbundle.putString("pkid", pkid);
+                        fragment3.setArguments(searchbundle);
                         selected = fragment3;
                     }else{
                         //Toast.makeText(getApplicationContext(), "로그인하세요", Toast.LENGTH_LONG).show();
@@ -451,6 +460,13 @@ public class MainActivity extends AppCompatActivity {
                         aDialog.setMessage("현재 진행중인 이벤트가 없습니다. \n 추후에 공지사항을 통해 미리 알려드리겠습니다. ^_^");
                         aDialog.setPositiveButton("확인", null);
                         aDialog.show();
+                        break;
+                    case 2:
+                        Bundle memberpk = new Bundle();
+                       // Toast.makeText(getApplicationContext(), pkid, Toast.LENGTH_SHORT).show();
+                        memberpk.putString("pkid", pkid);
+                        fragment_member.setArguments(memberpk);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_member).commit();
                         break;
 
 

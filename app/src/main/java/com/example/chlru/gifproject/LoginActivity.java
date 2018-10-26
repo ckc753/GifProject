@@ -178,10 +178,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             if (!task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "로그인실패", Toast.LENGTH_LONG).show();
                             } else {
-
+                                FirebaseUser user = mAuth.getCurrentUser();
                                 sessionsp = getSharedPreferences("session", 0);
                                 sessionedit = sessionsp.edit();
                                 sessionedit.putString("sessionid", editTextEmail.getText().toString());
+                                sessionedit.putString("sessonpk",user.getUid());
                                 sessionedit.commit();
 
                                 //Toast.makeText(getApplicationContext(),"로그인완료",Toast.LENGTH_LONG).show();
@@ -223,6 +224,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             sessionsp = getSharedPreferences("session", 0);
                             sessionedit = sessionsp.edit();
                             sessionedit.putString("sessionid", mAuth.getCurrentUser().getEmail());
+                            sessionedit.putString("sessonpk",mAuth.getCurrentUser().getUid());
                             sessionedit.commit();
 
                             //구글로그인시 입력값이 들어간다면 Session할 수 있도록
@@ -283,6 +285,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     sessionsp = getSharedPreferences("session", 0);
                     sessionedit = sessionsp.edit();
                     sessionedit.putString("sessionid", userProfile.getNickname());
+                    sessionedit.putString("sessonpk",userProfile.getUUID());
                     sessionedit.commit();
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);

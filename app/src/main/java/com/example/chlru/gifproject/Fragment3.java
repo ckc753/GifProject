@@ -59,14 +59,15 @@ public class Fragment3 extends Fragment {
     String category;
     private Button [] cButton = new Button[9];
     InputMethodManager mInputMethodManager;
-
+    String member;
     ArrayList<String> arr;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view3 = (ViewGroup) inflater.inflate(R.layout.fragment3, container, false);
         ViewGroup view2 = (ViewGroup) inflater.inflate(R.layout.fragment2, container, false);
-
+        member=getArguments().getString("pkid");
+        //Toast.makeText(getContext(),member,Toast.LENGTH_SHORT).show();
         arr=new ArrayList<String>();
         cButton[0] = (Button) view2.findViewById(R.id.CBtn1);
         cButton[1] = (Button) view2.findViewById(R.id.CBtn2);
@@ -189,7 +190,7 @@ public class Fragment3 extends Fragment {
                     String down = String.valueOf(taskSnapshot.getDownloadUrl());
                     //Toast.makeText(getApplicationContext(), down, Toast.LENGTH_SHORT).show();
 
-                    GifItem gitem = new GifItem(down, filename, editText.getText().toString(), file,count-1,category);
+                    GifItem gitem = new GifItem(down, filename, editText.getText().toString(), file,count-1,category,member);
                     //gifItem gitem = new gifItem(filename, editText.getText().toString(), file);
                     databaseReference.child("gifManager").push().setValue(gitem); //DB값 넣기
                     ////업로드창 초기화////

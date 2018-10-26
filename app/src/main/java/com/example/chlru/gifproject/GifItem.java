@@ -13,25 +13,28 @@ public class GifItem {
     private int number;
     private String category;
     private String pkKey;
+    private String member;
 
     public GifItem() {
     }
-    public GifItem(String downloadUrl, String filename, String gifname,String day,int number,String category,String pkKey) {
+    public GifItem(String downloadUrl, String filename, String gifname,String day,int number,String category,String member,String pkKey) {
         this.downloadUrl = downloadUrl;
         this.filename = filename;
         this.gifname = gifname;
         this.day=day;
         this.number=number;
         this.category=category;
+        this.member=member;
         this.pkKey=pkKey;
     }
-    public GifItem(String downloadUrl, String filename, String gifname,String day,int number,String category) {
+    public GifItem(String downloadUrl, String filename, String gifname,String day,int number,String category,String member) {
         this.downloadUrl = downloadUrl;
         this.filename = filename;
         this.gifname = gifname;
         this.day=day;
         this.number=number;
         this.category=category;
+        this.member=member;
  }
     public GifItem(String downloadUrl, String filename, String gifname,String day,int number) {
         this.downloadUrl = downloadUrl;
@@ -41,6 +44,15 @@ public class GifItem {
         this.number=number;
 
     }
+
+    public String getMember() {
+        return member;
+    }
+
+    public void setMember(String member) {
+        this.member = member;
+    }
+
     public String getPkKey() {
         return pkKey;
     }

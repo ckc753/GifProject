@@ -56,14 +56,15 @@ public class ManagerActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {//DB에 추가 있을때마다 실행
 
                 final GifItem gitem = dataSnapshot.getValue(GifItem.class);//Gifitem형식으로 데이터 받아옴
-                final String key=dataSnapshot.getKey();
+                final String key=dataSnapshot.getKey();//PK
                 final String url = gitem.getDownloadUrl();//url주소
                 final String filename = gitem.getFilename();//파일이름(ex)sample.gif
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
                 final String category=gitem.getCategory();//카테고리
-                adapter.addItem(new GifItem(url, filename, name, day, number,category,key));//변화값 adapter에 추가
+                final String member=gitem.getMember();//회원
+                adapter.addItem(new GifItem(url, filename, name, day, number,category,member,key));//변화값 adapter에 추가
                 adapter.notifyDataSetChanged();
             }
 
