@@ -54,6 +54,7 @@
                         android:textColor="#F8FFF7"
                         android:textSize="20sp"
                         android:layout_weight="1"
+                        android:layout_marginRight="5dp"
                         android:text="저장"
                         />
                 </LinearLayout>

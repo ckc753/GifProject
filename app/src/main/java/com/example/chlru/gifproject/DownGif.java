@@ -1,5 +1,6 @@
 package com.example.chlru.gifproject;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -69,6 +71,9 @@ public class DownGif {
     //로컬 저장소에 저장
     public void downloadLocal(StorageReference pathRef, File file_path){
         try{
+            final ProgressDialog progressDialog = new ProgressDialog(context);
+            progressDialog.setTitle("파일저장중...");
+            progressDialog.show();
             final File tempFile = File.createTempFile("images",".gif",file_path);
             pathRef.getFile(tempFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
@@ -76,6 +81,7 @@ public class DownGif {
                     String scanning_path = string_path+tempFile.getName();
                     context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + scanning_path))); //갤러리 갱신
                     //textView5.setText("tempFile 이름 = " + scanning_path);
+                    progressDialog.cancel();
                     Toast.makeText(context, "파일 저장 성공!!", Toast.LENGTH_SHORT).show();
                     tempFile.deleteOnExit();
                 }
@@ -83,6 +89,12 @@ public class DownGif {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(context, "파일 저장 실패", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                    progressDialog.setMessage("Downloaded " + ((int) progress) + "% ...");
                 }
             });
         }catch (IOException e){
