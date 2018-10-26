@@ -227,7 +227,8 @@ public class MainActivity extends HannaFontActivity{
         linearLayout=(LinearLayout)findViewById(R.id.slide_layout);
         slidetext=(TextView)findViewById(R.id.slide_text);
         if(temp!=null){
-            slidetext.setText(temp);
+            String tempname[]=temp.split("@");
+            slidetext.setText(tempname[0]);
             final String navItems[] = {"공지사항", "이벤트","내가올린 움짤"};
             listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
             listView.setOnItemClickListener(new DrawerItemListener());
@@ -251,8 +252,9 @@ public class MainActivity extends HannaFontActivity{
         final String name = intent.getStringExtra("name");
 
         if(temp != null){
-            slidetext.setText(temp);
-            Toast.makeText(this, temp+"님 환영합니다", Toast.LENGTH_SHORT).show();
+            String tempname[]=temp.split("@");
+            slidetext.setText(tempname[0]);
+            Toast.makeText(this, tempname[0]+"님 환영합니다", Toast.LENGTH_SHORT).show();
             MainLoginButton.setText("로그아웃 ");
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
