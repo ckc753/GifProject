@@ -44,6 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="움짤마켓"
+                        android:textSize="25dp"
                         android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
 

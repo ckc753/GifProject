@@ -45,7 +45,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends HannaFontActivity{
     Toolbar toolbar;
     Fragment fragment1;
     Fragment fragment2;
