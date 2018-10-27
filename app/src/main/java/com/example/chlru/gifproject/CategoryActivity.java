@@ -28,8 +28,8 @@ public class CategoryActivity extends AppCompatActivity {
     //GifAdapter adapter;
     RecyclerAdapter adapter;
     FirebaseStorage storage;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     Query myquery;
     RecyclerView recycler;
     Context context;
@@ -55,7 +55,8 @@ public class CategoryActivity extends AppCompatActivity {
         recycler.setLayoutManager(new GridLayoutManager(this,2));
 
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
-
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
         myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
 
 

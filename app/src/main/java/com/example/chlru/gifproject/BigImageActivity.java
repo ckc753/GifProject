@@ -20,8 +20,8 @@ import com.google.firebase.storage.FirebaseStorage;
 
 public class BigImageActivity extends AppCompatActivity{
     FirebaseStorage storage;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    //private FirebaseDatabase firebaseDatabase;
+    //private DatabaseReference databaseReference;
     Query myquery;
     ImageView bigimage;
     String url;
@@ -34,10 +34,11 @@ public class BigImageActivity extends AppCompatActivity{
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
         //Toast.makeText(getApplicationContext(), "url주소는 = "+url, Toast.LENGTH_SHORT).show();
-
+        //firebaseDatabase = FirebaseDatabase.getInstance();
+        //databaseReference = firebaseDatabase.getReference();
         bigimage = (ImageView) findViewById(R.id.bigimage);
         storage = FirebaseStorage.getInstance();
-        myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
+        //myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
         Glide.with(getApplicationContext())
                 .load(Uri.parse(url))
                 .into(bigimage);

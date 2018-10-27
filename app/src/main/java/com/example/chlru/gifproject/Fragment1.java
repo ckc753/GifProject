@@ -30,8 +30,8 @@ public class Fragment1 extends Fragment {
 
     RecyclerAdapter adapter;
     FirebaseStorage storage;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     Query myquery;
     RecyclerView recycler;
     Context context;
@@ -48,6 +48,8 @@ public class Fragment1 extends Fragment {
         adapter = new RecyclerAdapter(context);//adapter
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
         myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
         myquery.addChildEventListener(new ChildEventListener() {
             @Override

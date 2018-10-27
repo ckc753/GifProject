@@ -25,8 +25,8 @@ public class Fragment_cat extends Fragment implements MainActivity.onBackPressed
     Fragment2 fragment2;
     RecyclerAdapter adapter;
     FirebaseStorage storage;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     Query myquery;
     RecyclerView recycler;
     Context context;
@@ -39,7 +39,8 @@ public class Fragment_cat extends Fragment implements MainActivity.onBackPressed
 
         String Buttonname = getArguments().getString("Buttonname");
        // Toast.makeText(getContext(),"Buttonname="+Buttonname, Toast.LENGTH_SHORT).show();
-
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
         recycler=(RecyclerView)view_cat.findViewById(R.id.recycler_cat);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         context=getContext();

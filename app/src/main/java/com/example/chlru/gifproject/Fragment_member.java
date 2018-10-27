@@ -24,8 +24,8 @@ public class Fragment_member extends Fragment implements MainActivity.onBackPres
     Fragment fragment1;
     RecyclerAdapter adapter;
     FirebaseStorage storage;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     Query myquery;
     RecyclerView recycler;
     Context context;
@@ -38,7 +38,8 @@ public class Fragment_member extends Fragment implements MainActivity.onBackPres
 
         String pkid = getArguments().getString("pkid");
        // Toast.makeText(getContext(),"Buttonname="+Buttonname, Toast.LENGTH_SHORT).show();
-
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
         recycler=(RecyclerView)view_cat.findViewById(R.id.recycler_cat);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         context=getContext();

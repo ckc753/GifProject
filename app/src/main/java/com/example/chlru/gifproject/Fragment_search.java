@@ -26,8 +26,8 @@ public class Fragment_search extends Fragment {
 
     RecyclerAdapter adapter;
     FirebaseStorage storage;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     Query myquery;
     RecyclerView recycler;
     Context context;
@@ -44,7 +44,8 @@ public class Fragment_search extends Fragment {
         }catch (NullPointerException e){
 
         }
-
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
         // Toast.makeText(getContext(), search+" 검색! ", Toast.LENGTH_SHORT).show();
 
 
@@ -61,7 +62,7 @@ public class Fragment_search extends Fragment {
         }else {
             myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
         }
-
+      //  myquery = databaseReference.child("gif").orderByChild("number");
 
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
@@ -73,9 +74,10 @@ public class Fragment_search extends Fragment {
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
-                adapter.addItem(new GifItem(url, filename, name, day, number));//변화값 adapter에 추가
-                adapter.notifyDataSetChanged();
-            }
+               // if(name.contains(search)){
+                    adapter.addItem(new GifItem(url, filename, name, day, number));//변화값 adapter에 추가
+                    adapter.notifyDataSetChanged();}
+           // }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
