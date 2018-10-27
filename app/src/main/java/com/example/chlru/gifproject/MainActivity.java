@@ -72,6 +72,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
     AlertDialog.Builder aDialog;
     SharedPreferences sessionsp;
     SweetAlertDialog sweetalert;
+    TabLayout tabs;
 
     private static final int MY_PERMISSON_STORAGE = 1111;
 
@@ -272,10 +273,9 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                     Toast.makeText(getApplicationContext(),"로그아웃하셨습니다.",Toast.LENGTH_LONG).show();
                     drawerLayout.closeDrawer(linearLayout);
                     //로그인시, 업로드창에서 로그아웃하면 이용하지못하도록 Fragment.replace처리
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
-                    //intent = new Intent(getApplicationContext(), MainActivity.class);
-                    //startActivity(intent);
-                    //finish();
+                    TabLayout.Tab tabposition=tabs.getTabAt(0);//tab포지션을 0으로 다시 설정
+                    tabposition.select();
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
                     slidetext.setText("환영합니다.");
                     MainLoginButton.setText("로그인 ");
                     MainLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -303,7 +303,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
 
-        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("베스트 움짤"));
         tabs.addTab(tabs.newTab().setText("주제별 움짤"));
         tabs.addTab(tabs.newTab().setText("업로드 하기"));
@@ -337,7 +337,10 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                         sweetalert.setContentText("회원이 아니기때문에 업로드를 이용할 수 없습니다.");
                         sweetalert.setConfirmText("확인");
                         sweetalert.show();
+                        TabLayout.Tab tabposition=tabs.getTabAt(0);//tab포지션을 0으로 다시 설정
+                        tabposition.select();
                         selected = fragment1;
+
                     }
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.container2, selected).commit();
@@ -477,6 +480,12 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                         sweetalert.setContentText("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
                         sweetalert.setConfirmText("확인");
                         sweetalert.show();
+                        break;
+                    case 2:
+                        Bundle searchbundle = new Bundle();
+                        searchbundle.putString("pkid", pkid);
+                        fragment_member.setArguments(searchbundle);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_member).commit();
                         break;
 
 

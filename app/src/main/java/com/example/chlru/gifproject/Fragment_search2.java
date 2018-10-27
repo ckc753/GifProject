@@ -54,13 +54,13 @@ public class Fragment_search2 extends Fragment {
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
 
-        if(search!=null){
+        /*if(search!=null){
             myquery=databaseReference.child("gif").orderByChild("gifname").startAt(search).endAt(search+"\uf8ff");
 
         }else {
             myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
-        }
-        //myquery = databaseReference.child("gif").orderByChild("number");
+        }*/
+        myquery = databaseReference.child("gif").orderByChild("number");
 
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
@@ -72,11 +72,11 @@ public class Fragment_search2 extends Fragment {
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
-              //  if(name.contains(search)){
+                if(name.contains(search)){
                 adapter.addItem(new GifItem(url, filename, name, day, number));//변화값 adapter에 추가
                 adapter.notifyDataSetChanged();}
 
-         //   }
+            }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
