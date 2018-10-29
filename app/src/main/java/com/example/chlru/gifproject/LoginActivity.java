@@ -43,7 +43,7 @@ import com.kakao.util.helper.log.Logger;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 //TextInputLayout생략
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class LoginActivity extends HannaFontActivity implements GoogleApiClient.OnConnectionFailedListener{
     private static final int RC_SIGN_IN = 10;
     SignInButton googleLoginButton;
     private FirebaseAuth mAuth;

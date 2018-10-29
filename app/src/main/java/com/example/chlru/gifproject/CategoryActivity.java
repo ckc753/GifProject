@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryActivity extends HannaFontActivity {
     Intent intent;
     //GifAdapter adapter;
     RecyclerAdapter adapter;

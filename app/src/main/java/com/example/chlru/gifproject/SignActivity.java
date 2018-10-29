@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class SignActivity extends AppCompatActivity {
+public class SignActivity extends HannaFontActivity {
     private FirebaseAuth mAuth;
     private EditText editTextEmail;
     private EditText editTextPw;

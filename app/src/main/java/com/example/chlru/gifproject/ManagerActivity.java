@@ -21,7 +21,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class ManagerActivity extends AppCompatActivity {
+public class ManagerActivity extends HannaFontActivity {
     RecyclerManagerAdapter adapter;
     FirebaseStorage storage;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
