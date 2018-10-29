@@ -18,11 +18,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class SignActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText editTextEmail;
     private EditText editTextPw;
     String email;
+    SweetAlertDialog sweetalert;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,12 +41,17 @@ public class SignActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //1.1 입력
                 if(editTextEmail.getText().toString().getBytes().length <= 0 || editTextPw.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
-                    Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    sweetalert=new SweetAlertDialog(SignActivity.this,SweetAlertDialog.WARNING_TYPE);
+                    sweetalert.setTitleText("- 로그인 실패 -");
+                    sweetalert.setContentText("값을 입력하세요.");
+                    sweetalert.setConfirmText("확인");
+                    sweetalert.show();
                 }
                 else{
                     String temp1 = "이메일 입력 내용 : " + editTextEmail.getText().toString();
                     String temp2 = "비번 입력 내용 : " + editTextPw.getText().toString();
-                    Toast.makeText(getApplicationContext(), temp1+" "+temp2, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), temp1+" "+temp2, Toast.LENGTH_SHORT).show();
                     createUser(editTextEmail.getText().toString(), editTextPw.getText().toString());
                 }
             }
@@ -79,7 +87,12 @@ public class SignActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }else {
-                            Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_LONG).show();
+                            sweetalert=new SweetAlertDialog(SignActivity.this,SweetAlertDialog.WARNING_TYPE);
+                            sweetalert.setTitleText("- 회원가입 실패 -");
+                            sweetalert.setContentText("다시 회원가입해주시기 바랍니다.");
+                            sweetalert.setConfirmText("확인");
+                            sweetalert.show();
                         }
                     }
                 });

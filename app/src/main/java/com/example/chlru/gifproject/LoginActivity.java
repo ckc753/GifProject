@@ -40,6 +40,8 @@ import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 //TextInputLayout생략
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
     private static final int RC_SIGN_IN = 10;
@@ -63,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     SharedPreferences sessionsp;
     SharedPreferences.Editor sessionedit;
     private  long pressedTime = 0;
+    SweetAlertDialog sweetalert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +115,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
 
                 if(editTextEmail.getText().toString().getBytes().length <= 0 || editTextPw.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
-                    Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    sweetalert=new SweetAlertDialog(LoginActivity.this,SweetAlertDialog.WARNING_TYPE);
+                    sweetalert.setTitleText("- 로그인 실패 -");
+                    sweetalert.setContentText("값을 입력하세요.");
+                    sweetalert.setConfirmText("확인");
+                    sweetalert.show();
                 }else{
                     //String temp1 = "이메일 입력 내용 : " + editTextEmail.getText().toString();
                     //String temp2 = "비번 입력 내용 : " + editTextPw.getText().toString();
@@ -150,7 +158,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
 
                 if(editTextEmail.getText().toString().getBytes().length <= 0 || editTextPw.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
-                    Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    sweetalert=new SweetAlertDialog(LoginActivity.this,SweetAlertDialog.WARNING_TYPE);
+                    sweetalert.setTitleText("- 로그인 실패 -");
+                    sweetalert.setContentText("값을 입력하세요.");
+                    sweetalert.setConfirmText("확인");
+                    sweetalert.show();
                 }
                 else if (actionId == EditorInfo.IME_ACTION_DONE) {
                     signUser(editTextEmail.getText().toString(), editTextPw.getText().toString());

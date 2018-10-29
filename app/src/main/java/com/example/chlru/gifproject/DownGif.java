@@ -18,10 +18,13 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class DownGif {
 
     String string_path=null;
     Context context;
+    SweetAlertDialog sweetalert;
 
     public DownGif(Context context) {
         this.context = context;
@@ -84,13 +87,21 @@ public class DownGif {
                     //textView5.setText("tempFile 이름 = " + scanning_path);
                     //2.다운로드 프로그레스바 종료
                     progressDialog.cancel();
-                    Toast.makeText(context, "파일 저장 성공!!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "파일 저장 성공!!", Toast.LENGTH_SHORT).show();
+                    sweetalert=new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
+                    sweetalert.setTitleText(" 파일 저장 성공 ");
+                    sweetalert.setConfirmText("확인");
+                    sweetalert.show();
                     tempFile.deleteOnExit();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(context, "파일 저장 실패", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "파일 저장 실패", Toast.LENGTH_SHORT).show();
+                    sweetalert=new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE);
+                    sweetalert.setTitleText(" 파일 저장 실패 ");
+                    sweetalert.setConfirmText("확인");
+                    sweetalert.show();
                 }
             }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
                 //3.프로그레스바 리스너 (진행되는동안 표시되는 메시지 설정)
@@ -101,7 +112,12 @@ public class DownGif {
                 }
             });
         }catch (IOException e){
-            Toast.makeText(context, "해당앱의 저장권한을 확인하세요!!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "해당앱의 저장권한을 확인하세요!!", Toast.LENGTH_SHORT).show();
+            sweetalert=new SweetAlertDialog(context,SweetAlertDialog.WARNING_TYPE);
+            sweetalert.setTitleText("＊＊＊ 경고 ＊＊＊");
+            sweetalert.setContentText("해당앱의 저장권한을 확인하세요!!");
+            sweetalert.setConfirmText("확인");
+            sweetalert.show();
             e.printStackTrace();
         }
     }

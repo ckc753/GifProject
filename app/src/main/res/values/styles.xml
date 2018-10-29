@@ -9,7 +9,7 @@
     </style>
 
     <style name="SplashTheme" parent="@android:style/Theme.Light.NoTitleBar">
-        <item name="android:windowBackground">@drawable/mintmain</item>
+        <item name="android:windowBackground">@drawable/mainimage</item>
     </style>
 
     <style name="NoDisplay" parent="Theme.AppCompat.Light.NoActionBar">
