@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
     <manifest xmlns:tools="http://schemas.android.com/tools"
-        package="com.example.chlru.gifproject" xmlns:android="http://schemas.android.com/apk/res/android">
+        package="com.multi.chlru.gifproject" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:name=".GlobalApplication"
+        android:name="com.multi.chlru.gifproject.GlobalApplication"
         android:theme="@style/AppTheme.NoActionBar"
         android:supportsRtl="true"
         android:label="@string/app_name"
@@ -18,7 +18,7 @@
         <!--android:roundIcon="@mipmap/ic_launcher_round"-->
 
     <activity
-        android:name=".SplashActivity"
+        android:name="com.multi.chlru.gifproject.SplashActivity"
         android:theme="@style/SplashTheme"
         android:screenOrientation="portrait">
 
@@ -29,15 +29,15 @@
 </activity>
 
         <activity
-            android:name=".BigImageActivity"
+            android:name="com.multi.chlru.gifproject.BigImageActivity"
             android:theme="@style/NoDisplay"
             />
 
     <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/kakao_app_key"/>
-    <activity android:name=".MainActivity"/>
-        <activity android:name=".CategoryActivity"/>
-    <activity android:name=".SignActivity"/>
-    <activity android:name=".LoginActivity"/>
-    <activity android:name=".ManagerActivity"/>
+    <activity android:name="com.multi.chlru.gifproject.MainActivity"/>
+        <activity android:name="com.multi.chlru.gifproject.CategoryActivity"/>
+    <activity android:name="com.multi.chlru.gifproject.SignActivity"/>
+    <activity android:name="com.multi.chlru.gifproject.LoginActivity"/>
+    <activity android:name="com.multi.chlru.gifproject.ManagerActivity"/>
 </application>
 </manifest>

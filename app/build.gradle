@@ -2,20 +2,30 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
+        keystore {
+            keyAlias 'gitproject'
+            keyPassword '123456'
+            storeFile file('C:/Users/app/AndroidStudioProjects/GifProject-master/GifProject/key/keystore.jks')
+            storePassword '123456'
+        }
     }
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.chlru.gifproject"
+        applicationId "com.multi.chlru.gifproject"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.keystore
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.keystore
         }
     }
     buildToolsVersion '28.0.2'
@@ -41,7 +51,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
     compile 'com.android.support:cardview-v7:28.0.0-alpha1'
     implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
-
     compile 'cn.pedant.sweetalert:library:1.3'
 }
 
