@@ -22,9 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:elevation="1dp"
-                android:background="@color/colorTool"
-                >
+                android:background="#03a9f4"
+                android:elevation="1dp">
 
 
                 <ImageButton
@@ -38,14 +37,14 @@
                     android:src="@android:drawable/ic_menu_sort_by_size"
                     android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
-                    <TextView
-                        android:id="@+id/titleText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="움짤마켓"
-                        android:textSize="25dp"
-                        android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title" />
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="움짤마켓"
+                    android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+                    android:textSize="25dp" />
 
 
             </android.support.v7.widget.Toolbar>
@@ -90,10 +89,10 @@
                 <ImageButton
                     android:id="@+id/searchBtu"
                     android:layout_width="37dp"
-                    android:layout_height="41dp"
+                    android:layout_height="37dp"
+                    android:layout_margin="0sp"
                     android:layout_weight="1"
                     android:background="@color/colorTransparent2"
-                    android:layout_margin="0sp"
                     android:padding="0sp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/search_icon"

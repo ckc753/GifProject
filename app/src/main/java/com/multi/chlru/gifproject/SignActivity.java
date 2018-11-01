@@ -40,7 +40,7 @@ public class SignActivity extends HannaFontActivity {
                 if(editTextEmail.getText().toString().getBytes().length <= 0 || editTextPw.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
                     //Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
                     sweetalert=new SweetAlertDialog(SignActivity.this,SweetAlertDialog.WARNING_TYPE);
-                    sweetalert.setTitleText("- 로그인 실패 -");
+                    sweetalert.setTitleText("- 회원가입 실패 -");
                     sweetalert.setContentText("값을 입력하세요.");
                     sweetalert.setConfirmText("확인");
                     sweetalert.show();

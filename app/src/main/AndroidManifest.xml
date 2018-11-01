@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-    <manifest xmlns:tools="http://schemas.android.com/tools"
-        package="com.multi.chlru.gifproject" xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.multi.chlru.gifproject">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name="com.multi.chlru.gifproject.GlobalApplication"
-        android:theme="@style/AppTheme.NoActionBar"
-        android:supportsRtl="true"
-        android:label="@string/app_name"
-        android:icon="@mipmap/giflogo"
         android:allowBackup="true"
+        android:icon="@mipmap/giflogo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:icon">
         <!--android:roundIcon="@mipmap/ic_launcher_round"-->
 
-    <activity
-        android:name="com.multi.chlru.gifproject.SplashActivity"
-        android:theme="@style/SplashTheme"
-        android:screenOrientation="portrait">
+        <activity
+            android:name="com.multi.chlru.gifproject.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
 
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
-            <category android:name="android.intent.category.LAUNCHER"/>
-        </intent-filter>
-</activity>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.multi.chlru.gifproject.BigImageActivity"
-            android:theme="@style/NoDisplay"
-            />
+            android:theme="@style/NoDisplay" />
 
-    <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/kakao_app_key"/>
-    <activity android:name="com.multi.chlru.gifproject.MainActivity"/>
-        <activity android:name="com.multi.chlru.gifproject.CategoryActivity"/>
-    <activity android:name="com.multi.chlru.gifproject.SignActivity"/>
-    <activity android:name="com.multi.chlru.gifproject.LoginActivity"/>
-    <activity android:name="com.multi.chlru.gifproject.ManagerActivity"/>
-</application>
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
+
+        <activity android:name="com.multi.chlru.gifproject.MainActivity" />
+        <activity android:name="com.multi.chlru.gifproject.CategoryActivity" />
+        <activity android:name="com.multi.chlru.gifproject.SignActivity" />
+        <activity android:name="com.multi.chlru.gifproject.LoginActivity" />
+        <activity android:name="com.multi.chlru.gifproject.ManagerActivity" />
+        <activity android:name="com.multi.chlru.gifproject.MessageActivity" />
+
+    </application>
 </manifest>
