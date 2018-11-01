@@ -2,10 +2,12 @@ package com.multi.chlru.gifproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -74,6 +76,9 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
         BasicLoginButton  = (Button) findViewById(R.id.BasicLoginButton);
         editTextEmail = (EditText)findViewById(R.id.editTextEmail);
         editTextPw = (EditText)findViewById(R.id.editTextPw);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "malgunbd.ttf");
+        editTextPw.setTypeface(typeface);
+
 
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -190,6 +195,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                             if (!task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "로그인실패", Toast.LENGTH_LONG).show();
                             } else {
+
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 sessionsp = getSharedPreferences("session", 0);
                                 sessionedit = sessionsp.edit();

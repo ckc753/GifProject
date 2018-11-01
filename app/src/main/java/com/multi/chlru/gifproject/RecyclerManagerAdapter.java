@@ -2,12 +2,14 @@ package com.multi.chlru.gifproject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -48,6 +50,10 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
 
     @Override
     public void onBindViewHolder(final ViewManagerHolder holder, final int position) {
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(),"BMHANNA_11yrs_ttf.ttf");
+        holder.title.setTypeface(typeface);
+        holder.delBtn.setTypeface(typeface);
+        holder.agreeBtn.setTypeface(typeface);
         storage = FirebaseStorage.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();

@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
-public class Fragment2 extends Fragment implements View.OnClickListener {
+public class Fragment2 extends HannaFontFragment implements View.OnClickListener {
     ViewGroup view2;
     private Button [] cButton = new Button[9];
     private ArrayList<String> cDataList;

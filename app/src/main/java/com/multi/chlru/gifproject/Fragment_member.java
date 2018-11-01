@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
-public class Fragment_member extends Fragment implements MainActivity.onBackPressedListener{
+public class Fragment_member extends HannaFontFragment implements MainActivity.onBackPressedListener{
     Fragment fragment1;
     RecyclerAdapter adapter;
     FirebaseStorage storage;

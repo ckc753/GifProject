@@ -56,13 +56,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:accessibilityHeading="true"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="움짤마켓입니다"
                 android:textSize="20dp"
@@ -81,13 +82,22 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="#03a9f4"
-                android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
                 android:drawableStart="@drawable/ic_mail_outline_black_24dp"
-                android:hint="이메일"
+                android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
+                android:hint=" 이메일"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
+
+            <TextView
+                android:id="@+id/idsuccess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:textColor="#0BC904"
+                android:textSize="10dp" />
 
             <EditText
                 android:id="@+id/editTextPw"
@@ -96,20 +106,62 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="#03a9f4"
-                android:drawableLeft="@drawable/ic_lock_black_24dp"
                 android:drawableStart="@drawable/ic_lock_black_24dp"
-                android:hint="비밀번호"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:hint=" 비밀번호"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
+
+            <TextView
+                android:id="@+id/pwvalid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:textColor="#0BC904"
+                android:textSize="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="-비밀번호 재확인-"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editTextPw2"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="#03a9f4"
+                android:drawableStart="@drawable/ic_lock_black_24dp"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:hint=" 비밀번호"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <TextView
+                android:id="@+id/pwsuccess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:textColor="#0BC904"
+                android:textSize="10dp" />
 
             <Button
                 android:id="@+id/BasicSignButton"
                 android:layout_width="199dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:background="#03a9f4"
                 android:text="회원가입"
                 android:textColor="#ffffff"

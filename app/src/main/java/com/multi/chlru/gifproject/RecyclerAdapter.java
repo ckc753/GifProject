@@ -2,11 +2,18 @@ package com.multi.chlru.gifproject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.storage.StorageReference;
@@ -18,9 +25,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     Context context;
     int item_layout;
     final String folderName = "움짤공방";
+    String search;
     private ArrayList<GifItem> items = new ArrayList<GifItem>();
 
-
+    public RecyclerAdapter(Context context,String search) {
+        this.context = context;
+        this.search=search;
+    }
     public RecyclerAdapter(Context context) {
         this.context = context;
 
@@ -38,8 +49,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final String urladd = items.get(position).getDownloadUrl();
-
-        holder.title.setText(items.get(position).getGifname());
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(),"BMHANNA_11yrs_ttf.ttf");
+        holder.title.setTypeface(typeface);
+        holder.saveBtn.setTypeface(typeface);
+        if(search!=null){
+            SpannableStringBuilder sb=new SpannableStringBuilder();
+            String str=items.get(position).getGifname();
+            sb.append(str);
+            //sb.setSpan(new StyleSpan(Typeface.BOLD),str.indexOf(search),str.indexOf(search)+search.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.setSpan(new ForegroundColorSpan(Color.parseColor("#03a9f4")),str.indexOf(search),str.indexOf(search)+search.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.title.setText(sb);
+        }else {
+            holder.title.setText(items.get(position).getGifname());
+        }
         Glide.with(context)
                 .load(Uri.parse(items.get(position).getDownloadUrl()))
                 .into(holder.image);

@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
-public class Fragment1 extends Fragment {
+public class Fragment1 extends HannaFontFragment {
 
     RecyclerAdapter adapter;
     FirebaseStorage storage;

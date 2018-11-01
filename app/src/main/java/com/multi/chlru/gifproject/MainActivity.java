@@ -163,7 +163,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         editText = (EditText) findViewById(R.id.editText);
 
         //2. 검색 시작////////////////////////////////////////////
-        searchBtu = (ImageButton) findViewById(R.id.searchBtu);
+        searchBtu=(ImageButton)findViewById(R.id.searchBtu);
         searchBtu.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -171,34 +171,38 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                 boolean k = fragment_search.isVisible();
                 boolean k2 = fragment_search2.isVisible();
                 //Toast.makeText(getApplicationContext(), String.valueOf(k)+" "+String.valueOf(k2), Toast.LENGTH_LONG).show();
-                if (k == false && k2 == false) {
-                    //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
-                    openSearchFragment1();
-                    editText.setText("");
-                    mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);//키보드 내리기
-                    mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                } else if (k == false && k2 == true) {
-                    //Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_LONG).show();
-                    removeFragment2();
-                    openSearchFragment1();
-                    editText.setText("");
-                    mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);//키보드 내리기
-                    mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                } else if (k == true && k2 == false) {
-                    //Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_LONG).show();
-                    removeFragment1();
-                    openSearchFragment2();
-                    editText.setText("");
-                    mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);//키보드 내리기
-                    mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                if (editText.getText().toString().length() == 0) {
+                    Toast.makeText(getApplicationContext(), "검색어를 입력하세요", Toast.LENGTH_LONG).show();
                 } else {
-                    removeFragment1();
-                    removeFragment2();
+                    if (k == false && k2 == false) {
+                        //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
+                        openSearchFragment1();
+                        editText.setText("");
+                        mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);//키보드 내리기
+                        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    } else if (k == false && k2 == true) {
+                        //Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_LONG).show();
+                        removeFragment2();
+                        openSearchFragment1();
+                        editText.setText("");
+                        mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);//키보드 내리기
+                        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    } else if (k == true && k2 == false) {
+                        //Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_LONG).show();
+                        removeFragment1();
+                        openSearchFragment2();
+                        editText.setText("");
+                        mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);//키보드 내리기
+                        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    } else {
+                        removeFragment1();
+                        removeFragment2();
+                    }
                 }
             }
         });
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener(){
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -206,27 +210,33 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                     boolean k = fragment_search.isVisible();
                     boolean k2 = fragment_search2.isVisible();
                     //Toast.makeText(getApplicationContext(), String.valueOf(k)+" "+String.valueOf(k2), Toast.LENGTH_LONG).show();
-                    if (k == false && k2 == false) {
-                        //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
-                        openSearchFragment1();
-                        editText.setText("");
-                    } else if (k == false && k2 == true) {
-                        //Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_LONG).show();
-                        removeFragment2();
-                        openSearchFragment1();
-                        editText.setText("");
-                    } else if (k == true && k2 == false) {
-                        //Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_LONG).show();
-                        removeFragment1();
-                        openSearchFragment2();
-                        editText.setText("");
+                    if (editText.getText().toString().length() == 0) {
+                        Toast.makeText(getApplicationContext(), "검색어를 입력하세요", Toast.LENGTH_LONG).show();
                     } else {
-                        removeFragment1();
-                        removeFragment2();
+                        if (k == false && k2 == false) {
+                            //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
+                            openSearchFragment1();
+                            editText.setText("");
+                        } else if (k == false && k2 == true) {
+                            //Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_LONG).show();
+                            removeFragment2();
+                            openSearchFragment1();
+                            editText.setText("");
+                        } else if (k == true && k2 == false) {
+                            //Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_LONG).show();
+                            removeFragment1();
+                            openSearchFragment2();
+                            editText.setText("");
+                        } else {
+                            removeFragment1();
+                            removeFragment2();
+                        }
                     }
                 }
                 return false;
+
             }//onEditorAction_end
+
         });
         //검색 끝////////////////////////////////////////////
 

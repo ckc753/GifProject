@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Fragment3 extends Fragment {
+public class Fragment3 extends HannaFontFragment {
     int reCode;
     Uri filePath;
     ImageView img;

@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
-public class Fragment_search2 extends Fragment {
+public class Fragment_search2 extends HannaFontFragment {
 
     RecyclerAdapter adapter;
     FirebaseStorage storage;
@@ -49,7 +49,7 @@ public class Fragment_search2 extends Fragment {
         recycler=(RecyclerView)view_sear2.findViewById(R.id.recycler_sear2);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         context=getContext();
-        adapter = new RecyclerAdapter(context);//adapter
+        adapter = new RecyclerAdapter(context,search);//adapter
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
 
