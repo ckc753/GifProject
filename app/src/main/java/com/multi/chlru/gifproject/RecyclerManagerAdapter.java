@@ -86,13 +86,14 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
 
             }
         });
-
+        //1. CardView기본변수선언 및 Image가져오기
         final String urladd = items.get(position).getDownloadUrl();
 
         holder.title.setText(items.get(position).getGifname());
         Glide.with(context)
                 .load(Uri.parse(items.get(position).getDownloadUrl()))
                 .into(holder.image);
+        //2. cardView클릭시, BigImageActivity이동 (이미지커지도록)
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +104,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
 
             }
         });
-        ////////////////////////////////////////////////////삭제
+        //3. 삭제버튼::delBtn클릭시, RealTime DB value & Storage file 삭제
         holder.delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +117,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
 
             }
         });
-        ///////////////////////////////////////////////////승인
+        //4. 승인버튼::agreeBtn클릭시, gifManager DB만 삭제하고 gif DB로 value push.
         holder.agreeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,12 +141,14 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
 
     }
 
+    //4. Count메소드
     @Override
     public int getItemCount() {
         return this.items.size();
     }
     ////////////////////////////////////////삭제메소드
 
+    //5.1 삭제메소드 (Storage삭제)
     private void delete_content(final int position) {
         //Toast.makeText(context, items.get(position).getFilename()+" 삭제하자 "+String.valueOf(storage.getReference()), Toast.LENGTH_SHORT).show();
         storage.getReference().child(items.get(position).getFilename()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -163,6 +166,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
         });
     }
 
+    //5.2 삭제메소드 (DB삭제)
     private void delete_db(final int position) {
         //Toast.makeText(context, "삭제 "+items.get(position).getDay(), Toast.LENGTH_SHORT).show();
         databaseReference.child("gifManager").child(items.get(position).getPkKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {

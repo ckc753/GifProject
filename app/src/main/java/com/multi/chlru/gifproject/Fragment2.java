@@ -21,7 +21,6 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view2 = (ViewGroup) inflater.inflate(R.layout.fragment2, container, false);
-
         cDataList = new ArrayList<>();
         cButton[0] = (Button) view2.findViewById(R.id.CBtn1);
         cButton[1] = (Button) view2.findViewById(R.id.CBtn2);
@@ -46,7 +45,6 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
             //출력데이터 생성
             cDataList.add("하이" + i + "입니다");
         }
-
         return view2;
     }
 
@@ -65,11 +63,8 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
                 fragment_cat.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_cat).commit();
             }
-        }//for
-
-    }
-
-
+        }//for_end
+    }//onClick_end
 }
 
 

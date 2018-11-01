@@ -162,11 +162,12 @@ public class SignActivity extends HannaFontActivity {
                 return false;
             }
         });
+        //1. 회원가입 버튼 이벤트
         Button BasicSignButton = (Button) findViewById(R.id.BasicSignButton);
         BasicSignButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //1.1 입력
+                //1.1 빈값이 넘어올때의 회원가입실패 & 값이 틀릴경우 회원가입실패 & 나머지는 회원가입성공
                 if(editTextEmail.getText().toString().getBytes().length <= 0 || editTextPw.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
                     //Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
                     sweetalert=new SweetAlertDialog(SignActivity.this,SweetAlertDialog.WARNING_TYPE);
@@ -184,18 +185,7 @@ public class SignActivity extends HannaFontActivity {
             }
         });
 
-        //1.1 뒤로가기 버튼(로그인화면으로 이동)
-        /*Button backButton = (Button)findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(intent);
-            }
-        });*/
-
-        //1.2 뒤로가기 버튼을 이용하지않고==>  툴바를 이용한 뒤로가기
-        //★ 주의사항으로는 자바파일을 Activity상속이 아니라 AppCompatActivity로 받아야 액션바로 호환할 수 있다. ★
+        //1.2 뒤로가기 버튼을 이용하지않고 => 툴바를 이용한 뒤로가기.
         Toolbar toolbar = (Toolbar) findViewById(R.id.signtoolbar);
         setSupportActionBar(toolbar); //activity_main.xml의 액션바부분에 toolbar를 적용시킨다.
         getSupportActionBar().setDisplayShowTitleEnabled(false); //기본 타이틀 보여줄지 말지 설정
@@ -203,6 +193,7 @@ public class SignActivity extends HannaFontActivity {
         //getSupportActionBar().setHomeButtonEnabled(true);
     }//onCreate_end
 
+    //1.3 회원가입 메소드
     public void createUser(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this,
                 new OnCompleteListener<AuthResult>() {
@@ -234,33 +225,28 @@ public class SignActivity extends HannaFontActivity {
                 });
     }//createUser_end
 
-    //1.3 액션바 뒤로가기
+
+    //1.4 액션바 뒤로가기
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
-        }else if(id == android.R.id.home){
-            //1. home은 툴바(액션바)를 클릭했을경우이고, 나머지는 메뉴툴바이다.
-            // 여기서 액션바는 뒤로가기액션바 : 따라서 뒤로가기 커스터마이징
-            //https://m.blog.naver.com/PostView.nhn?blogId=alens82&logNo=220754226712&proxyReferer=https%3A%2F%2Fwww.google.co.kr%2F
+        }else if(id == android.R.id.home){ //1.4.1 home은 툴바(액션바)를 클릭했을경우이고, 나머지는 메뉴툴바이다.
             startActivity(new Intent(getApplicationContext(),LoginActivity.class));
             finish();
-
-            //2. 원래 코드
-            //finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }//액션바 뒤로가기도 생성
 
-    //취소버튼클릭시, Sign->LoginActivity로 이동하도록 onBackPressed메소드사용
+    //1.5 취소버튼클릭시 LoginActivity로 화면전환.
     @Override
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(),LoginActivity.class));
         finish();
     }
-    //비밀번호 유효성검사
+    //1.6 비밀번호 유효성검사
     private boolean isValidPasswd(String target) {
         //Pattern p = Pattern.compile("(^.*(?=.{6,12})(?=.*[0-9])(?=.*[a-zA-Z]).*$)");
         Pattern p = Pattern.compile("[A-Za-z0-9]$");//영어 숫자 제한

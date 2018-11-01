@@ -29,15 +29,15 @@ public class Fragment_member extends HannaFontFragment implements MainActivity.o
     Query myquery;
     RecyclerView recycler;
     Context context;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup view_cat = (ViewGroup) inflater.inflate(R.layout.fragment_cat, container, false);
-
         fragment1 = new Fragment1();
-
         String pkid = getArguments().getString("pkid");
-       // Toast.makeText(getContext(),"Buttonname="+Buttonname, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getContext(),"Buttonname="+Buttonname, Toast.LENGTH_SHORT).show();
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         recycler=(RecyclerView)view_cat.findViewById(R.id.recycler_cat);//리사이클러뷰
@@ -47,11 +47,9 @@ public class Fragment_member extends HannaFontFragment implements MainActivity.o
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
         myquery = databaseReference.child("gif").orderByChild("member").equalTo(pkid);//gif아래에 member값으로 sort(현재사용중인 pkid값과 같은 것만)
-
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {//DB에 추가 있을때마다 실행
-
                 final GifItem gitem = dataSnapshot.getValue(GifItem.class);//Gifitem형식으로 데이터 받아옴
                 final String url = gitem.getDownloadUrl();//url주소
                 final String filename = gitem.getFilename();//파일이름(ex)sample.gif
@@ -61,17 +59,12 @@ public class Fragment_member extends HannaFontFragment implements MainActivity.o
                 adapter.addItem(new GifItem(url, filename, name, day, number));//변화값 adapter에 추가
                 adapter.notifyDataSetChanged();
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
-
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                 final GifItem gitem = dataSnapshot.getValue(GifItem.class);
@@ -83,14 +76,11 @@ public class Fragment_member extends HannaFontFragment implements MainActivity.o
                 adapter.addItem(new GifItem(url, filename, name, day, number));
                 adapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
-       return view_cat;
+        return view_cat;
     }
 
     @Override

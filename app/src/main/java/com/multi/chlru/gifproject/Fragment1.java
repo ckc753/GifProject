@@ -21,7 +21,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
 public class Fragment1 extends HannaFontFragment {
-
     RecyclerAdapter adapter;
     FirebaseStorage storage;
     private FirebaseDatabase firebaseDatabase;
@@ -29,13 +28,11 @@ public class Fragment1 extends HannaFontFragment {
     Query myquery;
     RecyclerView recycler;
     Context context;
-    EditText edit;
-    String search;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup view1 = (ViewGroup) inflater.inflate(R.layout.fragment1, container, false);
-
         recycler=(RecyclerView)view1.findViewById(R.id.recycler);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         context=getContext();
@@ -48,9 +45,7 @@ public class Fragment1 extends HannaFontFragment {
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {//DB에 추가 있을때마다 실행
-
                 final GifItem gitem = dataSnapshot.getValue(GifItem.class);//Gifitem형식으로 데이터 받아옴
-
                 final String url = gitem.getDownloadUrl();//url주소
                 final String filename = gitem.getFilename();//파일이름(ex)sample.gif
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
@@ -59,21 +54,15 @@ public class Fragment1 extends HannaFontFragment {
                 adapter.addItem(new GifItem(url, filename, name, day, number));//변화값 adapter에 추가
                 adapter.notifyDataSetChanged();
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
-
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                 final GifItem gitem = dataSnapshot.getValue(GifItem.class);
-
                 final String url = gitem.getDownloadUrl();
                 final String filename = gitem.getFilename();
                 final String name = gitem.getGifname();
@@ -82,14 +71,10 @@ public class Fragment1 extends HannaFontFragment {
                 adapter.addItem(new GifItem(url, filename, name, day, number));
                 adapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
-        });
-
-       return view1;
-    }
-
+        });//myquery_end
+        return view1;
+    }//onCreateView_end
 }

@@ -138,14 +138,12 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         temp = sessionsp.getString("sessionid", null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
         pkid = sessionsp.getString("sessonpk", null);
 
-        //0.2 구글 앱서명키(SHA1) 인코딩 -> 해시키 변환9\
+        //0.2 구글 앱서명키(SHA1) 인코딩 -> 해시키 변환
         //byte[] sha1 = { 0x3B, (byte)0xDA, (byte)0xA0, 0x5B, 0x4F, 0x35, 0x71, 0x02, 0x4E, 0x27, 0x22, (byte)0xB9, (byte)0xAc, (byte)0xB2, 0x77, 0x2F,(byte)0x9D, (byte)0xA9, (byte)0x9B, (byte)0xD9  };
         byte[] sha2 = {0x20, 0x7F, 0x6D, (byte) 0x9A, (byte) 0xB9, 0x36, 0x21, (byte) 0x0A, (byte) 0xEE, 0x14, 0x67, (byte) 0xAC, (byte) 0x92, (byte) 0x96, (byte) 0xE6, (byte) 0xFE, (byte) 0xEC, 0x3F, (byte) 0x94, (byte) 0xF5};
         Logger.e("Release Google_Signing keyHash: " + Base64.encodeToString(sha2, Base64.NO_WRAP));
 
-
         //1. 앱실행시 직접적으로 저장권한설정 메소드
-        checkPermission();
         checkPermission();
 
         //Toast.makeText(getApplicationContext(), pkid, Toast.LENGTH_LONG).show();
@@ -162,7 +160,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         fragment_member = new Fragment_member();
         editText = (EditText) findViewById(R.id.editText);
 
-        //2. 검색 시작////////////////////////////////////////////
+        //2-1. 검색버튼으로 검색시작////////////////////////////////////////////
         searchBtu=(ImageButton)findViewById(R.id.searchBtu);
         searchBtu.setOnClickListener(new View.OnClickListener() {
 
@@ -201,6 +199,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                 }
             }
         });
+        //2-2. 검색키보드에 "완료"를 통해 검색시작
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener(){
 
@@ -240,12 +239,13 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         });
         //검색 끝////////////////////////////////////////////
 
+        //3-1. slide_layout를 통한 슬라이드 (메뉴슬라이드에 listView를 통한 메뉴버튼)
         listView = (ListView) findViewById(R.id.slide_listView);
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
         linearLayout = (LinearLayout) findViewById(R.id.slide_layout);
         slidetext = (TextView) findViewById(R.id.slide_text);
         if (temp != null) {
-            //google이메일 @로 끊어서 배열만들기
+            //3-1.1. google이메일 @로 끊어서 메뉴슬라이드 버튼목록::배열만들기
             String tempname[] = temp.split("@");
             slidetext.setText(tempname[0]);
             final String navItems[] = {"공지사항", "업로드할 때 확인할 것!", "문의사항", "개인정보 취급방침", "내가 올린 움짤"};
@@ -257,13 +257,13 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
             listView.setOnItemClickListener(new DrawerItemListener());
         }
 
-        //3. 메뉴버튼 설정
+        //3-2. 메뉴버튼 설정
         menuBtn = (ImageButton) findViewById(R.id.menuBtn);
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getApplicationContext(), "open", Toast.LENGTH_SHORT).show();
-                drawerLayout.openDrawer(linearLayout); //메뉴버튼클릭시 drawerLayout.openDrawer속성에의해 만들어져있던 linearLayout을 슬라이드효과로 연다.(listView대신 LinearLayout를 사용함으로써 메뉴버튼클릭시, linearLayout내부에 MainLoginButton을 적용시킨채로 표현가능)
+                //메뉴버튼클릭시 drawerLayout.openDrawer속성에의해 만들어져있던 linearLayout을 슬라이드효과로 연다.(listView대신 LinearLayout를 사용함으로써 메뉴버튼클릭시, linearLayout내부에 MainLoginButton을 적용시킨채로 표현가능)
+                drawerLayout.openDrawer(linearLayout);
             }
         });
 
@@ -508,7 +508,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                 getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_member).commit();
                 break;
         }
-    }
+    }//show_end
 
 
     //8. 메뉴버튼클릭시 =>> listView를 이용한 메뉴슬라이드 (버튼클릭시, AlertDialog실행되도록)

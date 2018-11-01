@@ -133,16 +133,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp">
+
         <Button
             android:id="@+id/CBtn10"
             android:layout_width="41dp"
             android:layout_height="41dp"
-            android:background="@drawable/button_custom"
-            android:textColor="#F8FFF7"
-            android:textSize="20sp"
-            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="ㄷㄷㄷ" />
+            android:layout_weight="1"
+            android:background="@drawable/button_custom"
+            android:text="ㄷㄷㄷ"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/CBtn11"

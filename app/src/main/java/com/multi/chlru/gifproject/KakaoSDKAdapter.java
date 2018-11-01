@@ -10,11 +10,8 @@ import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
 
 public class KakaoSDKAdapter extends KakaoAdapter {
-
-    /**
-     * 로그인을 위해 Session을 생성하기 위해 필요한 옵션을 얻기위한 abstract class.
-     * 기본 설정은 KakaoAdapter에 정의되어있으며, 설정 변경이 필요한 경우 상속해서 사용할 수 있다.
-     */
+    /* 로그인을 위해 Session을 생성하기 위해 필요한 옵션을 얻기위한 abstract class.
+     * 기본 설정은 KakaoAdapter에 정의되어있으며, 설정 변경이 필요한 경우 상속해서 사용할 수 있다. */
     @Override
     public ISessionConfig getSessionConfig() {
         return new ISessionConfig() {
@@ -23,7 +20,6 @@ public class KakaoSDKAdapter extends KakaoAdapter {
                 return new AuthType[] {AuthType.KAKAO_LOGIN_ALL};
             }
             // 로그인시 인증받을 타입을 지정한다. 지정하지 않을 시 가능한 모든 옵션이 지정된다.
-
             //1.KAKAO_TALK :  kakaotalk으로 login을 하고 싶을때 지정.
             //2.KAKAO_STORY : kakaostory으로 login을 하고 싶을때 지정.
             //3.KAKAO_ACCOUNT :  웹뷰 Dialog를 통해 카카오 계정연결을 제공하고 싶을경우 지정.
@@ -63,8 +59,6 @@ public class KakaoSDKAdapter extends KakaoAdapter {
             }
             // 현재 최상단에 위치하고 있는 Activity. topActivity가 아니거나 ApplicationContext를 넣는다면
             // SDK내에서의 Dialog Popup등이 동작하지 않을 수 있습니다.
-
-
             @Override
             public Context getApplicationContext() {
                 return GlobalApplication.getGlobalApplicationContext();

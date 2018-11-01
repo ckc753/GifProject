@@ -7,10 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by hi on 2018-10-02.
- */
-
+//MainActivity에 보여지는 CardView항목들.
 public class ViewHolder extends RecyclerView.ViewHolder {
     ImageView image;
     TextView title;
@@ -23,8 +20,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         image = (ImageView) itemView.findViewById(R.id.image);
         title = (TextView) itemView.findViewById(R.id.title);
         cardview = (CardView) itemView.findViewById(R.id.cardview);
-        //recBtn = (Button) itemView.findViewById(R.id.recoBtn);
         saveBtn = (Button) itemView.findViewById(R.id.saveBtn);
-
+        //recBtn = (Button) itemView.findViewById(R.id.recoBtn);
     }
 }

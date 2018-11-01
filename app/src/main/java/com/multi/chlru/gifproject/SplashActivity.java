@@ -17,6 +17,6 @@ public class SplashActivity extends Activity {
             e.printStackTrace();
         }
         startActivity(new Intent(this, MainActivity.class));
-        finish(); //프래그먼트가 아니기에 띄워져있는 엑티비티 종료
+        finish(); //프래그먼트가 아닌이상, Intent를 이용한 화면전환시 띄워져있는 엑티비티 종료는 필수! (※중복열람을 방지※)
     }
 }

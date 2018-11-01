@@ -1,10 +1,6 @@
 package com.multi.chlru.gifproject;
 
 
-/**
- * Created by hi on 2018-08-31.
- */
-
 public class GifItem {
     private String downloadUrl;
     private String filename;//파일 이름  ex) sample.gif
@@ -35,7 +31,7 @@ public class GifItem {
         this.number=number;
         this.category=category;
         this.member=member;
- }
+    }
     public GifItem(String downloadUrl, String filename, String gifname,String day,int number) {
         this.downloadUrl = downloadUrl;
         this.filename = filename;

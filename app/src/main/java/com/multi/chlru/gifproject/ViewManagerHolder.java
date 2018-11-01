@@ -7,10 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by hi on 2018-10-02.
- */
-
+//ManagerActivity에 보여지는 CardView항목들.
 public class ViewManagerHolder extends RecyclerView.ViewHolder {
     ImageView image;
     TextView title;

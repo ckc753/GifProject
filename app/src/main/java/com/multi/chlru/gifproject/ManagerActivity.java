@@ -34,13 +34,14 @@ public class ManagerActivity extends HannaFontActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager);
 
-/*dialog = new AlertDialog.Builder(new ContextThemeWrapper(this,R.style.AlertDialog));
+        //1. AlertDialog선언
+        /*dialog = new AlertDialog.Builder(new ContextThemeWrapper(this,R.style.AlertDialog));
         dialog.setTitle("＊＊＊ 관리자 모드 ＊＊＊");
         dialog.setMessage("사용자가 올린 DB값을 조회/승인/삭제할 수 있습니다");
         dialog.setPositiveButton("확인", null);
         dialog.show();*/
 
-        //툴바보다 먼저 선언하지않으면 sweetalert는 사용x
+        //2. SweetAlertDialog선언 (툴바보다 먼저 선언하지않으면 sweetalert는 사용x)
         sweetalert=new SweetAlertDialog(ManagerActivity.this, SweetAlertDialog.SUCCESS_TYPE);
         sweetalert.setTitleText("＊＊＊ 관리자 모드 ＊＊＊");
         sweetalert.setContentText("사용자가 올린 DB값을 조회/승인/삭제할 수 있습니다");
@@ -56,6 +57,8 @@ public class ManagerActivity extends HannaFontActivity {
         adapter = new RecyclerManagerAdapter(getApplicationContext());//adapter
         recycler.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
+
+        //3. 업로드시 gifManager에 올라간 DB를 number순으로 정렬해서 조회하는 NO-SQL문
         myquery = databaseReference.child("gifManager").orderByChild("number");//gif 밑 number값으로 sort
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
@@ -105,11 +108,10 @@ public class ManagerActivity extends HannaFontActivity {
         });
     }
 
-    //toolbar_back기능넣기
+    //4. Toolbar_back기능넣기
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // NavUtils.navigateUpFromSameTask(this);
                 //작성안하면 바로종료
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);

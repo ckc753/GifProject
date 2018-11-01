@@ -55,8 +55,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         if(search!=null){
             SpannableStringBuilder sb=new SpannableStringBuilder();
             String str=items.get(position).getGifname();
+            //검색어 색깔 바꾸기.
             sb.append(str);
-            //sb.setSpan(new StyleSpan(Typeface.BOLD),str.indexOf(search),str.indexOf(search)+search.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             sb.setSpan(new ForegroundColorSpan(Color.parseColor("#03a9f4")),str.indexOf(search),str.indexOf(search)+search.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.title.setText(sb);
         }else {
@@ -65,6 +65,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         Glide.with(context)
                 .load(Uri.parse(items.get(position).getDownloadUrl()))
                 .into(holder.image);
+        //1. 카드뷰클릭시, BigImageActivity이동 (이미지커지도록)
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,17 +73,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                 Intent intent = new Intent(context,BigImageActivity.class);
                 intent.putExtra("url",urladd);
                 context.startActivity(intent);
-                //Intent intent = new Intent(context, BigImageActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                //intent.putExtra("url",urladd);
-                //context.startActivity(intent);
-
-
-
-
-                //Toast.makeText(context, items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
             }
         });
-
+        //2. saveBtn클릭시, downGif이동 (파일저장되도록)
         holder.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -96,6 +96,8 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
             }
         });
 
+
+        //1.SharePreperence Setting
         setting = getSharedPreferences("setting", 0);
         editor = setting.edit();
         if (setting.getBoolean("chk_auto", false)) {
@@ -103,6 +105,8 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
             editTextPw.setText(setting.getString("PW", ""));
             chk_auto.setChecked(true);
         }
+
+        //2. 기본 로그인버튼 이벤트
         BasicLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,12 +117,13 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                     editor.putString("PW", PW);
                     editor.putBoolean("chk_auto", true);
                     editor.commit();
+                    //2-1. 버튼이벤트 중복없이 한번만 실행되도록 적용
                     BasicLoginButton.setClickable(false);
                 } else {
                     editor.clear();
                     editor.commit();
                 }
-
+                //2-2. 빈값이 넘어올때의 로그인실패 & 값이 틀릴경우 로그인실패 & 나머지는 로그인성공
                 if(editTextEmail.getText().toString().getBytes().length <= 0 || editTextPw.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
                     //Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
                     sweetalert=new SweetAlertDialog(LoginActivity.this,SweetAlertDialog.WARNING_TYPE);
@@ -134,7 +139,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                 }
             }
         });
-
+        //3. 회원가입 버튼이벤트
         TextView SignPage = (TextView)findViewById(R.id.SignPage);
         SignPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,12 +149,12 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                 finish();
             }
         });
-
+        //4. 로그인버튼없이 "완료"키보드를 통해 로그인되는 방식
         editTextPw.setImeOptions(EditorInfo.IME_ACTION_DONE);
         editTextPw.setOnEditorActionListener(new TextView.OnEditorActionListener(){
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
+                //4-1. SharePreperence를 통해 로그인된 값 저장
                 if (chk_auto.isChecked()) {
                     String ID = editTextEmail.getText().toString();
                     String PW = editTextPw.getText().toString();
@@ -161,7 +166,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                     editor.clear();
                     editor.commit();
                 }
-
+                //4-2. 빈값이 넘어올때의 로그인실패 & 값이 틀릴경우 로그인실패 & 나머지는 로그인성공
                 if(editTextEmail.getText().toString().getBytes().length <= 0 || editTextPw.getText().toString().getBytes().length <= 0){//빈값이 넘어올때의 처리
                     //Toast.makeText(getApplicationContext(), "값을 입력하세요.", Toast.LENGTH_SHORT).show();
                     sweetalert=new SweetAlertDialog(LoginActivity.this,SweetAlertDialog.WARNING_TYPE);
@@ -177,11 +182,12 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                 return false;
             }//onEditorAction_end
         });
-
+        //5. 카카오로그인에 사용되는 SessionCallback클래스 정의.
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
     }//onCreate_end
 
+    //6. signUser (기본로그인 메소드)
     public void signUser(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -191,8 +197,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                             Intent intent = new Intent(getApplicationContext(), ManagerActivity.class);
                             startActivity(intent);
                             finish();
-
-                        }else {
+                        }else { //6-1. 로그인완료시
                             if (!task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "로그인실패", Toast.LENGTH_LONG).show();
                             } else {
@@ -214,6 +219,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                 });
     }
 
+    //7. 맨 처음 구글 & 카카오로그인에 사용되는 메소드
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -232,6 +238,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
         }
     }//onActivityResult_end
 
+    //8. 구글로그인연동에 사용되는 두번째
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -258,16 +265,21 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                 });
     }//firebaseAuthWithGoogle_end
 
+
+    //9. firebase연결실패시 메소드
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }//onConnectionFailed_end
 
+
+    //10. firebase계정 로그아웃 메소드
     @Override
     protected void onStop() {
         super.onStop();
         FirebaseAuth.getInstance().signOut();
     }//onStop_end
 
+    //11. SessionCallback (카카오로그인연동에 사용되는 클래스)
     private class SessionCallback implements ISessionCallback {
         @Override
         public void onSessionOpened() {
@@ -295,12 +307,11 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                 public void onNotSignedUp() {
                 }
 
+                //11-1. 카카오로그인연동 성공시 값 전달& 엑티비티 전환.
                 @Override
                 public void onSuccess(UserProfile userProfile) {
-
                     Log.e("★UserProfile★", userProfile.toString()); //Logcat ==> Debug로 확인가능하다.
                     String name = userProfile.getNickname();
-
                     sessionsp = getSharedPreferences("session", 0);
                     sessionedit = sessionsp.edit();
                     sessionedit.putString("sessionid", userProfile.getNickname()); //아이디값 세션처리
@@ -318,11 +329,14 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
             });
         }
 
+        //11-4. Session실패시
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
         }
     }//SessionCallBack_end
 
+
+    //12. 뒤로가기버튼 클릭시 Main으로 되돌아가는 Override메소드
     @Override
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
