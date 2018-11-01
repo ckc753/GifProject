@@ -113,6 +113,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                     editor.putString("PW", PW);
                     editor.putBoolean("chk_auto", true);
                     editor.commit();
+                    BasicLoginButton.setClickable(false);
                 } else {
                     editor.clear();
                     editor.commit();

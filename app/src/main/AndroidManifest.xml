@@ -12,7 +12,7 @@
     <application
         android:name="com.multi.chlru.gifproject.GlobalApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/giflogo"
+        android:icon="@mipmap/mainlogo3"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"

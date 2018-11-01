@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Fragment2 extends HannaFontFragment implements View.OnClickListener {
     ViewGroup view2;
-    private Button [] cButton = new Button[9];
+    private Button [] cButton = new Button[12];
     private ArrayList<String> cDataList;
     Fragment fragment_cat;
 
@@ -32,8 +32,11 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
         cButton[6] = (Button) view2.findViewById(R.id.CBtn7);
         cButton[7] = (Button) view2.findViewById(R.id.CBtn8);
         cButton[8] = (Button) view2.findViewById(R.id.CBtn9);
+        cButton[9] = (Button) view2.findViewById(R.id.CBtn10);
+        cButton[10] = (Button) view2.findViewById(R.id.CBtn11);
+        cButton[11] = (Button) view2.findViewById(R.id.CBtn12);
 
-        for (int i = 0; i <9 ; i++) {
+        for (int i = 0; i <12 ; i++) {
             //버튼의 포지션(배열에서의 index)를 태그로 저장
             cButton[i].setTag(i);
 

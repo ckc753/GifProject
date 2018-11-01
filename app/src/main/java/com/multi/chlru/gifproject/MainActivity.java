@@ -473,8 +473,14 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         switch (pos) {
             case 0:
                 sweetalert = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
-                sweetalert.setTitleText("＊＊＊ 2018/10/16공지 ＊＊＊");
-                sweetalert.setContentText("어플이 개발중입니다! \n 곧 움짤어플이 출시될 예정이오니 많은 관심바랍니다. ^_^");
+                sweetalert.setTitleText("＊＊＊ 2018/11/01 업데이트 완료 ＊＊＊");
+                sweetalert.setContentText("- 새롭게 업데이트되었습니다.\n" +
+                        "- 움짤이름 부분검색시, 해당 검색어 파란색상표시.\n" +
+                        "- 메뉴슬라이드 \"앱 사용방법& 주의사항\" 메뉴추가.\n" +
+                        "- 회원가입시, 비밀번호 \"유효성검사\" 적용.\n" +
+                        "- 회원가입시, 이메일 \"가입여부확인\" 적용.\n" +
+                        "- 회원가입시, 이메일 정규식을 통해 \"특수문자 제외\"\n" +
+                        "- 스플래시화면 디자인변경.");
                 sweetalert.setConfirmText("확인");
                 sweetalert.show();
                 break;
