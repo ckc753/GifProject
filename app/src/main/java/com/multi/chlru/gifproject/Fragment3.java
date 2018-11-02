@@ -34,6 +34,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +60,11 @@ public class Fragment3 extends HannaFontFragment {
     InputMethodManager mInputMethodManager;
     String member; //내가올린자료를 위한 pk값을 저장할 변수
     ArrayList<String> arr;
+    String gifdown;
+    String jpgdown;
+    ProgressDialog progressDialog;
+    String file;
+    String filename;
 
     @Nullable
     @Override
@@ -133,86 +140,130 @@ public class Fragment3 extends HannaFontFragment {
 
     //5. 업로드 기능
     private void uploadFile() {
-        if ((filePath != null)&&(editText.getText().toString().length()!=0)) {
+        if ((filePath != null) && (editText.getText().toString().length() != 0)) {
             //5.1 ProgressDialog 생성
-            final ProgressDialog progressDialog = new ProgressDialog(getContext());
+            progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("업로드중...");
             progressDialog.show();
 
-            //5.2 Storage경로에 (SimpleDateFormat Type).gif으로 파일명 설정하고 gifManager에 위에서 1개 끊어서 조회.
-            SimpleDateFormat Dateformat = new SimpleDateFormat("yyyyMMddHHmmss");
-            Date now = new Date();
-            final String file = Dateformat.format(now);
-            final String filename = file + ".gif";
-            final StorageReference storageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com").child(filename);
-            myquery = databaseReference.child("gifManager").orderByChild("number").limitToFirst(1);
-            myquery.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    // count=(int) dataSnapshot.getChildrenCount();
-                    GifItem gitem = dataSnapshot.getValue(GifItem.class);
-                    count=gitem.getNumber();
-                }
+                //5.2 Storage경로에 (SimpleDateFormat Type).gif으로 파일명 설정하고 gifManager에 위에서 1개 끊어서 조회.
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                }
+                final StorageReference storageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com").child("GIF").child(filename);
+                myquery = databaseReference.child("gifManager").orderByChild("number").limitToFirst(1);
+                myquery.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        // count=(int) dataSnapshot.getChildrenCount();
+                        GifItem gitem = dataSnapshot.getValue(GifItem.class);
+                        count = gitem.getNumber();
+                    }
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                }
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    }
 
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                }
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-            //6.1 업로드 완료시 ProgressDialog종료
-            storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.cancel();
-                    Toast.makeText(getContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
-                    String down = String.valueOf(taskSnapshot.getDownloadUrl());
-                    GifItem gitem = new GifItem(down, filename, editText.getText().toString(), file,count-1,category,member);
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    }
 
-                    //6.2 gifManager DB에 Push
-                    databaseReference.child("gifManager").push().setValue(gitem); //DB값 넣기
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+                //6.1 업로드 완료시 ProgressDialog종료
 
-                    //6.3 업로드창 초기화
-                    editText.setText("");
-                    img.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher_round));
-                    filePath=null;
-                    mInputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);//키보드 내리기
-                    mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                       /* progressDialog.cancel();
+                        Toast.makeText(getContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();*/
+                        gifdown = String.valueOf(taskSnapshot.getDownloadUrl());
+                        uploadjpgFile();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        @SuppressWarnings("visibleForTests")
+                        //6.4 ProgressDialog 이벤트
+                                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    @SuppressWarnings("visibleForTests")
-                    //6.4 ProgressDialog 이벤트
-                            double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+                    }
+                });
 
-                }
-            });
-            Log.d("태그", " 파일명 : " + filename);
-        } else if((filePath != null)&&(editText.getText().toString().length()==0)){
-            Toast.makeText(getContext(), "움짤제목을 정해주세요!!", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getContext(), "파일을 선택하세요!!", Toast.LENGTH_SHORT).show();
+                Log.d("태그", " 파일명 : " + filename);
+
+            } else if ((filePath != null) && (editText.getText().toString().length() == 0)) {
+                Toast.makeText(getContext(), "움짤제목을 정해주세요!!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "파일을 선택하세요!!", Toast.LENGTH_SHORT).show();
+            }
         }
+/////////////////////////////////////////////////////이미지 업로드
+    private void uploadjpgFile() {
+            //5.1 ProgressDialog 생성
+            /*final ProgressDialog progressDialog = new ProgressDialog(getContext());
+            progressDialog.setTitle("업로드중...");
+            progressDialog.show();*/
+            try {
+                //5.2 Storage경로에 (SimpleDateFormat Type).gif으로 파일명 설정하고 gifManager에 위에서 1개 끊어서 조회.
+
+                final StorageReference storageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com").child("JPG").child(filename);
+                Bitmap bitmapjpg = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmapjpg.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                byte[] data = baos.toByteArray();
+
+
+                //6.1 jpg업로드 완료시 ProgressDialog종료
+
+                storageRef.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.cancel();
+                        Toast.makeText(getContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+                        jpgdown = String.valueOf(taskSnapshot.getDownloadUrl());
+                        GifItem gitem = new GifItem(jpgdown,gifdown, filename, editText.getText().toString(), file, count - 1, category, member);
+
+                        //6.2 gifManager DB에 Push
+                        databaseReference.child("gifManager").push().setValue(gitem); //DB값 넣기
+
+                        //6.3 업로드창 초기화
+                        editText.setText("");
+                        img.setImageDrawable(getResources().getDrawable(R.drawable.zzari3));
+                        filePath = null;
+                        mInputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);//키보드 내리기
+                        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });/*.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        @SuppressWarnings("visibleForTests")
+                        //6.4 ProgressDialog 이벤트
+                                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+
+                    }
+                });*/
+
+                Log.d("태그", " 파일명 : " + file);
+            }catch(IOException e){}
+
     }
-
-
+    //////////////////////
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -223,6 +274,10 @@ public class Fragment3 extends HannaFontFragment {
                 Log.d("TAG!!", "uri : " + String.valueOf(filePath) + " 파일명 입니다");
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
                 img.setImageBitmap(bitmap);
+                SimpleDateFormat Dateformat = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date now = new Date();
+                file = Dateformat.format(now);
+                filename=file+"gifmarket";
             } catch (IOException e) {
                 e.printStackTrace();
             }catch (NullPointerException e1){

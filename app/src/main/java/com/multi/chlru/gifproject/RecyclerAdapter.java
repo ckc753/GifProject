@@ -63,7 +63,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
             holder.title.setText(items.get(position).getGifname());
         }
         Glide.with(context)
-                .load(Uri.parse(items.get(position).getDownloadUrl()))
+                .load(Uri.parse(items.get(position).getJpgUrl()))
                 .into(holder.image);
         //1. 카드뷰클릭시, BigImageActivity이동 (이미지커지도록)
         holder.cardview.setOnClickListener(new View.OnClickListener() {

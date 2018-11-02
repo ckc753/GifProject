@@ -91,7 +91,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
 
         holder.title.setText(items.get(position).getGifname());
         Glide.with(context)
-                .load(Uri.parse(items.get(position).getDownloadUrl()))
+                .load(Uri.parse(items.get(position).getJpgUrl()))
                 .into(holder.image);
         //2. cardView클릭시, BigImageActivity이동 (이미지커지도록)
         holder.cardview.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +100,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
 
                 Intent intent = new Intent(context,BigImageActivity.class);
                 intent.putExtra("url",urladd);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 
             }
@@ -111,8 +112,8 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
                 //Toast.makeText(context, "!!"+String.valueOf(count), Toast.LENGTH_SHORT).show();
                 delete_content(position);
                // Toast.makeText(context, "삭제!! "+items.get(position).getPkKey(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "삭제!! "+items.get(position).getMember(), Toast.LENGTH_SHORT).show();
-               Toast.makeText(context, "삭제!! "+items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, "삭제!! "+items.get(position).getMember(), Toast.LENGTH_SHORT).show();
+             //  Toast.makeText(context, "삭제!! "+items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
                // Toast.makeText(context, "번호!! "+String.valueOf(position), Toast.LENGTH_SHORT).show();
 
             }
@@ -121,7 +122,7 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
         holder.agreeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String jpgUrl=items.get(position).getJpgUrl();
                 String downloadUrl=items.get(position).getDownloadUrl();
                 String filename=items.get(position).getFilename();
                 String gifname=items.get(position).getGifname();
@@ -129,11 +130,11 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
                 String category=items.get(position).getCategory();
                 String member=items.get(position).getMember();
                 //Toast.makeText(context, "카테고리 : "+category, Toast.LENGTH_SHORT).show();
-                GifItem gitem = new GifItem(downloadUrl, filename, gifname, day,count-1,category,member);
+                GifItem gitem = new GifItem(jpgUrl,downloadUrl, filename, gifname, day,count-1,category,member);
                 //gifItem gitem = new gifItem(filename, editText.getText().toString(), file);
                 databaseReference.child("gif").push().setValue(gitem); //승인클릭시 아래의 메소드로인해 gifManager db삭제& 또 gif db항목으로 하나입력됨.
                 delete_db(position);
-                Toast.makeText(context, "승인!! "+items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "승인!! "+items.get(position).getGifname(), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -148,20 +149,21 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
     }
     ////////////////////////////////////////삭제메소드
 
-    //5.1 삭제메소드 (Storage삭제)
+    //5.1 삭제메소드 (Storage gif삭제)
     private void delete_content(final int position) {
         //Toast.makeText(context, items.get(position).getFilename()+" 삭제하자 "+String.valueOf(storage.getReference()), Toast.LENGTH_SHORT).show();
-        storage.getReference().child(items.get(position).getFilename()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+        storage.getReference().child("GIF").child(items.get(position).getFilename()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
 
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(context, "삭제 완료", Toast.LENGTH_SHORT).show();
-                delete_db(position); //삭제버튼클릭시 -> 스토리지삭제 -> DB삭제
+                //Toast.makeText(context, "삭제 완료", Toast.LENGTH_SHORT).show();
+                delete_content_jpg(position);
+               // delete_db(position); //삭제버튼클릭시 -> 스토리지삭제 -> DB삭제
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "삭제 실패", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "삭제 실패", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -182,5 +184,22 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
             }
         });
 
+    }
+    //5.3 삭제메소드 (Storage jpg삭제)
+    private void delete_content_jpg(final int position) {
+        //Toast.makeText(context, items.get(position).getFilename()+" 삭제하자 "+String.valueOf(storage.getReference()), Toast.LENGTH_SHORT).show();
+        storage.getReference().child("JPG").child(items.get(position).getFilename()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, "삭제 완료", Toast.LENGTH_SHORT).show();
+                delete_db(position); //삭제버튼클릭시 -> 스토리지삭제 -> DB삭제
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, "삭제 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

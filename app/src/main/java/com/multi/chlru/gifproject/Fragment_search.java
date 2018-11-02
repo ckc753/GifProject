@@ -67,12 +67,13 @@ public class Fragment_search extends HannaFontFragment {
 
                 final GifItem gitem = dataSnapshot.getValue(GifItem.class);//Gifitem형식으로 데이터 받아옴
                 final String url = gitem.getDownloadUrl();//url주소
+                final String jpgurl=gitem.getJpgUrl();
                 final String filename = gitem.getFilename();//파일이름(ex)sample.gif
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
                 if(name.contains(search)){
-                    adapter.addItem(new GifItem(url, filename, name, day, number));//변화값 adapter에 추가
+                    adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
                     adapter.notifyDataSetChanged();}
             }
 

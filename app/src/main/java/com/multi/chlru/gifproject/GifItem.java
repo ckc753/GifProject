@@ -10,10 +10,12 @@ public class GifItem {
     private String category;
     private String pkKey;  //필요X
     private String member; //pk값을 저장할 변수추가 (ManagerActivity와 ManagerRecyclerAdapter에 member추가된 생성자로 변경)
+    private String jpgUrl;
 
     public GifItem() {
     }
-    public GifItem(String downloadUrl, String filename, String gifname,String day,int number,String category,String member,String pkKey) {
+    public GifItem(String jpgUrl,String downloadUrl, String filename, String gifname,String day,int number,String category,String member,String pkKey) {
+        this.jpgUrl=jpgUrl;
         this.downloadUrl = downloadUrl;
         this.filename = filename;
         this.gifname = gifname;
@@ -23,7 +25,8 @@ public class GifItem {
         this.member=member;
         this.pkKey=pkKey;
     }
-    public GifItem(String downloadUrl, String filename, String gifname,String day,int number,String category,String member) {
+    public GifItem(String jpgUrl,String downloadUrl, String filename, String gifname,String day,int number,String category,String member) {
+        this.jpgUrl=jpgUrl;
         this.downloadUrl = downloadUrl;
         this.filename = filename;
         this.gifname = gifname;
@@ -32,13 +35,22 @@ public class GifItem {
         this.category=category;
         this.member=member;
     }
-    public GifItem(String downloadUrl, String filename, String gifname,String day,int number) {
+    public GifItem(String jpgUrl,String downloadUrl, String filename, String gifname,String day,int number) {
+        this.jpgUrl=jpgUrl;
         this.downloadUrl = downloadUrl;
         this.filename = filename;
         this.gifname = gifname;
         this.day=day;
         this.number=number;
 
+    }
+
+    public String getJpgUrl() {
+        return jpgUrl;
+    }
+
+    public void setJpgUrl(String jpgUrl) {
+        this.jpgUrl = jpgUrl;
     }
 
     public String getMember() {

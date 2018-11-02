@@ -35,8 +35,9 @@ public class DownGif {
         StorageReference StorageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com");
 
         //다운로드할 파일을 가르키는 참조 만들기
-        StorageReference pathRef = StorageRef.child(gif);
+        StorageReference pathRef = StorageRef.child("GIF").child(gif);
         //Url을 다운받기
+
         pathRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
