@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     Context context;
     int item_layout;
-    final String folderName = "움짤공방";
+    final String folderName = "움짤마켓";
     String search;
     private ArrayList<GifItem> items = new ArrayList<GifItem>();
 
