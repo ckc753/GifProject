@@ -84,13 +84,13 @@
                 <TextView
                     android:id="@+id/message_4"
                     style="@style/CustomTextView"
-                    android:text="2. 워터마크가 박혀있는 사진도 안돼요.." />
+                    android:text="2. 중복된 움짤일 경우도 승인이 안될 수 있습니당.." />
 
                 <TextView
                     android:id="@+id/message_5"
 
                     style="@style/CustomTextView"
-                    android:text="3. 제목이 너무 노잼이어도 탈락..\n여러분의 센스를 믿습니다. ^_^" />
+                    android:text="3. 제목이랑 움짤이 매치가 안되는 경우 제목이 바뀔수 있어요..\n여러분의 센스를 믿습니다. ^_^" />
             </LinearLayout>
 
         </LinearLayout>

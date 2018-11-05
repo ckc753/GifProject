@@ -323,7 +323,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
 
         //7. 상단에 3가지 Tab 기능 설정.
         tabs = (TabLayout) findViewById(R.id.tabs);
-        tabs.addTab(tabs.newTab().setText("베스트 움짤"));
+        tabs.addTab(tabs.newTab().setText("오늘의 움짤"));
         tabs.addTab(tabs.newTab().setText("주제별 움짤"));
         tabs.addTab(tabs.newTab().setText("업로드 하기"));
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
