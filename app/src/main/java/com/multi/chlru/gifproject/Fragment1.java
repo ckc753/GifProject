@@ -63,15 +63,7 @@ public class Fragment1 extends HannaFontFragment {
             }
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                final GifItem gitem = dataSnapshot.getValue(GifItem.class);
-                final String url = gitem.getDownloadUrl();
-                final String jpgurl=gitem.getJpgUrl();
-                final String filename = gitem.getFilename();
-                final String name = gitem.getGifname();
-                final String day = gitem.getDay();
-                final int number = gitem.getNumber();
-                adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));
-                adapter.notifyDataSetChanged();
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
