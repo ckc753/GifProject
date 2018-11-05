@@ -41,7 +41,7 @@ public class Fragment1 extends HannaFontFragment {
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
+        myquery = databaseReference.child("gif").orderByChild("number").limitToFirst(30);//gif 밑 number값으로 sort
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {//DB에 추가 있을때마다 실행
