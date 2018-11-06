@@ -126,10 +126,10 @@ public class SignActivity extends HannaFontActivity {
 
                     String pw1=String.valueOf(editTextPw.getText());
                     String pw2=String.valueOf(editTextPw2.getText());
-                    if(pw1.equals(pw2)){
+                    if(pw1.equals(pw2)&&pw1.getBytes().length>0){
                         String str="비밀번호 확인 완료";
                         pwsucess.setText(str);
-                    }else{
+                    }else if(!(pw1.equals(pw2))&&pw1.getBytes().length>0){
                         String str="비밀번호를 다시 확인하세요";
                         sb.append(str);
                         sb.setSpan(new ForegroundColorSpan(Color.parseColor("#FF4081")),0,str.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -147,10 +147,10 @@ public class SignActivity extends HannaFontActivity {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String pw1=String.valueOf(editTextPw.getText());
                     String pw2=String.valueOf(editTextPw2.getText());
-                    if(pw1.equals(pw2)){
+                    if(pw1.equals(pw2)&&pw1.getBytes().length>0){
                         String str="비밀번호 확인 완료";
                         pwsucess.setText(str);
-                    }else{
+                    }else if(!(pw1.equals(pw2))&&pw1.getBytes().length>0){
                         String str="비밀번호를 다시 확인하세요";
                         sb.append(str);
                         sb.setSpan(new ForegroundColorSpan(Color.parseColor("#FF4081")),0,str.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

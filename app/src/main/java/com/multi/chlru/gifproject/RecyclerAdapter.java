@@ -62,6 +62,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         }else {
             holder.title.setText(items.get(position).getGifname());
         }
+       // Toast.makeText(context,String.valueOf(position)+" : "+String.valueOf(items.get(position).getJpgUrl()+" : "+String.valueOf(items.get(position).getGifname())),Toast.LENGTH_LONG).show();
         Glide.with(context)
                 .load(Uri.parse(items.get(position).getJpgUrl()))
                 .into(holder.image);
