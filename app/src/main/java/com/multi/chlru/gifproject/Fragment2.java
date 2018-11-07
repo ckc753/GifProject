@@ -17,6 +17,10 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
     private ArrayList<String> cDataList;
     Fragment fragment_cat;
 
+    public Fragment2() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
@@ -56,7 +57,7 @@ public class Fragment3 extends HannaFontFragment {
     int count;
     Spinner spinner;
     String category;
-    private Button [] cButton = new Button[11];
+    private Button[] cButton = new Button[11];
     InputMethodManager mInputMethodManager;
     String member; //내가올린자료를 위한 pk값을 저장할 변수
     ArrayList<String> arr;
@@ -66,6 +67,11 @@ public class Fragment3 extends HannaFontFragment {
     String file;
     String filename;
 
+
+    public Fragment3() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,8 +79,8 @@ public class Fragment3 extends HannaFontFragment {
         ViewGroup view2 = (ViewGroup) inflater.inflate(R.layout.fragment2, container, false);
 
         //1. 사용자의 고유 pk값저장(카카오, 구글, firebase유저의 pk값)
-        member=getArguments().getString("pkid");
-        arr=new ArrayList<String>();
+        member = getArguments().getString("pkid");
+        arr = new ArrayList<String>();
         cButton[0] = (Button) view2.findViewById(R.id.CBtn1);
         cButton[1] = (Button) view2.findViewById(R.id.CBtn2);
         cButton[2] = (Button) view2.findViewById(R.id.CBtn3);
@@ -87,7 +93,7 @@ public class Fragment3 extends HannaFontFragment {
         cButton[9] = (Button) view2.findViewById(R.id.CBtn10);
         cButton[10] = (Button) view2.findViewById(R.id.CBtn11);
 
-        for(int i =0; i<11;i++){
+        for (int i = 0; i < 11; i++) {
             arr.add(cButton[i].getText().toString());
         }
 
@@ -100,16 +106,17 @@ public class Fragment3 extends HannaFontFragment {
         editText = (EditText) view3.findViewById(R.id.editText);
 
         //2. 스피너클릭시 arr배열의 위치를 가져오도록한다.
-        spinner=(Spinner)view3.findViewById(R.id.spin);
+        spinner = (Spinner) view3.findViewById(R.id.spin);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, arr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-                category =arr.get(position);
+                category = arr.get(position);
                 // Toast.makeText(getContext(), "확인합시다! "+category, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -146,109 +153,110 @@ public class Fragment3 extends HannaFontFragment {
             progressDialog.setTitle("업로드중...");
             progressDialog.show();
 
-                //5.2 Storage경로에 (SimpleDateFormat Type).gif으로 파일명 설정하고 gifManager에 위에서 1개 끊어서 조회.
+            //5.2 Storage경로에 (SimpleDateFormat Type).gif으로 파일명 설정하고 gifManager에 위에서 1개 끊어서 조회.
 
-                final StorageReference storageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com").child("GIF").child(filename);
-                myquery = databaseReference.child("gifManager").orderByChild("number").limitToFirst(1);
-                myquery.addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        // count=(int) dataSnapshot.getChildrenCount();
-                        GifItem gitem = dataSnapshot.getValue(GifItem.class);
-                        count = gitem.getNumber();
-                    }
+            final StorageReference storageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com").child("GIF").child(filename);
+            myquery = databaseReference.child("gifManager").orderByChild("number").limitToFirst(1);
+            myquery.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    // count=(int) dataSnapshot.getChildrenCount();
+                    GifItem gitem = dataSnapshot.getValue(GifItem.class);
+                    count = gitem.getNumber();
+                }
 
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    }
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
 
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    }
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
 
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-                //6.1 업로드 완료시 ProgressDialog종료
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+            //6.1 업로드 완료시 ProgressDialog종료
 
-                storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                        /* progressDialog.cancel();
                         Toast.makeText(getContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();*/
-                        gifdown = String.valueOf(taskSnapshot.getDownloadUrl());
-                        uploadjpgFile();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        @SuppressWarnings("visibleForTests")
-                        //6.4 ProgressDialog 이벤트
-                                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                        progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+                    gifdown = String.valueOf(taskSnapshot.getDownloadUrl());
+                    uploadjpgFile();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    @SuppressWarnings("visibleForTests")
+                    //6.4 ProgressDialog 이벤트
+                            double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                    progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
 
-                    }
-                });
+                }
+            });
 
-                Log.d("태그", " 파일명 : " + filename);
+            Log.d("태그", " 파일명 : " + filename);
 
-            } else if ((filePath != null) && (editText.getText().toString().length() == 0)) {
-                Toast.makeText(getContext(), "움짤제목을 정해주세요!!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "파일을 선택하세요!!", Toast.LENGTH_SHORT).show();
-            }
+        } else if ((filePath != null) && (editText.getText().toString().length() == 0)) {
+            Toast.makeText(getContext(), "움짤제목을 정해주세요!!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "파일을 선택하세요!!", Toast.LENGTH_SHORT).show();
         }
-/////////////////////////////////////////////////////이미지 업로드
+    }
+
+    /////////////////////////////////////////////////////이미지 업로드
     private void uploadjpgFile() {
-            //5.1 ProgressDialog 생성
+        //5.1 ProgressDialog 생성
             /*final ProgressDialog progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("업로드중...");
             progressDialog.show();*/
-            try {
-                //5.2 Storage경로에 (SimpleDateFormat Type).gif으로 파일명 설정하고 gifManager에 위에서 1개 끊어서 조회.
+        try {
+            //5.2 Storage경로에 (SimpleDateFormat Type).gif으로 파일명 설정하고 gifManager에 위에서 1개 끊어서 조회.
 
-                final StorageReference storageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com").child("JPG").child(filename);
-                Bitmap bitmapjpg = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmapjpg.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-                byte[] data = baos.toByteArray();
+            final StorageReference storageRef = storage.getReferenceFromUrl("gs://gifproject-60db8.appspot.com").child("JPG").child(filename);
+            Bitmap bitmapjpg = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), filePath);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmapjpg.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            byte[] data = baos.toByteArray();
 
 
-                //6.1 jpg업로드 완료시 ProgressDialog종료
+            //6.1 jpg업로드 완료시 ProgressDialog종료
 
-                storageRef.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.cancel();
-                        Toast.makeText(getContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
-                        jpgdown = String.valueOf(taskSnapshot.getDownloadUrl());
-                        GifItem gitem = new GifItem(jpgdown,gifdown, filename, editText.getText().toString(), file, count - 1, category, member);
+            storageRef.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.cancel();
+                    Toast.makeText(getContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+                    jpgdown = String.valueOf(taskSnapshot.getDownloadUrl());
+                    GifItem gitem = new GifItem(jpgdown, gifdown, filename, editText.getText().toString(), file, count - 1, category, member);
 
-                        //6.2 gifManager DB에 Push
-                        databaseReference.child("gifManager").push().setValue(gitem); //DB값 넣기
+                    //6.2 gifManager DB에 Push
+                    databaseReference.child("gifManager").push().setValue(gitem); //DB값 넣기
 
-                        //6.3 업로드창 초기화
-                        editText.setText("");
-                        img.setImageDrawable(getResources().getDrawable(R.drawable.zzari3));
-                        filePath = null;
-                        mInputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);//키보드 내리기
-                        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    //6.3 업로드창 초기화
+                    editText.setText("");
+                    img.setImageDrawable(getResources().getDrawable(R.drawable.zzari3));
+                    filePath = null;
+                    mInputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);//키보드 내리기
+                    mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });/*.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });/*.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                         @SuppressWarnings("visibleForTests")
@@ -259,10 +267,12 @@ public class Fragment3 extends HannaFontFragment {
                     }
                 });*/
 
-                Log.d("태그", " 파일명 : " + file);
-            }catch(IOException e){}
+            Log.d("태그", " 파일명 : " + file);
+        } catch (IOException e) {
+        }
 
     }
+
     //////////////////////
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -277,12 +287,12 @@ public class Fragment3 extends HannaFontFragment {
                 SimpleDateFormat Dateformat = new SimpleDateFormat("yyyyMMddHHmmss");
                 Date now = new Date();
                 file = Dateformat.format(now);
-                filename=file+"gifmarket";
+                filename = file + "gifmarket";
             } catch (IOException e) {
                 e.printStackTrace();
-            }catch (NullPointerException e1){
+            } catch (NullPointerException e1) {
                 e1.printStackTrace();
-                Log.e("exception : "," nullpoint 널널널널");
+                Log.e("exception : ", " nullpoint 널널널널");
             }
         }
     }

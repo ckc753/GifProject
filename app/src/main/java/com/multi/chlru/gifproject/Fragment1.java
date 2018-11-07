@@ -29,15 +29,19 @@ public class Fragment1 extends HannaFontFragment {
     RecyclerView recycler;
     Context context;
 
+    public Fragment1() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup view1 = (ViewGroup) inflater.inflate(R.layout.fragment1, container, false);
-        recycler=(RecyclerView)view1.findViewById(R.id.recycler);//리사이클러뷰
+        recycler = (RecyclerView) view1.findViewById(R.id.recycler);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
-        context=getContext();
-        adapter = new RecyclerAdapter(context,getActivity());//adapter
-        recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
+        context = getContext();
+        adapter = new RecyclerAdapter(context, getActivity());//adapter
+        recycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -47,24 +51,28 @@ public class Fragment1 extends HannaFontFragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {//DB에 추가 있을때마다 실행
                 final GifItem gitem = dataSnapshot.getValue(GifItem.class);//Gifitem형식으로 데이터 받아옴
                 final String url = gitem.getDownloadUrl();//url주소
-                final String jpgurl=gitem.getJpgUrl();
+                final String jpgurl = gitem.getJpgUrl();
                 final String filename = gitem.getFilename();//파일이름(ex)sample.gif
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
-                adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
+                adapter.addItem(new GifItem(jpgurl, url, filename, name, day, number));//변화값 adapter에 추가
                 adapter.notifyDataSetChanged();
             }
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             }
+
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
             }
+
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
