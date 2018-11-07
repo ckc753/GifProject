@@ -1,16 +1,21 @@
 package com.multi.chlru.gifproject;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
-public class Fragment_member extends HannaFontFragment implements MainActivity.onBackPressedListener{
+public class MemberActivity extends HannaFontActivity{
     Fragment fragment1;
     RecyclerAdapter adapter;
     FirebaseStorage storage;
@@ -29,27 +34,33 @@ public class Fragment_member extends HannaFontFragment implements MainActivity.o
     Query myquery;
     RecyclerView recycler;
     Context context;
+    String pkid;
 
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final ViewGroup view_cat = (ViewGroup) inflater.inflate(R.layout.fragment_cat, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_member);
+        /*final ViewGroup view_cat = (ViewGroup) inflater.inflate(R.layout.fragment_cat, container, false);
         fragment1 = new Fragment1();
-        String pkid = getArguments().getString("pkid");
+        String pkid = getArguments().getString("pkid");*/
         // Toast.makeText(getContext(),"Buttonname="+Buttonname, Toast.LENGTH_SHORT).show();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        recycler=(RecyclerView)view_cat.findViewById(R.id.recycler_cat);//리사이클러뷰
+        recycler=(RecyclerView)findViewById(R.id.memberrecycler);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
-        context=getContext();
-        adapter = new RecyclerAdapter(context);//adapter
-        recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
+        context=getApplicationContext();
+        adapter = new RecyclerAdapter(getApplicationContext(),MemberActivity.this);//adapter
+        recycler.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
+        pkid =getIntent().getStringExtra("pkid");
+       // Toast.makeText(getApplicationContext(),pkid,Toast.LENGTH_SHORT).show();
         myquery = databaseReference.child("gif").orderByChild("member").equalTo(pkid);//gif아래에 member값으로 sort(현재사용중인 pkid값과 같은 것만)
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {//DB에 추가 있을때마다 실행
+
                 final GifItem gitem = dataSnapshot.getValue(GifItem.class);//Gifitem형식으로 데이터 받아옴
                 final String url = gitem.getDownloadUrl();//url주소
                 final String jpgurl=gitem.getJpgUrl();
@@ -57,11 +68,13 @@ public class Fragment_member extends HannaFontFragment implements MainActivity.o
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
+                //Toast.makeText(getApplicationContext(),jpgurl+" "+url+" "+filename+" "+name+" "+day+" "+number,Toast.LENGTH_LONG).show();
                 adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
                 adapter.notifyDataSetChanged();
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
@@ -74,32 +87,31 @@ public class Fragment_member extends HannaFontFragment implements MainActivity.o
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        return view_cat;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.membertoolbar);
+        setSupportActionBar(toolbar); //activity_main.xml의 액션바부분에 toolbar를 적용시킨다.
+        getSupportActionBar().setDisplayShowTitleEnabled(false); //기본 타이틀 보여줄지 말지 설정
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 툴바를 이용한 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김 https://dreamaz.tistory.com/109
     }
 
     @Override
-    public void onBack() {
-        Log.e("Other","onBack()");
-        //리스너를 설정하기 위해 Activity 받기
-        MainActivity activity = (MainActivity)getActivity();
-        //한번 뒤로가기 버튼을 누르면 Listner를 null로 해제
-        activity.setOnBackPressedListener(null);
-        //Mainframent(우리는 Fragment1)로 교체
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
-    }
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }else if(id == android.R.id.home){ //1.4.1 home은 툴바(액션바)를 클릭했을경우이고, 나머지는 메뉴툴바이다.
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }//액션바 뒤로가기도 생성
+    //12. 뒤로가기버튼 클릭시 Main으로 되돌아가는 Override메소드
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.e("Other","onAttach()");
-        ((MainActivity)context).setOnBackPressedListener(this);
-    }
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        finish();
 
-    @Override
-    public void onDetach() {
-        MainActivity activity = (MainActivity)getActivity();
-        //한번 뒤로가기 버튼을 누르면 Listner를 null로 해제
-        activity.setOnBackPressedListener(null);
-        super.onDetach();
+
+
     }
 }

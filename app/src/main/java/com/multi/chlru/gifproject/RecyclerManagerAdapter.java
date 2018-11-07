@@ -109,6 +109,8 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
         holder.delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                holder.agreeBtn.setClickable(false);
+                holder.delBtn.setClickable(false);
                 //Toast.makeText(context, "!!"+String.valueOf(count), Toast.LENGTH_SHORT).show();
                 delete_content(position);
                // Toast.makeText(context, "삭제!! "+items.get(position).getPkKey(), Toast.LENGTH_SHORT).show();
@@ -122,6 +124,8 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
         holder.agreeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                holder.agreeBtn.setClickable(false);
+                holder.delBtn.setClickable(false);
                 String jpgUrl=items.get(position).getJpgUrl();
                 String downloadUrl=items.get(position).getDownloadUrl();
                 String filename=items.get(position).getFilename();

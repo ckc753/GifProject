@@ -36,7 +36,7 @@ public class CategoryActivity extends HannaFontActivity {
         recycler=(RecyclerView)findViewById(R.id.recycler);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         context=this;
-        adapter = new RecyclerAdapter(context);//adapter
+        adapter = new RecyclerAdapter(context,CategoryActivity.this);//adapter
         recycler.setLayoutManager(new GridLayoutManager(this,2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
         firebaseDatabase = FirebaseDatabase.getInstance();

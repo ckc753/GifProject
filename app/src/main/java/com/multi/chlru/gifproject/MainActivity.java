@@ -144,7 +144,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         Logger.e("Release Google_Signing keyHash: " + Base64.encodeToString(sha2, Base64.NO_WRAP));
 
         //1. 앱실행시 직접적으로 저장권한설정 메소드
-        checkPermission();
+        //checkPermission();
 
         //Toast.makeText(getApplicationContext(), pkid, Toast.LENGTH_LONG).show();
         auth = FirebaseAuth.getInstance();
@@ -157,7 +157,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         fragment3 = new Fragment3();
         fragment_search = new Fragment_search();
         fragment_search2 = new Fragment_search2();
-        fragment_member = new Fragment_member();
+        //fragment_member = new MemberActivity();
         editText = (EditText) findViewById(R.id.editText);
 
         //2-1. 검색버튼으로 검색시작////////////////////////////////////////////
@@ -374,20 +374,22 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
     ////////////////////////////////////////////////////
 
     //권한설정 시작//////////////////////////////////////////////////////////////////
-    private void checkPermission() {
+    void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                new AlertDialog.Builder(this).setTitle("알림").setMessage("저장소 권한이 거부되었습니다. 사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.").setNeutralButton("설정", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(this).setTitle("알림").setMessage("저장소 권한이 거부되었습니다. 저장기능을 사용하시려면 해당 권한을 직접 허용하셔야 합니다.").setNeutralButton("설정", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        /*Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         intent.setData(Uri.parse("package:" + getPackageName()));
-                        startActivity(intent);
+                        startActivity(intent);*/
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSON_STORAGE);
                     }
                 }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
+
+                        //finish();
                     }
                 }).setCancelable(false).create().show();
             } else {
@@ -502,10 +504,14 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                 break;
             case 4:
 
-                Bundle searchbundle = new Bundle();
+              /*  Bundle searchbundle = new Bundle();
                 searchbundle.putString("pkid", pkid);
                 fragment_member.setArguments(searchbundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_member).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_member).commit();*/
+                Intent intent = new Intent(getApplicationContext(), MemberActivity.class);
+                intent.putExtra("pkid",pkid);
+                startActivity(intent);
+                finish();
                 break;
         }
     }//show_end
