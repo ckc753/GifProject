@@ -43,7 +43,7 @@ public class Fragment_cat extends HannaFontFragment implements MainActivity.onBa
         recycler=(RecyclerView)view_cat.findViewById(R.id.recycler_cat);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         context=getContext();
-        adapter = new RecyclerAdapter(context);//adapter
+        adapter = new RecyclerAdapter(context,getActivity());//adapter
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
         myquery = databaseReference.child("gif").orderByChild("category").equalTo(Buttonname);//gif 밑 category값으로 sort(현재 선택된 Buttonname값과 같은 것만)

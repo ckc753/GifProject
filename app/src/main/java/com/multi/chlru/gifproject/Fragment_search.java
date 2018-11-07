@@ -49,7 +49,7 @@ public class Fragment_search extends HannaFontFragment {
         recycler=(RecyclerView)view_sear.findViewById(R.id.recycler_sear1);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         context=getContext();
-        adapter = new RecyclerAdapter(context,search);//adapter
+        adapter = new RecyclerAdapter(context,search,getActivity());//adapter
         recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
 

@@ -286,4 +286,11 @@ public class Fragment3 extends HannaFontFragment {
             }
         }
     }
+
+    @Override
+    public void onDetach() {
+        filePath = null;
+        editText.setText("");
+        super.onDetach();
+    }
 }

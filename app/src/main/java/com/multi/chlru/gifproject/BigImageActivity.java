@@ -31,4 +31,9 @@ public class BigImageActivity extends AppCompatActivity{
                 .load(Uri.parse(url))
                 .into(bigimage);
     }
+
+    @Override
+    public void onBackPressed() {
+      finish();
+    }
 }
