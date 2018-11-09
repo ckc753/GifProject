@@ -101,14 +101,21 @@
 
              </LinearLayout>
 
-                <LinearLayout
+            <android.support.v4.view.ViewPager
+                android:id="@+id/containerpage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <!--<LinearLayout
                     android:id="@+id/container2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
 
-
+            </android.support.v4.view.ViewPager>
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>

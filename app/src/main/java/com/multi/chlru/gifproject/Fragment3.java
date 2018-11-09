@@ -77,7 +77,6 @@ public class Fragment3 extends HannaFontFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view3 = (ViewGroup) inflater.inflate(R.layout.fragment3, container, false);
         ViewGroup view2 = (ViewGroup) inflater.inflate(R.layout.fragment2, container, false);
-
         //1. 사용자의 고유 pk값저장(카카오, 구글, firebase유저의 pk값)
         member = getArguments().getString("pkid");
         arr = new ArrayList<String>();
@@ -92,7 +91,7 @@ public class Fragment3 extends HannaFontFragment {
         cButton[8] = (Button) view2.findViewById(R.id.CBtn9);
         cButton[9] = (Button) view2.findViewById(R.id.CBtn10);
         cButton[10] = (Button) view2.findViewById(R.id.CBtn11);
-
+        //Toast.makeText(getContext(), "확인합시다! "+member, Toast.LENGTH_SHORT).show();
         for (int i = 0; i < 11; i++) {
             arr.add(cButton[i].getText().toString());
         }

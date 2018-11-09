@@ -1,6 +1,7 @@
 package com.multi.chlru.gifproject;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +15,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -23,7 +27,9 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -45,7 +51,7 @@ import java.security.NoSuchAlgorithmException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MainActivity extends HannaFontActivity { //한나체 클래스 상속을 통해 폰트적용
+public class MainActivity extends HannaFontActivity{ //한나체 클래스 상속을 통해 폰트적용
     Toolbar toolbar;
     Fragment fragment1;
     Fragment fragment2;
@@ -74,11 +80,15 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
     Intent uploadIntent;
     Intent privacyIntent;
 
+    SectionsPagerAdapter mSectionsPagerAdapter;
+    ViewPager mViewPager;
     //Storage권한 사용할 객체
     private static final int MY_PERMISSON_STORAGE = 1111;
 
     //뒤로가기 버튼 입력시간이 담길long 객체
     private long pressedTime = 0;
+
+
 
     //리스너 생성
     public interface onBackPressedListener {
@@ -128,6 +138,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -137,7 +148,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         final SharedPreferences.Editor sessionedit = sessionsp.edit();
         temp = sessionsp.getString("sessionid", null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
         pkid = sessionsp.getString("sessonpk", null);
-
+        Toast.makeText(getApplicationContext(), "확인합시다! main"+pkid, Toast.LENGTH_SHORT).show();
         //0.2 구글 앱서명키(SHA1) 인코딩 -> 해시키 변환
         //byte[] sha1 = { 0x3B, (byte)0xDA, (byte)0xA0, 0x5B, 0x4F, 0x35, 0x71, 0x02, 0x4E, 0x27, 0x22, (byte)0xB9, (byte)0xAc, (byte)0xB2, 0x77, 0x2F,(byte)0x9D, (byte)0xA9, (byte)0x9B, (byte)0xD9  };
         byte[] sha2 = {0x20, 0x7F, 0x6D, (byte) 0x9A, (byte) 0xB9, 0x36, 0x21, (byte) 0x0A, (byte) 0xEE, 0x14, 0x67, (byte) 0xAC, (byte) 0x92, (byte) 0x96, (byte) 0xE6, (byte) 0xFE, (byte) 0xEC, 0x3F, (byte) 0x94, (byte) 0xF5};
@@ -286,7 +297,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                     sessionedit.commit();
                     temp = sessionsp.getString("sessionid", null);
                     pkid = sessionsp.getString("sessonpk", null);
-                    //Toast.makeText(getApplicationContext(),"로그아웃하셨습니다.",Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getApplicationContext(),"로그아웃하셨습니다.",Toast.LENGTH_LONG).show();
                     drawerLayout.closeDrawer(linearLayout);
                     //로그인시, 업로드창에서 로그아웃하면 이용하지못하도록 Fragment.replace처리
                     TabLayout.Tab tabposition = tabs.getTabAt(0);//tab포지션을 0으로 다시 설정
@@ -319,11 +330,16 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         //로그인기능 설정-끝 /////////////////////////////////////////////////////////////////////
 
         //6. 메인화면 defalut화면을 fragment1로 설정.
-        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment1).commit();
+        //getSupportFragmentManager().beginTransaction().replace(R.id.containerpage, fragment1).commit();
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.containerpage);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
 
         //7. 상단에 3가지 Tab 기능 설정.
         tabs = (TabLayout) findViewById(R.id.tabs);
-        tabs.addTab(tabs.newTab().setText("오늘의 움짤"));
+        tabs.addTab(tabs.newTab().setText("베스트 움짤"));
         tabs.addTab(tabs.newTab().setText("주제별 움짤"));
         tabs.addTab(tabs.newTab().setText("업로드 하기"));
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -337,12 +353,14 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                 } else if (position == 1) {
                     selected = fragment2;
                 } else if (position == 2) {
+                   // Toast.makeText(getApplicationContext(), temp+"로그인하세요"+pkid, Toast.LENGTH_LONG).show();
                     if (temp != null) {
                         Bundle searchbundle = new Bundle();
                         searchbundle.putString("pkid", pkid);
                         fragment3.setArguments(searchbundle);
                         selected = fragment3;
                     } else {
+                       // Toast.makeText(getApplicationContext(), temp+"로그인하세요"+pkid, Toast.LENGTH_LONG).show();
                         //Toast.makeText(getApplicationContext(), "로그인하세요", Toast.LENGTH_LONG).show();
                         /*aDialog.setTitle("＊＊＊ 로그인 하세요 ＊＊＊");
                         aDialog.setMessage("회원이 아니기때문에 업로드를 이용할 수 없습니다.");
@@ -358,7 +376,8 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                         selected = fragment1;
                     }
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.container2, selected).commit();
+              // Toast.makeText(getApplicationContext(), "선택!!!"+String.valueOf(position), Toast.LENGTH_LONG).show();
+               // getSupportFragmentManager().beginTransaction().replace(R.id.containerpage, selected).commit();
             }
 
             @Override
@@ -369,9 +388,49 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
+        tabs.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
         getHashKey();
     }//onCreate_end
     ////////////////////////////////////////////////////
+    public Fragment Selected(int position) {
+        //Toast.makeText(getApplicationContext(), String.valueOf(position), Toast.LENGTH_LONG).show();
+        Log.d("MainActivity", "선택된 탭 : " + position);
+        Fragment selected = null;
+        if (position == 0) {
+            selected = fragment1;
+
+        } else if (position == 1) {
+            selected = fragment2;
+        } else if (position == 2) {
+            Bundle searchbundle = new Bundle();
+            searchbundle.putString("pkid", pkid);
+            fragment3.setArguments(searchbundle);
+            selected = fragment3;
+
+        }
+        //Toast.makeText(getApplicationContext(), "viewpager선택!!!"+String.valueOf(selected), Toast.LENGTH_LONG).show();
+       // getSupportFragmentManager().beginTransaction().replace(R.id.containerpage, selected).commit();
+        return selected;
+    }
+
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return Selected(position);
+        }
+        @Override
+        public int getCount() {
+            return 3;
+        }
+    }
 
     //권한설정 시작//////////////////////////////////////////////////////////////////
     void checkPermission() {
@@ -425,7 +484,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         Bundle searchbundle = new Bundle();
         searchbundle.putString("SearchTxt", searchtxt);
         fragment_search.setArguments(searchbundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.containerpage, fragment_search).commit();
     }
 
     //SearchFragment띄우기2
@@ -434,7 +493,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         Bundle searchbundle = new Bundle();
         searchbundle.putString("SearchTxt", searchtxt);
         fragment_search2.setArguments(searchbundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_search2).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.containerpage, fragment_search2).commit();
     }
 
     //SearchFragment1 닫기

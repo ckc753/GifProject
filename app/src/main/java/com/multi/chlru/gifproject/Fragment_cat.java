@@ -85,7 +85,7 @@ public class Fragment_cat extends HannaFontFragment implements MainActivity.onBa
         //한번 뒤로가기 버튼을 누르면 Listner를 null로 해제
         activity.setOnBackPressedListener(null);
         //Mainframent(우리는 Fragment1)로 교체
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment2).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerpage, fragment2).commit();
     }
 
     @Override
