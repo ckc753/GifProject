@@ -1,5 +1,6 @@
 package com.multi.chlru.gifproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
     private Button [] cButton = new Button[12];
     private ArrayList<String> cDataList;
     Fragment fragment_cat;
+    Intent intent;
 
     public Fragment2() {
 
@@ -52,7 +54,8 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
         return view2;
     }
 
-    @Override
+    // 주제별 카테고리를 fragment에서 보여주는 경우 ( 뷰페이저가 안먹힘)
+   /* @Override
     public void onClick(View v) {
         //클릭된 뷰를 버튼으로 받아옴
         Button newButton = (Button) v;
@@ -66,6 +69,23 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
                 bundle.putString("Buttonname",name);
                 fragment_cat.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_cat).commit();
+            }
+        }//for_end
+    }//onClick_end*/
+
+    @Override
+    public void onClick(View v) {
+        //클릭된 뷰를 버튼으로 받아옴
+        Button newButton = (Button) v;
+        fragment_cat = new Fragment_cat();
+        for(Button tempButton : cButton){
+            if(tempButton == newButton){
+                int position = (Integer)v.getTag();
+                String name = newButton.getText().toString();
+                intent = new Intent(getActivity(),CategoryActivity.class);
+                intent.putExtra("Buttonname",name);
+                getActivity().startActivity(intent);
+
             }
         }//for_end
     }//onClick_end

@@ -1,27 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <!--<TextView
-        android:id="@+id/resultView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/Toolbar_linear"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:hint="결과값"
-        android:textSize="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="137dp" />-->
+        android:background="@color/colorTool"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/signappbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTool"
+
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/signtoolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#03a9f4"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme">
+
+                <!-- 정렬 https://dreamaz.tistory.com/102
+                    https://code.i-harness.com/ko-kr/q/2b5820 -->
+                <TextView
+                    android:id="@+id/cname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#ffffff"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         >
+        android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
-</RelativeLayout>
+
+
+</LinearLayout>

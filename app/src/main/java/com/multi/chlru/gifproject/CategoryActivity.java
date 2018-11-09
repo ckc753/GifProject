@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,14 +25,17 @@ public class CategoryActivity extends HannaFontActivity {
     Query myquery;
     RecyclerView recycler;
     Context context;
+    TextView textView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_main);
         intent = new Intent(this.getIntent());
-        int result = intent.getIntExtra("주제 id",0);
+        //int result = intent.getIntExtra("주제 id",0);
         String name = intent.getStringExtra("Buttonname");
+        textView = (TextView)findViewById(R.id.cname);
+        textView.setText(name);
 
         recycler=(RecyclerView)findViewById(R.id.recycler);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
@@ -41,7 +45,7 @@ public class CategoryActivity extends HannaFontActivity {
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        myquery = databaseReference.child("gif").orderByChild("number");//gif 밑 number값으로 sort
+        myquery = databaseReference.child("gif").orderByChild("category").equalTo(name);//gif 밑 number값으로 sort
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {//DB에 추가 있을때마다 실행

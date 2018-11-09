@@ -5,7 +5,7 @@
     <color name="colorTransparent2">#00000000</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorTool">#05B9FA</color>
+    <color name="colorTool">#03a9f4</color>
     <color name="colorTool2">#3303a9f4</color>
     <color name="colorApp">#000000</color>
 </resources>
