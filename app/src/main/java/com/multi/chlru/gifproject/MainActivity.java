@@ -148,7 +148,6 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
         final SharedPreferences.Editor sessionedit = sessionsp.edit();
         temp = sessionsp.getString("sessionid", null); //만약 defValue를 ""로 했다면 로그아웃시에도 ""로 해야한다
         pkid = sessionsp.getString("sessonpk", null);
-        Toast.makeText(getApplicationContext(), "확인합시다! main"+pkid, Toast.LENGTH_SHORT).show();
         //0.2 구글 앱서명키(SHA1) 인코딩 -> 해시키 변환
         //byte[] sha1 = { 0x3B, (byte)0xDA, (byte)0xA0, 0x5B, 0x4F, 0x35, 0x71, 0x02, 0x4E, 0x27, 0x22, (byte)0xB9, (byte)0xAc, (byte)0xB2, 0x77, 0x2F,(byte)0x9D, (byte)0xA9, (byte)0x9B, (byte)0xD9  };
         byte[] sha2 = {0x20, 0x7F, 0x6D, (byte) 0x9A, (byte) 0xB9, 0x36, 0x21, (byte) 0x0A, (byte) 0xEE, 0x14, 0x67, (byte) 0xAC, (byte) 0x92, (byte) 0x96, (byte) 0xE6, (byte) 0xFE, (byte) 0xEC, 0x3F, (byte) 0x94, (byte) 0xF5};
@@ -183,7 +182,12 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                 if (editText.getText().toString().length() == 0) {
                     Toast.makeText(getApplicationContext(), "검색어를 입력하세요", Toast.LENGTH_LONG).show();
                 } else {
-                    if (k == false && k2 == false) {
+                    String search=editText.getText().toString();
+                    Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                    intent.putExtra("search",search);
+                    startActivity(intent);
+                    finish();
+                    /*if (k == false && k2 == false) {
                         //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
                         openSearchFragment1();
                         editText.setText("");
@@ -206,7 +210,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                     } else {
                         removeFragment1();
                         removeFragment2();
-                    }
+                    }*/
                 }
             }
         });
@@ -217,13 +221,18 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    boolean k = fragment_search.isVisible();
-                    boolean k2 = fragment_search2.isVisible();
+                    /*boolean k = fragment_search.isVisible();
+                    boolean k2 = fragment_search2.isVisible();*/
                     //Toast.makeText(getApplicationContext(), String.valueOf(k)+" "+String.valueOf(k2), Toast.LENGTH_LONG).show();
                     if (editText.getText().toString().length() == 0) {
                         Toast.makeText(getApplicationContext(), "검색어를 입력하세요", Toast.LENGTH_LONG).show();
                     } else {
-                        if (k == false && k2 == false) {
+                        String search=editText.getText().toString();
+                        Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                        intent.putExtra("search",search);
+                        startActivity(intent);
+                        finish();
+                        /*if (k == false && k2 == false) {
                             //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
                             openSearchFragment1();
                             editText.setText("");
@@ -240,7 +249,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                         } else {
                             removeFragment1();
                             removeFragment2();
-                        }
+                        }*/
                     }
                 }
                 return false;
@@ -435,13 +444,13 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
     //권한설정 시작//////////////////////////////////////////////////////////////////
     void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            /*if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 new AlertDialog.Builder(this).setTitle("알림").setMessage("저장소 권한이 거부되었습니다. 저장기능을 사용하시려면 해당 권한을 직접 허용하셔야 합니다.").setNeutralButton("설정", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        /*Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        *//*Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         intent.setData(Uri.parse("package:" + getPackageName()));
-                        startActivity(intent);*/
+                        startActivity(intent);*//*
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSON_STORAGE);
                     }
                 }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -451,9 +460,9 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                         //finish();
                     }
                 }).setCancelable(false).create().show();
-            } else {
+            } else {*/
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSON_STORAGE);
-            }
+            //}
         }
     }
 
@@ -479,7 +488,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
 
     //검색관련 프레그먼트 띄우기 시작/////////////////////////////////////////
     //SearchFragment띄우기1
-    private void openSearchFragment1() {
+   /* private void openSearchFragment1() {
         String searchtxt = editText.getText().toString();
         Bundle searchbundle = new Bundle();
         searchbundle.putString("SearchTxt", searchtxt);
@@ -506,7 +515,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
     private void removeFragment2() {
         getSupportFragmentManager().beginTransaction()
                 .remove(fragment_search2).commit();
-    }
+    }*/
     //검색관련 프레그먼트 띄우기 종료//////////////////////////////////////////////
 
     //getHashKey메소드/////////////////////////////////////////////////////////////

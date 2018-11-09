@@ -45,6 +45,6 @@
         <activity android:name="com.multi.chlru.gifproject.ManagerActivity" />
         <activity android:name="com.multi.chlru.gifproject.MessageActivity" />
         <activity android:name="com.multi.chlru.gifproject.MemberActivity" />
-
+        <activity android:name="com.multi.chlru.gifproject.SearchActivity" />
     </application>
 </manifest>

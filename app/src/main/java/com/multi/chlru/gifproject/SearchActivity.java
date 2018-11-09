@@ -1,10 +1,12 @@
 package com.multi.chlru.gifproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +27,12 @@ public class SearchActivity extends HannaFontActivity {
     Context context;
     String search;
     ViewGroup view_sear;
-
+    TextView textView;
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        finish();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +47,13 @@ public class SearchActivity extends HannaFontActivity {
         // Toast.makeText(getContext(), search+" 검색! ", Toast.LENGTH_SHORT).show();
 
 
-        recycler=(RecyclerView)view_sear.findViewById(R.id.recycler_sear3);//리사이클러뷰
+        recycler=(RecyclerView)findViewById(R.id.recyclerSearch);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
         // context=getContext();
-        adapter = new RecyclerAdapter(context,search,SearchActivity.this);//adapter
+        search=getIntent().getStringExtra("search");
+        textView = (TextView)findViewById(R.id.sname);
+        textView.setText("'"+search+"'");
+        adapter = new RecyclerAdapter(getApplicationContext(),search,SearchActivity.this);//adapter
         recycler.setLayoutManager(new GridLayoutManager(SearchActivity.this,2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
 

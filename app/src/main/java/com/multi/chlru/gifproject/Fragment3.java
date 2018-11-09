@@ -3,13 +3,16 @@ package com.multi.chlru.gifproject;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +45,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class Fragment3 extends HannaFontFragment {
     int reCode;
@@ -66,7 +71,7 @@ public class Fragment3 extends HannaFontFragment {
     ProgressDialog progressDialog;
     String file;
     String filename;
-
+    SweetAlertDialog sweetalert;
 
     public Fragment3() {
 
@@ -126,11 +131,31 @@ public class Fragment3 extends HannaFontFragment {
         searchbtu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reCode = 101;
-                Intent intent = new Intent();
-                intent.setType("image/gif");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "이미지 선택!"), reCode);
+                if (ContextCompat.checkSelfPermission(getContext(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(getContext(),android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                    //if (ActivityCompat.shouldShowRequestPermissionRationale(mactivity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                    sweetalert = new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE);
+                    sweetalert.setTitleText("＊＊＊ 경고 ＊＊＊");
+                    sweetalert.setContentText("저장소 권한이 거부되었습니다. 업로드기능을 사용하시려면 해당 권한을 직접 허용하셔야 합니다.");
+                    sweetalert.setCancelText("취소");
+                    sweetalert.setConfirmText("설정");
+                    sweetalert.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                            sweetAlertDialog.cancel();
+                        }
+                    });
+                    sweetalert.show();
+                }else {
+                    reCode = 101;
+                    Intent intent = new Intent();
+                    intent.setType("image/gif");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "이미지 선택!"), reCode);
+                }
             }
         });
 
