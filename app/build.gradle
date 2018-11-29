@@ -14,8 +14,8 @@ android {
         applicationId "com.multi.chlru.gifproject"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.2"
+        versionCode 6
+        versionName "1.5"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.keystore
@@ -24,12 +24,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.keystore
         }
         debug {
             signingConfig signingConfigs.keystore
         }
     }
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
     productFlavors {
     }
 }
@@ -54,11 +55,10 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0-alpha1'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     /*implementation 'com.github.bumptech.glide:glide:4.4.0'
-            annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'*/
+                annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'*/
     compile 'com.android.support:cardview-v7:28.0.0-alpha1'
     implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
     compile 'cn.pedant.sweetalert:library:1.3'
-
     compile 'org.jsoup:jsoup:1.9.2'
 }
 
