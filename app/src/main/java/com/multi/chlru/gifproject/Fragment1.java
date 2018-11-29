@@ -46,6 +46,7 @@ public class Fragment1 extends HannaFontFragment {
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+       // myquery = databaseReference.child("gifTemp").orderByChild("number");//gif 밑 number값으로 sort
         myquery = databaseReference.child("gif").orderByChild("number").limitToFirst(30);//gif 밑 number값으로 sort
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
@@ -57,25 +58,38 @@ public class Fragment1 extends HannaFontFragment {
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
-                adapter.addItem(new GifItem(jpgurl, url, filename, name, day, number));//변화값 adapter에 추가
+                final String caNum=gitem.getCaNum();
+                /*final String category=gitem.getCategory();
+                final String member=gitem.getMember();*/
+                //adapter.addItem(new GifItem(jpgurl, url, filename, name, day, number));//변화값 adapter에 추가
+               adapter.addItem(new GifItem(jpgurl, url, filename, name, day, number,caNum));//변화값 adapter에 추가
+                /*final int number2=1000000+number;
+                final String caNum=category+number2;*/
+               // GifItem gitem2 = new GifItem(jpgurl, url, filename, name, day,caNum, number, category, member);
+
+                // DB복사후 새로넣기
+               // databaseReference.child("gif").push().setValue(gitem2); //DB값 넣기
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                adapter.notifyDataSetChanged();
             }
         });//myquery_end
         return view1;

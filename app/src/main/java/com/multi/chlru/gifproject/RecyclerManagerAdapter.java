@@ -133,8 +133,12 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
                 String day=items.get(position).getDay();
                 String category=items.get(position).getCategory();
                 String member=items.get(position).getMember();
+                int number=count-1;
+                int number2=1000000+number;
+                String caNum=category+number2;
                 //Toast.makeText(context, "카테고리 : "+category, Toast.LENGTH_SHORT).show();
-                GifItem gitem = new GifItem(jpgUrl,downloadUrl, filename, gifname, day,count-1,category,member);
+
+                GifItem gitem = new GifItem(jpgUrl,downloadUrl, filename, gifname, day,caNum,number,category,member);
                 //gifItem gitem = new gifItem(filename, editText.getText().toString(), file);
                 databaseReference.child("gif").push().setValue(gitem); //승인클릭시 아래의 메소드로인해 gifManager db삭제& 또 gif db항목으로 하나입력됨.
                 delete_db(position);

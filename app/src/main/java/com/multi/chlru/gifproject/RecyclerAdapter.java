@@ -91,7 +91,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+              //  Toast.makeText(context,String.valueOf(items.get(position).getCaNum())+" : : : "+String.valueOf(items.get(position).getNumber()),Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context,BigImageActivity.class);
                 intent.putExtra("url",urladd);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

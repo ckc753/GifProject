@@ -11,8 +11,20 @@ public class GifItem {
     private String pkKey;  //필요X
     private String member; //pk값을 저장할 변수추가 (ManagerActivity와 ManagerRecyclerAdapter에 member추가된 생성자로 변경)
     private String jpgUrl;
-
+    private String caNum;
     public GifItem() {
+    }
+    public GifItem(String jpgUrl,String downloadUrl, String filename, String gifname,String day,String caNum,int number,String category,String member) {
+        this.jpgUrl=jpgUrl;
+        this.downloadUrl = downloadUrl;
+        this.filename = filename;
+        this.gifname = gifname;
+        this.day=day;
+        this.caNum=caNum;
+        this.number=number;
+        this.category=category;
+        this.member=member;
+
     }
     public GifItem(String jpgUrl,String downloadUrl, String filename, String gifname,String day,int number,String category,String member,String pkKey) {
         this.jpgUrl=jpgUrl;
@@ -43,6 +55,23 @@ public class GifItem {
         this.day=day;
         this.number=number;
 
+    }
+    public GifItem(String jpgUrl,String downloadUrl, String filename, String gifname,String day,int number,String caNum) {
+        this.jpgUrl=jpgUrl;
+        this.downloadUrl = downloadUrl;
+        this.filename = filename;
+        this.gifname = gifname;
+        this.day=day;
+        this.number=number;
+        this.caNum=caNum;
+
+    }
+    public String getCaNum() {
+        return caNum;
+    }
+
+    public void setCaNum(String caNum) {
+        this.caNum = caNum;
     }
 
     public String getJpgUrl() {

@@ -45,7 +45,8 @@ public class CategoryActivity extends HannaFontActivity {
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        myquery = databaseReference.child("gif").orderByChild("category").equalTo(name);//gif 밑 number값으로 sort
+        //myquery = databaseReference.child("gif").orderByChild("category").equalTo(name);//gif 밑 number값으로 sort
+        myquery = databaseReference.child("gif").orderByChild("caNum").startAt(name).endAt(name+"\uf8ff");//gif 밑 number값으로 sort
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {//DB에 추가 있을때마다 실행
@@ -56,7 +57,9 @@ public class CategoryActivity extends HannaFontActivity {
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
-                adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
+                final String caNum=gitem.getCaNum();
+                //adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
+                adapter.addItem(new GifItem(jpgurl, url, filename, name, day, number,caNum));//변화값 adapter에 추가
                 adapter.notifyDataSetChanged();
             }
             @Override

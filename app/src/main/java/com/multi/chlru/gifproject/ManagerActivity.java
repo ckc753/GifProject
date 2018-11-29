@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -116,6 +117,15 @@ public class ManagerActivity extends HannaFontActivity {
                 //작성안하면 바로종료
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Glide.get(ManagerActivity.this).clearMemory();
+                        Glide.get(getApplicationContext()).clearDiskCache();
+                    }
+                }).start();
+
                 finish();
                 return true;
         }

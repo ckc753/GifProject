@@ -42,6 +42,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kakao.util.helper.log.Logger;
@@ -103,9 +104,14 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
         mBackListener = listener;
     }
 
+
+
+
+
     //0.1 취소버튼 클릭시
     @Override
     public void onBackPressed() {
+
         if (drawerLayout.isDrawerOpen(linearLayout)) {
             drawerLayout.closeDrawer(linearLayout);
         } else {
@@ -124,12 +130,22 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                         Toast.makeText(getApplicationContext(),
                                 "한번더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
                         pressedTime = 0;
+
                     } else {
                         super.onBackPressed();
                         Log.e("!!!", "onBakcPressed : finish,KillProcess");
+                        //캐시삭제
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Glide.get(MainActivity.this).clearMemory();
+                                Glide.get(MainActivity.this).clearDiskCache();
+                                Log.e("!!!", "DiskCache!!!, Memory Clear!!");
+                            }
+                        }).start();
                         finish();
                         finishAffinity(); //카카오톡 종료 (로그인 ->메인 -> 로그인 Activity중복에러완료)
-                        android.os.Process.killProcess(android.os.Process.myPid());
+                       // android.os.Process.killProcess(android.os.Process.myPid());
                     }
                 }
             }
@@ -186,7 +202,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                     Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                     intent.putExtra("search",search);
                     startActivity(intent);
-                    finish();
+                  //  finish();
                     /*if (k == false && k2 == false) {
                         //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
                         openSearchFragment1();
@@ -231,7 +247,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                         Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                         intent.putExtra("search",search);
                         startActivity(intent);
-                        finish();
+                       // finish();
                         /*if (k == false && k2 == false) {
                             //Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
                             openSearchFragment1();
@@ -319,7 +335,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                         public void onClick(View v) {
                             intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
-                            finish();
+                           // finish();
                         }
                     });
                 }
@@ -332,7 +348,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                 public void onClick(View v) {
                     intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
-                    finish();
+                    //finish();
                 }
             });
         }
@@ -579,7 +595,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
                 Intent intent = new Intent(getApplicationContext(), MemberActivity.class);
                 intent.putExtra("pkid",pkid);
                 startActivity(intent);
-                finish();
+               // finish();
                 break;
         }
     }//show_end
@@ -597,6 +613,29 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
 
 
     }
+    @Override
+    protected void onStop() {
 
+        Log.e("!!!", "DiskCache, onStop()!!");
+        //Toast.makeText(this, "onStop()", Toast.LENGTH_LONG).show();
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Glide.get(MainActivity.this).clearMemory();
+                Glide.get(MainActivity.this).clearDiskCache();
+                Log.e("!!!", "onStop()-DiskCache, Memory Clear!!");
+            }
+        }).start();*/
+        super.onStop();
+    }
 
+    @Override
+    protected void onDestroy() {
+        //Toast.makeText(this, "onDestroy()", Toast.LENGTH_LONG).show();
+        Log.e("!!!", "onDestroy()");
+
+        super.onDestroy();
+        //시스템상 어플 종료
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
 }
