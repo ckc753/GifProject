@@ -1,10 +1,9 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.main;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,6 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
+import com.multi.chlru.gifproject.GifItem;
+import com.multi.chlru.gifproject.HannaFontFragment;
+import com.multi.chlru.gifproject.R;
 
 public class Fragment_cat extends HannaFontFragment implements MainActivity.onBackPressedListener{
     Fragment2 fragment2;

@@ -1,4 +1,4 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.load;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -38,6 +38,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.multi.chlru.gifproject.GifItem;
+import com.multi.chlru.gifproject.HannaFontFragment;
+import com.multi.chlru.gifproject.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

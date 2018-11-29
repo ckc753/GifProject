@@ -1,21 +1,13 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +16,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
+import com.multi.chlru.gifproject.GifItem;
+import com.multi.chlru.gifproject.HannaFontActivity;
+import com.multi.chlru.gifproject.R;
 
-public class MemberActivity extends HannaFontActivity{
+public class MemberActivity extends HannaFontActivity {
     Fragment fragment1;
     RecyclerAdapter adapter;
     FirebaseStorage storage;

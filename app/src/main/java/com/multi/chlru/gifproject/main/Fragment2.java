@@ -1,4 +1,4 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.multi.chlru.gifproject.HannaFontFragment;
+import com.multi.chlru.gifproject.R;
 
 import java.util.ArrayList;
 

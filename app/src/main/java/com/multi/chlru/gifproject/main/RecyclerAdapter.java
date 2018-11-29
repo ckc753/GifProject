@@ -1,9 +1,7 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.main;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -11,26 +9,24 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.storage.StorageReference;
+import com.multi.chlru.gifproject.GifItem;
+import com.multi.chlru.gifproject.R;
+import com.multi.chlru.gifproject.load.DownGif;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-
-import static android.support.v4.app.ActivityCompat.requestPermissions;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     Context context;

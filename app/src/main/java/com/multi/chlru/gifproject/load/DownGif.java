@@ -1,4 +1,4 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.load;
 
 import android.app.ProgressDialog;
 import android.content.Context;

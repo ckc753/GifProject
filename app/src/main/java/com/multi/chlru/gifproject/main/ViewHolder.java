@@ -1,4 +1,4 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.main;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.multi.chlru.gifproject.R;
 
 //MainActivity에 보여지는 CardView항목들.
 public class ViewHolder extends RecyclerView.ViewHolder {

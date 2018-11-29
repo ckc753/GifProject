@@ -1,4 +1,4 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.login;
 
 import android.app.Activity;
 import android.app.Application;

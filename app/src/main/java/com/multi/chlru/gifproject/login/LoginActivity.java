@@ -1,4 +1,4 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -40,6 +39,10 @@ import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
+import com.multi.chlru.gifproject.HannaFontActivity;
+import com.multi.chlru.gifproject.R;
+import com.multi.chlru.gifproject.main.MainActivity;
+import com.multi.chlru.gifproject.manager.ManagerActivity;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 

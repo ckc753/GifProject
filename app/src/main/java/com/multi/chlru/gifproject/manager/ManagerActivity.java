@@ -1,4 +1,4 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.manager;
 
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +15,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
+import com.multi.chlru.gifproject.GifItem;
+import com.multi.chlru.gifproject.HannaFontActivity;
+import com.multi.chlru.gifproject.R;
+import com.multi.chlru.gifproject.main.MainActivity;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 

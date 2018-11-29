@@ -10,9 +10,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="com.multi.chlru.gifproject.GlobalApplication"
+        android:name="com.multi.chlru.gifproject.login.GlobalApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/mainlogo3"
+        android:icon="@mipmap/giflogo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
@@ -31,20 +31,20 @@
         </activity>
 
         <activity
-            android:name="com.multi.chlru.gifproject.BigImageActivity"
+            android:name="com.multi.chlru.gifproject.main.BigImageActivity"
             android:theme="@style/NoDisplay" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
-        <activity android:name="com.multi.chlru.gifproject.MainActivity" />
-        <activity android:name="com.multi.chlru.gifproject.CategoryActivity" />
-        <activity android:name="com.multi.chlru.gifproject.SignActivity" />
-        <activity android:name="com.multi.chlru.gifproject.LoginActivity" />
-        <activity android:name="com.multi.chlru.gifproject.ManagerActivity" />
-        <activity android:name="com.multi.chlru.gifproject.MessageActivity" />
-        <activity android:name="com.multi.chlru.gifproject.MemberActivity" />
-        <activity android:name="com.multi.chlru.gifproject.SearchActivity" />
+        <activity android:name="com.multi.chlru.gifproject.main.MainActivity" />
+        <activity android:name="com.multi.chlru.gifproject.main.CategoryActivity" />
+        <activity android:name="com.multi.chlru.gifproject.login.SignActivity" />
+        <activity android:name="com.multi.chlru.gifproject.login.LoginActivity" />
+        <activity android:name="com.multi.chlru.gifproject.manager.ManagerActivity" />
+        <activity android:name="com.multi.chlru.gifproject.main.MessageActivity" />
+        <activity android:name="com.multi.chlru.gifproject.main.MemberActivity" />
+        <activity android:name="com.multi.chlru.gifproject.main.SearchActivity" />
     </application>
 </manifest>

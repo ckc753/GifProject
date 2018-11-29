@@ -1,7 +1,10 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+import com.multi.chlru.gifproject.HannaFontActivity;
+import com.multi.chlru.gifproject.R;
 
 public class MessageActivity extends HannaFontActivity {
     @Override

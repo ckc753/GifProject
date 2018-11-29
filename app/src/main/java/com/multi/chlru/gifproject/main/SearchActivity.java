@@ -1,15 +1,12 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -18,8 +15,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
+import com.multi.chlru.gifproject.GifItem;
+import com.multi.chlru.gifproject.HannaFontActivity;
+import com.multi.chlru.gifproject.R;
 
-public class Fragment_search2 extends HannaFontFragment {
+public class SearchActivity extends HannaFontActivity {
 
     RecyclerAdapter adapter;
     FirebaseStorage storage;
@@ -29,28 +29,35 @@ public class Fragment_search2 extends HannaFontFragment {
     RecyclerView recycler;
     Context context;
     String search;
-    ViewGroup view_sear2;
-
-    @Nullable
+    ViewGroup view_sear;
+    TextView textView;
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view_sear2 = (ViewGroup) inflater.inflate(R.layout.fragment_sear2, container, false);
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        finish();
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
 
-        try {
-            search = getArguments().getString("SearchTxt");
-        }catch (NullPointerException e){
+        // search = getArguments().getString("SearchTxt");
+        // public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // view_sear = (ViewGroup) inflater.inflate(R.layout.fragment_sear1, container, false);
 
-        }
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-      //  Toast.makeText(getContext(), search+" 검색! ", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getContext(), search+" 검색! ", Toast.LENGTH_SHORT).show();
 
 
-        recycler=(RecyclerView)view_sear2.findViewById(R.id.recycler_sear2);//리사이클러뷰
+        recycler=(RecyclerView)findViewById(R.id.recyclerSearch);//리사이클러뷰
         storage = FirebaseStorage.getInstance();
-        context=getContext();
-        adapter = new RecyclerAdapter(context,search,getActivity());//adapter
-        recycler.setLayoutManager(new GridLayoutManager(getContext(),2));
+        // context=getContext();
+        search=getIntent().getStringExtra("search");
+        textView = (TextView)findViewById(R.id.sname);
+        textView.setText("'"+search+"'");
+        adapter = new RecyclerAdapter(getApplicationContext(),search,SearchActivity.this);//adapter
+        recycler.setLayoutManager(new GridLayoutManager(SearchActivity.this,2));
         recycler.setAdapter(adapter);//adapter RecyclerView에 넣기
 
         /*if(search!=null){
@@ -73,9 +80,8 @@ public class Fragment_search2 extends HannaFontFragment {
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
                 if(name.contains(search)){
-                adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
-                adapter.notifyDataSetChanged();}
-
+                    adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
+                    adapter.notifyDataSetChanged();}
             }
 
             @Override
@@ -98,9 +104,6 @@ public class Fragment_search2 extends HannaFontFragment {
 
             }
         });
-
-
-
-       return view_sear2;
     }
 }
+

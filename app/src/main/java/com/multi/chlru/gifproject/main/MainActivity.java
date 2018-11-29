@@ -1,16 +1,14 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.main;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -27,9 +25,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -46,13 +42,21 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kakao.util.helper.log.Logger;
+import com.multi.chlru.gifproject.HannaFontActivity;
+import com.multi.chlru.gifproject.login.LoginActivity;
+import com.multi.chlru.gifproject.R;
+import com.multi.chlru.gifproject.load.Fragment3;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutionException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MainActivity extends HannaFontActivity{ //한나체 클래스 상속을 통해 폰트적용
+public class MainActivity extends HannaFontActivity { //한나체 클래스 상속을 통해 폰트적용
     Toolbar toolbar;
     Fragment fragment1;
     Fragment fragment2;
@@ -80,6 +84,9 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
     TabLayout tabs;
     Intent uploadIntent;
     Intent privacyIntent;
+
+    String SaveMarketVersion;
+    String SaveAppVersion;
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
@@ -121,6 +128,7 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
             } else { //리스너가 설정되지 않은상태(ex.메인Fragment)라면 뒤로가기 연속2번클릭시 앱종료
                 Log.e("!!!", "Listener is null");
                 if (pressedTime == 0) {
+                    //종료시에 평가하는건 적용X
                     Toast.makeText(getApplicationContext(),
                             "한번더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
                     pressedTime = System.currentTimeMillis();
@@ -171,6 +179,45 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
 
         //1. 앱실행시 직접적으로 저장권한설정 메소드
         //checkPermission();
+
+
+        try {
+            SaveMarketVersion = new getMarketVersion().execute().get();
+            SaveAppVersion = getAppVersion();
+            //Toast.makeText(getApplicationContext(),"1: "+SaveMarketVersion+", "+SaveAppVersion,Toast.LENGTH_LONG).show();
+            if (SaveMarketVersion.compareTo(SaveAppVersion) != 0) {
+                // 업데이트 필요
+                sweetalert = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE);
+                sweetalert.setTitleText("※업데이트 알림※");
+                sweetalert.setContentText("새로워진 \"움짤마켓\"을 만나보세요 !!\n 평가도 해주시는거 잊지마세요 !!");
+                sweetalert.setConfirmText("확인").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                        }
+                    }
+                });
+                sweetalert.setCancelText("취소").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetalert.cancel();
+                    }
+                });
+                sweetalert.show();
+            } else {
+                // 업데이트 불필요
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        //Toast.makeText(getApplicationContext(),"2: "+SaveMarketVersion+", "+SaveAppVersion,Toast.LENGTH_LONG).show();
+
 
         //Toast.makeText(getApplicationContext(), pkid, Toast.LENGTH_LONG).show();
         auth = FirebaseAuth.getInstance();
@@ -559,14 +606,12 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
         switch (pos) {
             case 0:
                 sweetalert = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
-                sweetalert.setTitleText("＊＊＊ 2018/11/01 업데이트 완료 ＊＊＊");
-                sweetalert.setContentText("- 새롭게 업데이트되었습니다.\n" +
-                        "- 움짤이름 부분검색시, 해당 검색어 파란색상표시.\n" +
-                        "- 메뉴슬라이드 \"앱 사용방법& 주의사항\" 메뉴추가.\n" +
-                        "- 회원가입시, 비밀번호 \"유효성검사\" 적용.\n" +
-                        "- 회원가입시, 이메일 \"가입여부확인\" 적용.\n" +
-                        "- 회원가입시, 이메일 정규식을 통해 \"특수문자 제외\"\n" +
-                        "- 스플래시화면 디자인변경.");
+                sweetalert.setTitleText("※ 2018/11/29 업데이트 완료 ※");
+                sweetalert.setContentText("- \"앱 로고\" 변경됨.\n" +
+                        "- 메뉴창 \"업데이트 공지사항\" 변경됨.\n" +
+                        "- 카테고리 번호 DB 추가 및 카테고리 정렬됨.\n" +
+                        "- 버전비교를 통해 업데이트& 앱평가 알림창 생성됨.\n" +
+                        " (※공유하기 기능은 개발중입니다)");
                 sweetalert.setConfirmText("확인");
                 sweetalert.show();
                 break;
@@ -637,5 +682,39 @@ public class MainActivity extends HannaFontActivity{ //한나체 클래스 상�
         super.onDestroy();
         //시스템상 어플 종료
         android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+
+    //181129 Ver Update
+    private class getMarketVersion extends AsyncTask<String, String, String> {
+        String MarketVersion;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        //배포된Ver
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                String AppFromPlayStore = "https://play.google.com/store/apps/details?id=" + getPackageName();
+                Document doc = Jsoup.connect(AppFromPlayStore).get();
+                MarketVersion = doc.getElementsByAttributeValue("class", "htlgb").eq(7).text();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return MarketVersion;
+        }
+    }
+    //현Ver
+    private String getAppVersion() {
+        PackageManager pm = getPackageManager();
+        PackageInfo pInfo = null;
+        try {
+            pInfo = pm.getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e1) {
+            e1.printStackTrace();
+        }
+        String currentVersion = pInfo.versionName;
+        return currentVersion;
     }
 }

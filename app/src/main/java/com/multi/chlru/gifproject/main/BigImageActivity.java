@@ -1,4 +1,4 @@
-package com.multi.chlru.gifproject;
+package com.multi.chlru.gifproject.main;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
-import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.database.Query;
-import com.google.firebase.storage.FirebaseStorage;
+import com.multi.chlru.gifproject.R;
 
 public class BigImageActivity extends AppCompatActivity{
    // FirebaseStorage storage;
