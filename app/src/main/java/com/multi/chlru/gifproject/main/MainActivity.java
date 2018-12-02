@@ -696,8 +696,8 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
         @Override
         protected String doInBackground(String... params) {
             try {
-                String AppFromPlayStore = "https://play.google.com/store/apps/details?id=" + getPackageName();
-                Document doc = Jsoup.connect(AppFromPlayStore).get();
+                String AppFromPlayStore = "https://play.google.com/store/apps/details?id=" + getPackageName(); //해당 홈페이지 접속
+                Document doc = Jsoup.connect(AppFromPlayStore).get(); //파싱할 수 있도록 라이브러리 사용
                 MarketVersion = doc.getElementsByAttributeValue("class", "htlgb").eq(7).text();
             } catch (Exception e) {
                 e.printStackTrace();
