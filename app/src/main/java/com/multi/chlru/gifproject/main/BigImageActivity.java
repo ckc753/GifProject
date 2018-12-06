@@ -35,7 +35,7 @@ public class BigImageActivity extends AppCompatActivity{
                 .into(bigimage).clearOnDetach();*/
         Glide.with(BigImageActivity.this).asGif()
                 .load(Uri.parse(url))
-                .apply(new RequestOptions().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.DATA))
+                .apply(new RequestOptions().override(1200,1000).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE))
                 .into(bigimage).clearOnDetach();
 
     }

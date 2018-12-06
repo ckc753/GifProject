@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.storage.StorageReference;
 import com.multi.chlru.gifproject.GifItem;
 import com.multi.chlru.gifproject.R;
@@ -82,6 +84,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
        // Toast.makeText(context,String.valueOf(position)+" : "+String.valueOf(items.get(position).getJpgUrl()+" : "+String.valueOf(items.get(position).getGifname())),Toast.LENGTH_LONG).show();
         Glide.with(context)
                 .load(Uri.parse(items.get(position).getJpgUrl()))
+                .apply(new RequestOptions().override(1200,1000).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE))
                 .into(holder.image);
         //1. 카드뷰클릭시, BigImageActivity이동 (이미지커지도록)
         holder.cardview.setOnClickListener(new View.OnClickListener() {
