@@ -59,7 +59,7 @@ public class Fragment_cat extends HannaFontFragment implements MainActivity.onBa
                 final String name = gitem.getGifname();//gif이름(ex)샘플움짤
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
-                adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
+                //adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
                 adapter.notifyDataSetChanged();
             }
             @Override

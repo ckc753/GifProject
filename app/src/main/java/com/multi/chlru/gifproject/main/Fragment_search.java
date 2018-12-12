@@ -75,7 +75,7 @@ public class Fragment_search extends HannaFontFragment {
                 final String day = gitem.getDay();//날짜
                 final int number = gitem.getNumber();//게시물번호
                 if(name.contains(search)){
-                    adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
+                   // adapter.addItem(new GifItem(jpgurl,url, filename, name, day, number));//변화값 adapter에 추가
                     adapter.notifyDataSetChanged();}
             }
 

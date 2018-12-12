@@ -13,13 +13,19 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.storage.StorageReference;
 import com.multi.chlru.gifproject.GifItem;
 import com.multi.chlru.gifproject.R;
@@ -38,6 +44,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private ArrayList<GifItem> items = new ArrayList<GifItem>();
     Activity mactivity;
     SweetAlertDialog sweetalert;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     /*public RecyclerAdapter(Context context,String search) {
         this.context = context;
         this.search=search;
@@ -67,10 +75,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference=firebaseDatabase.getReference();
+       // Toast.makeText(context,String.valueOf(position)+" : "+String.valueOf(items.get(position).getPkKey()),Toast.LENGTH_LONG).show();
         final String urladd = items.get(position).getDownloadUrl();
         Typeface typeface = Typeface.createFromAsset(context.getAssets(),"BMHANNA_11yrs_ttf.ttf");
         holder.title.setTypeface(typeface);
         holder.saveBtn.setTypeface(typeface);
+        holder.viewCount.setText(String.valueOf(items.get(position).getViewCount()));
+        holder.downCount.setText(String.valueOf(items.get(position).getDownCount()));
+        holder.goodCount.setText(String.valueOf(items.get(position).getGoodCount()));
         if(search!=null){
             SpannableStringBuilder sb=new SpannableStringBuilder();
             String str=items.get(position).getGifname();
@@ -84,7 +98,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
        // Toast.makeText(context,String.valueOf(position)+" : "+String.valueOf(items.get(position).getJpgUrl()+" : "+String.valueOf(items.get(position).getGifname())),Toast.LENGTH_LONG).show();
         Glide.with(context)
                 .load(Uri.parse(items.get(position).getJpgUrl()))
-                .apply(new RequestOptions().override(1200,1000).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE))
                 .into(holder.image);
         //1. 카드뷰클릭시, BigImageActivity이동 (이미지커지도록)
         holder.cardview.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +108,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                 intent.putExtra("url",urladd);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+                Count(databaseReference,"view",position);
+               // Toast.makeText(context,"view : "+String.valueOf(items.get(position).getViewCount()),Toast.LENGTH_LONG).show();
+                holder.viewCount.setText(String.valueOf(items.get(position).getViewCount()+1));
             }
         });
         //2. saveBtn클릭시, downGif이동 (파일저장되도록)
@@ -147,6 +163,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                     StorageReference storageRef = downGif.downloadUrl(gif);
                     File fileDir = downGif.makeDir(folderName);
                     downGif.downloadLocal(storageRef, fileDir);
+                    Count(databaseReference,"down",position);
+
+                    holder.downCount.setText(String.valueOf(items.get(position).getDownCount()+1));
                 }
             }
         });
@@ -158,5 +177,42 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         return this.items.size();
     }
 
+    //count증가
+    private void Count(DatabaseReference gifRef, final String type,int position){
+        gifRef=gifRef.child("gif").child(items.get(position).getPkKey());
+       // Toast.makeText(mactivity,String.valueOf(gifRef),Toast.LENGTH_SHORT).show();
+        gifRef.runTransaction(new Transaction.Handler() {
+
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                GifItem gitem = mutableData.getValue(GifItem.class);
+                if (gitem == null) {
+                    return Transaction.success(mutableData);
+                }
+                if(type.equals("view")){
+                    Log.d("Transaction view : ",type);
+                    gitem.setViewCount(gitem.getViewCount()+1);
+
+                }
+                else if(type.equals("down")){
+                    Log.d("Transaction down : ",type);
+                    gitem.setDownCount(gitem.getDownCount()+1);
+
+                }
+                else if(type.equals("good")){
+                    Log.d("Transaction good : ",type);
+                    gitem.setGoodCount(gitem.getGoodCount()+1);
+                }
+                mutableData.setValue(gitem);
+                return Transaction.success(mutableData);
+            }
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                Log.d("TAG","Transaction onComplete : "+databaseError);
+            }
+        });
+
+
+    }
 
 }
