@@ -75,7 +75,7 @@ public class MemberActivity extends HannaFontActivity {
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                adapter.notifyDataSetChanged();
+               // adapter.notifyDataSetChanged();
             }
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
