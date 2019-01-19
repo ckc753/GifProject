@@ -7,8 +7,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.storage.StorageReference;
+import com.kakao.util.helper.log.Logger;
 import com.multi.chlru.gifproject.GifItem;
 import com.multi.chlru.gifproject.R;
 import com.multi.chlru.gifproject.load.DownGif;
@@ -40,12 +44,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     Context context;
     int item_layout;
     final String folderName = "움짤마켓";
+    String tempFolderName="움짤마켓Temp";
     String search;
     private ArrayList<GifItem> items = new ArrayList<GifItem>();
     Activity mactivity;
     SweetAlertDialog sweetalert;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
+    int goodCount;
+    int viewCount;
+    int downCount;
+    Uri providerUri;
     /*public RecyclerAdapter(Context context,String search) {
         this.context = context;
         this.search=search;
@@ -67,6 +77,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         items.add(item);
         notifyDataSetChanged();
     }
+    public void clearAdapter(){
+        items.clear();
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardview, null);
@@ -82,6 +95,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         Typeface typeface = Typeface.createFromAsset(context.getAssets(),"BMHANNA_11yrs_ttf.ttf");
         holder.title.setTypeface(typeface);
         holder.saveBtn.setTypeface(typeface);
+        holder.kakaoBtn.setTypeface(typeface);
         holder.viewCount.setText(String.valueOf(items.get(position).getViewCount()));
         holder.downCount.setText(String.valueOf(items.get(position).getDownCount()));
         holder.goodCount.setText(String.valueOf(items.get(position).getGoodCount()));
@@ -109,11 +123,69 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 Count(databaseReference,"view",position);
+               // viewCount++;
                // Toast.makeText(context,"view : "+String.valueOf(items.get(position).getViewCount()),Toast.LENGTH_LONG).show();
                 holder.viewCount.setText(String.valueOf(items.get(position).getViewCount()+1));
             }
         });
-        //2. saveBtn클릭시, downGif이동 (파일저장되도록)
+        holder.kakaoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //String imgUrl = items.get(position).getJpgUrl();
+                String gifUrl = items.get(position).getDownloadUrl();
+                //String imgUrl2 = "https://firebasestorage.googleapis.com/v0/b/gifproject-60db8.appspot.com/o/GIF%2F20181125174348gifmarket?alt=media&token=7060e916-59dc-4f3f-bd94-4f302535cc4b";
+
+                DownGif downGif = new DownGif(mactivity);
+                String gifname = items.get(position).getFilename();
+                String filename = items.get(position).getFilename();
+                StorageReference storageRef = downGif.downloadUrl(gifname);
+                File fileDir = downGif.makeDir(tempFolderName);
+                File tempFile = downGif.downloadLocal2(storageRef, fileDir);
+
+                Log.e("로그 템프파일 출력입니다 =  ", tempFile.toString());
+                //String tempUri = temp_path + filename;
+
+                // Log.d("로그 user 출력한 값 = " , mAuth.getCurrentUser().toString());
+
+               /* FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    // do your stuff
+                } else {
+                    Logger.e("user가 널입니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    //signInAnonymously();
+                }*/
+
+                // Logger.e("tempUri 경로 = " + context.getPackageName().toString());
+
+                   /* if (Build.VERSION.SDK_INT < 24) {
+                        providerUri = Uri.fromFile(tempFile);
+                    } else {
+                        providerUri = FileProvider.getUriForFile(context, "{package_name}.fileprovider", tempFile);
+                    }
+
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("image/*");
+
+                        intent.putExtra(Intent.EXTRA_STREAM, providerUri);
+                        //intent.putExtra(Intent.EXTRA_TEXT,gifUrl );
+                        //Logger.e("imgurl = " + gifUrl);
+                        //Logger.e("Uri.parse(imgUrl) = " + Uri.parse(gifUrl));
+                        //intent.setPackage("com.kakao.talk");
+                        Intent chooser = Intent.createChooser(intent, "공유하기");
+                        mactivity.startActivity(chooser);
+                        Logger.e("Temp파일 지우기전 " + tempFile.toString());
+                        tempFile.delete();
+                        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(tempFile)));
+                        Logger.e("Temp파일 지운후 " + tempFile.toString());
+                    } catch (Exception e) {
+                        Log.e("로그exception  = ", e.toString());
+                    }*/
+                    //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(imgUrl));
+
+            }
+        });
+            //2. saveBtn클릭시, downGif이동 (파일저장되도록)
         holder.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,7 +236,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                     File fileDir = downGif.makeDir(folderName);
                     downGif.downloadLocal(storageRef, fileDir);
                     Count(databaseReference,"down",position);
-
+                    //downCount++;
                     holder.downCount.setText(String.valueOf(items.get(position).getDownCount()+1));
                 }
             }

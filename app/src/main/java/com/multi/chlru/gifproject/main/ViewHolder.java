@@ -19,6 +19,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     TextView viewCount;
     TextView downCount;
     TextView goodCount;
+    Button kakaoBtn;
     public ViewHolder(View itemView) {
         super(itemView);
         image = (ImageView) itemView.findViewById(R.id.image);
@@ -29,6 +30,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         viewCount=(TextView)itemView.findViewById(R.id.view_count);
         downCount=(TextView)itemView.findViewById(R.id.down_count);
         goodCount=(TextView)itemView.findViewById(R.id.good_count);
-
+        kakaoBtn=(Button)itemView.findViewById(R.id.kakaoBtn);
     }
 }

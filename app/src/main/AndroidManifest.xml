@@ -19,6 +19,24 @@
         tools:replace="android:icon">
         <!--android:roundIcon="@mipmap/ic_launcher_round"-->
 
+        <provider
+
+            android:name="android.support.v4.content.FileProvider"
+
+            android:authorities="{package_name}.fileprovider"
+           android:exported="false"
+
+        android:grantUriPermissions="true">
+
+        <meta-data
+
+            android:name="android.support.FILE_PROVIDER_PATHS"
+
+            android:resource="@xml/filepaths" />
+
+    </provider>
+
+
         <activity
             android:name="com.multi.chlru.gifproject.SplashActivity"
             android:screenOrientation="portrait"

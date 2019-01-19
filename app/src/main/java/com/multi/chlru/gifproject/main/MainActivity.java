@@ -215,6 +215,8 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        } catch(NullPointerException e){
+            e.printStackTrace();
         }
         //Toast.makeText(getApplicationContext(),"2: "+SaveMarketVersion+", "+SaveAppVersion,Toast.LENGTH_LONG).show();
 
