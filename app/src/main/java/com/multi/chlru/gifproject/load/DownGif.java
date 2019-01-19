@@ -151,7 +151,7 @@ public class DownGif {
                         providerUri = FileProvider.getUriForFile(context, "{package_name}.fileprovider", tempFile);
                     }
 
-                    try {
+                        try {
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("image/*");
 
