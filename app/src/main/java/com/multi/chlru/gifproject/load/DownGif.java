@@ -127,13 +127,14 @@ public class DownGif {
             e.printStackTrace();
         }
     }
-    public File downloadLocal2(StorageReference pathRef, File file_path){
+    //카카오톡 다운로드버튼클릭시 RecyclerAdapter에서 DownGif으로 와서 기능실행됨.
+    public File downloadLocal2(StorageReference pathRef, File file_path){ //file_path는 파일이 저장될 경로, pathRef는 스토리지된 저장될 경로
         try{
             final ProgressDialog progressDialog = new ProgressDialog(context);
             //1.다운로드 프로그레스바 표시
             progressDialog.setTitle("전송준비중...");
             progressDialog.show();
-            final File tempFile = File.createTempFile("images",".gif",file_path);
+            final File tempFile = File.createTempFile("images",".gif",file_path); //해당 파일의 형식으로 생성됨.
             pathRef.getFile(tempFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -165,7 +166,7 @@ public class DownGif {
                         Logger.e("Temp파일 지우기전 " + tempFile.toString());
                       //  tempFile.delete();
                         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(tempFile)));
-                        tempFile.delete();
+                        tempFile.delete(); //RecyclerAdapter의 주석을 DownGif로 옮김. 카톡공유버튼클릭시, 사진을 갤러리저장 => 공유완료 => 갤러리에서 사진삭제하는 기능
                         Logger.e("Temp파일 지운후 " + tempFile.toString());
                     } catch (Exception e) {
                         Log.e("로그exception  = ", e.toString());

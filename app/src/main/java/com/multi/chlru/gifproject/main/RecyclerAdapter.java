@@ -95,6 +95,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         Typeface typeface = Typeface.createFromAsset(context.getAssets(),"BMHANNA_11yrs_ttf.ttf");
         holder.title.setTypeface(typeface);
         holder.saveBtn.setTypeface(typeface);
+
         holder.kakaoBtn.setTypeface(typeface);
         holder.viewCount.setText(String.valueOf(items.get(position).getViewCount()));
         holder.downCount.setText(String.valueOf(items.get(position).getDownCount()));
@@ -122,12 +123,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                 intent.putExtra("url",urladd);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+
+                //2. view가 증가하도록 Count메소드실행.
                 Count(databaseReference,"view",position);
                // viewCount++;
                // Toast.makeText(context,"view : "+String.valueOf(items.get(position).getViewCount()),Toast.LENGTH_LONG).show();
                 holder.viewCount.setText(String.valueOf(items.get(position).getViewCount()+1));
             }
         });
+
+        //2. 메인에서 보여지는 CardView 카카오버튼클릭시 downgif실행
         holder.kakaoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -251,13 +256,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     //count증가
     private void Count(DatabaseReference gifRef, final String type,int position){
-        gifRef=gifRef.child("gif").child(items.get(position).getPkKey());
+        gifRef=gifRef.child("gif").child(items.get(position).getPkKey()); //절대건드리지말것. gifRef.child("gif")를 작성하지않으면, 상위계층 gif가 다 지워지고 트랜잭션실행값만 새롭게 추가된다.
+                                                                          //때문에, child("gif")해야 gif내부에 새롭게 추가된다. 안그러면 db 다 날라감.
        // Toast.makeText(mactivity,String.valueOf(gifRef),Toast.LENGTH_SHORT).show();
         gifRef.runTransaction(new Transaction.Handler() {
 
             @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                GifItem gitem = mutableData.getValue(GifItem.class);
+            public Transaction.Result doTransaction(MutableData mutableData) { //mutableData는 트랜잭션사용시 가져오는 data
+                GifItem gitem = mutableData.getValue(GifItem.class); //getValue=> gifItem.set~ => setValue방식으로 트랜잭션을 추가한다.
                 if (gitem == null) {
                     return Transaction.success(mutableData);
                 }
