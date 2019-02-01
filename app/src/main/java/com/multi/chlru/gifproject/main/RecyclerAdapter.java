@@ -147,7 +147,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                 File fileDir = downGif.makeDir(tempFolderName);
                 File tempFile = downGif.downloadLocal2(storageRef, fileDir);
 
-                Log.e("로그 템프파일 출력입니다 =  ", tempFile.toString());
+                //tempFile.delete(); //RecyclerAdapter의 주석을 DownGif로 옮김. 카톡공유버튼클릭시, 사진을 갤러리저장 => 공유완료 => 갤러리에서 사진삭제하는 기능
+                //Log.e("로그 템프파일 출력입니다 =  ", tempFile.toString()); //x
                 //String tempUri = temp_path + filename;
 
                 // Log.d("로그 user 출력한 값 = " , mAuth.getCurrentUser().toString());
@@ -190,7 +191,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             }
         });
-            //2. saveBtn클릭시, downGif이동 (파일저장되도록)
+        //2. saveBtn클릭시, downGif이동 (파일저장되도록)
         holder.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -166,6 +166,6 @@
             android:textSize="20sp"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
-            android:text="준비중" />
+            android:text="스카이캐슬" />
     </LinearLayout>
 </LinearLayout>

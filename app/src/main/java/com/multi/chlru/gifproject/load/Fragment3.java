@@ -65,7 +65,7 @@ public class Fragment3 extends HannaFontFragment {
     int count;
     Spinner spinner;
     String category;
-    private Button[] cButton = new Button[11];
+    private Button[] cButton = new Button[12];
     InputMethodManager mInputMethodManager;
     String member; //내가올린자료를 위한 pk값을 저장할 변수
     ArrayList<String> arr;
@@ -99,8 +99,9 @@ public class Fragment3 extends HannaFontFragment {
         cButton[8] = (Button) view2.findViewById(R.id.CBtn9);
         cButton[9] = (Button) view2.findViewById(R.id.CBtn10);
         cButton[10] = (Button) view2.findViewById(R.id.CBtn11);
+        cButton[11] = (Button) view2.findViewById(R.id.CBtn12);
         //Toast.makeText(getContext(), "확인합시다! "+member, Toast.LENGTH_SHORT).show();
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 12; i++) {
             arr.add(cButton[i].getText().toString());
         }
 

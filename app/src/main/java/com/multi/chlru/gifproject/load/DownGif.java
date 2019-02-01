@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -12,8 +13,10 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -26,11 +29,12 @@ import java.io.IOException;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class DownGif {
-
     String string_path=null;
     Activity context;
     SweetAlertDialog sweetalert;
     Uri providerUri;
+    File tempFile;
+
     public DownGif(Activity context) {
         this.context = context;
     }
@@ -134,7 +138,8 @@ public class DownGif {
             //1.다운로드 프로그레스바 표시
             progressDialog.setTitle("전송준비중...");
             progressDialog.show();
-            final File tempFile = File.createTempFile("images",".gif",file_path); //해당 파일의 형식으로 생성됨.
+
+            tempFile = File.createTempFile("images",".gif",file_path); //해당 파일의 형식으로 생성됨.
             pathRef.getFile(tempFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -151,7 +156,6 @@ public class DownGif {
                     } else {
                         providerUri = FileProvider.getUriForFile(context, "{package_name}.fileprovider", tempFile);
                     }
-
                         try {
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("image/*");
@@ -164,14 +168,22 @@ public class DownGif {
                         Intent chooser = Intent.createChooser(intent, "공유하기");
                         context.startActivity(chooser);
                         Logger.e("Temp파일 지우기전 " + tempFile.toString());
-                      //  tempFile.delete();
+
                         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(tempFile)));
-                        tempFile.delete(); //RecyclerAdapter의 주석을 DownGif로 옮김. 카톡공유버튼클릭시, 사진을 갤러리저장 => 공유완료 => 갤러리에서 사진삭제하는 기능
+                        //Intent mediaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(tempFile));
+                        //context.sendBroadcast(mediaIntent);
+                        //new MMediaScannerConnection(context, tempFile).onScanCompleted(string_path, providerUri);
+                        /* //미디어스캐닝 완료감지
+                        if(intent.getAction().equals(Intent.ACTION_MEDIA_MOUNTED)){
+                            tempFile.delete();
+                        }*/
+                        //tempFile.delete(); // x
+
                         Logger.e("Temp파일 지운후 " + tempFile.toString());
                     } catch (Exception e) {
                         Log.e("로그exception  = ", e.toString());
                     }
-                    tempFile.deleteOnExit();
+                    //tempFile.deleteOnExit();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -190,6 +202,7 @@ public class DownGif {
                     progressDialog.setMessage("Downloaded " + ((int) progress) + "% ...");*/
                 }
             });
+            //tempFile.delete(); //x
             return tempFile;
         }catch (IOException e){
             //Toast.makeText(context, "해당앱의 저장권한을 확인하세요!!", Toast.LENGTH_SHORT).show();
@@ -201,7 +214,30 @@ public class DownGif {
             e.printStackTrace();
             return null;
         }
+    }//File_download2
 
-    }
 
-}
+    public class MMediaScannerConnection implements MediaScannerConnection.MediaScannerConnectionClient{
+        private MediaScannerConnection mediaScannerConnection;
+        private Context context;
+        private File file;
+
+        public MMediaScannerConnection(Context context, File file) {
+            this.context = context;
+            this.file = file;
+            mediaScannerConnection = new MediaScannerConnection(context, this);
+            mediaScannerConnection.connect(); //연결.
+        }
+
+        @Override
+        public void onMediaScannerConnected() { // MediaScanner과 연결이 됬을때 client에게 알리기 위해 호출된다.
+            mediaScannerConnection.scanFile(file.getAbsolutePath(), "mineType"); //해당 file 경로 미캐닝, mineType형태로 찾는다.
+            // mineType : MIME 타입이 NULL의 경우, MIME 형식은 파일 확장자로부터 추정함. (참고)
+        }
+        @Override
+        public void onScanCompleted(String path, Uri uri) { // MediaScanner이 파일 스케닝을 끝냈을때 client에게 알리기 위해 호출된다.
+            //mediaScannerConnection.disconnect(); //연결 끊기.
+            tempFile.delete();
+        }
+    }//MMediaSanningConnection_Class
+}//DownGif_Class
