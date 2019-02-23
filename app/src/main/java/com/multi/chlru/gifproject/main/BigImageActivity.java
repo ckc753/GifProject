@@ -32,6 +32,7 @@ import com.multi.chlru.gifproject.R;
 import com.multi.chlru.gifproject.load.DownGif;
 
 import java.io.File;
+import java.io.IOException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -71,9 +72,9 @@ public class BigImageActivity extends HannaFontActivity {
                 .apply(new RequestOptions().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.DATA))
                 .into(bigimage).clearOnDetach();*/
         GlideApp.with(BigImageActivity.this).asGif()
+                .placeholder(R.drawable.loadingimage)
                 .load(Uri.parse(url))
                 .apply(new RequestOptions().override(1200, 1000).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE))
-                .placeholder(R.drawable.search_icon)
                 .into(bigimage).clearOnDetach();
         kakaoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,12 +182,31 @@ public class BigImageActivity extends HannaFontActivity {
     }
     @Override
     public void onBackPressed() {
-
-        if(tempFile!=null){
+        if(tempFile!=null) {
+           // Logger.e("Temp파일 지우기전 " + tempFile.toString());
+            try {
+                tempFile.getAbsoluteFile().delete();
+               // tempFile.delete();
+               // Logger.e("Temp파일 지우기1 " + tempFile.toString());
+                if (tempFile.exists()) {
+                  //  Logger.e("Temp파일 지우기2 " + tempFile.toString());
+                    tempFile.getCanonicalFile().delete();
+                    if (tempFile.exists()) {
+                        getApplicationContext().deleteFile(tempFile.getName());
+                   //     Logger.e("Temp파일 지우기3 " + tempFile.toString());
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(tempFile)));//갤러리 갱신
+          //  Logger.e("Temp파일 지우기4 " + tempFile.toString());
+        }
+        /*if(tempFile!=null){
             Logger.e("Temp파일 지우기전 " + tempFile.toString());
             tempFile.delete();
             Logger.e("Temp파일 지우기후 " + tempFile.toString());
-        }
+        }*/
 
         finish();
     }

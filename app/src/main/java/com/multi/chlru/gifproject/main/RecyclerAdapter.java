@@ -3,14 +3,9 @@ package com.multi.chlru.gifproject.main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -19,9 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,14 +22,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.storage.StorageReference;
-import com.kakao.util.helper.log.Logger;
 import com.multi.chlru.gifproject.GifItem;
 import com.multi.chlru.gifproject.GlideApp;
 import com.multi.chlru.gifproject.R;
-import com.multi.chlru.gifproject.load.DownGif;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -117,7 +106,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
        // Toast.makeText(context,String.valueOf(position)+" : "+String.valueOf(items.get(position).getJpgUrl()+" : "+String.valueOf(items.get(position).getGifname())),Toast.LENGTH_LONG).show();
         GlideApp.with(context)
                 .load(Uri.parse(items.get(position).getJpgUrl()))
-                .placeholder(R.drawable.search_icon)
+                .placeholder(R.drawable.loadingimage)
                 .into(holder.image);
         //1. 카드뷰클릭시, BigImageActivity이동 (이미지커지도록)
         holder.cardview.setOnClickListener(new View.OnClickListener() {

@@ -167,9 +167,9 @@ public class DownGif {
                         //intent.setPackage("com.kakao.talk");
                         Intent chooser = Intent.createChooser(intent, "공유하기");
                         context.startActivity(chooser);
-                        Logger.e("Temp파일 지우기전 " + tempFile.toString());
+                       // Logger.e("Temp파일 지우기전 " + tempFile.toString());
 
-                        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(tempFile)));
+                        //context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(tempFile)));
                         //Intent mediaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(tempFile));
                         //context.sendBroadcast(mediaIntent);
                         //new MMediaScannerConnection(context, tempFile).onScanCompleted(string_path, providerUri);
@@ -179,7 +179,7 @@ public class DownGif {
                         }*/
                         //tempFile.delete(); // x
 
-                        Logger.e("Temp파일 지운후 " + tempFile.toString());
+                       // Logger.e("Temp파일 지운후 " + tempFile.toString());
                     } catch (Exception e) {
                         Log.e("로그exception  = ", e.toString());
                     }
@@ -237,7 +237,7 @@ public class DownGif {
         @Override
         public void onScanCompleted(String path, Uri uri) { // MediaScanner이 파일 스케닝을 끝냈을때 client에게 알리기 위해 호출된다.
             //mediaScannerConnection.disconnect(); //연결 끊기.
-            tempFile.delete();
+            //tempFile.delete();
         }
     }//MMediaSanningConnection_Class
 }//DownGif_Class

@@ -52,11 +52,14 @@ import org.jsoup.nodes.Document;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends HannaFontActivity { //한나체 클래스 상속을 통해 폰트적용
+
     Toolbar toolbar;
     Fragment fragment1;
     Fragment fragment2;
@@ -658,6 +661,46 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
             drawerLayout.closeDrawer(linearLayout);
         }
 
+
+    }
+
+    /*Boolean homestatus=false;
+    Timer timer;
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        Log.d("홈", "홈버튼 누른 상태");
+        homestatus = true;
+    }*/
+    @Override
+    protected void onPause() {
+
+        /*Log.d("홈", "pause상태");
+        if(homestatus==true){
+            timer.schedule( new TimerTask()
+                            {
+                                public void run()
+                                {
+                                    finish();
+                                }
+                            }
+                    , 5000);
+        }else{
+        }*/
+        super.onPause();
+    }
+    @Override
+    public void onResume() {
+        /*homestatus=false;
+        Log.d("홈", "resume상태");
+        if(timer!=null) {
+            timer.cancel();
+        }
+        timer = new Timer();*/
+
+        super.onResume();  // Always call the superclass method first
+
+        // Get the Camera instance as the activity achieves full user focus
 
     }
     @Override
