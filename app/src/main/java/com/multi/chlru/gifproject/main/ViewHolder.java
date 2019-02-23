@@ -18,18 +18,24 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     Button saveBtn;
     TextView viewCount;
     TextView downCount;
-    TextView goodCount;
+    TextView viewText;
+    TextView downText;
+   // TextView goodCount;
     Button kakaoBtn;
     public ViewHolder(View itemView) {
         super(itemView);
         image = (ImageView) itemView.findViewById(R.id.image);
         title = (TextView) itemView.findViewById(R.id.title);
         cardview = (CardView) itemView.findViewById(R.id.cardview);
-        saveBtn = (Button) itemView.findViewById(R.id.saveBtn);
+       // saveBtn = (Button) itemView.findViewById(R.id.saveBtn);
         //recBtn = (Button) itemView.findViewById(R.id.recoBtn);
         viewCount=(TextView)itemView.findViewById(R.id.view_count);
         downCount=(TextView)itemView.findViewById(R.id.down_count);
-        goodCount=(TextView)itemView.findViewById(R.id.good_count);
-        kakaoBtn=(Button)itemView.findViewById(R.id.kakaoBtn);
+        viewText = (TextView) itemView.findViewById(R.id.viewText);
+        downText = (TextView) itemView.findViewById(R.id.downText);
+        viewCount = (TextView) itemView.findViewById(R.id.view_count);
+
+      //  goodCount=(TextView)itemView.findViewById(R.id.good_count);
+     //   kakaoBtn=(Button)itemView.findViewById(R.id.kakaoBtn);
     }
 }

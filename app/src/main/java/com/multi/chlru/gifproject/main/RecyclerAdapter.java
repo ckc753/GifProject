@@ -32,6 +32,7 @@ import com.google.firebase.database.Transaction;
 import com.google.firebase.storage.StorageReference;
 import com.kakao.util.helper.log.Logger;
 import com.multi.chlru.gifproject.GifItem;
+import com.multi.chlru.gifproject.GlideApp;
 import com.multi.chlru.gifproject.R;
 import com.multi.chlru.gifproject.load.DownGif;
 
@@ -94,12 +95,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         final String urladd = items.get(position).getDownloadUrl();
         Typeface typeface = Typeface.createFromAsset(context.getAssets(),"BMHANNA_11yrs_ttf.ttf");
         holder.title.setTypeface(typeface);
-        holder.saveBtn.setTypeface(typeface);
-
-        holder.kakaoBtn.setTypeface(typeface);
+        holder.downText.setTypeface(typeface);
+        holder.viewText.setTypeface(typeface);
+        //holder.saveBtn.setTypeface(typeface);
+       // holder.kakaoBtn.setTypeface(typeface);
+        holder.viewCount.setTypeface(typeface);
+        holder.downCount.setTypeface(typeface);
         holder.viewCount.setText(String.valueOf(items.get(position).getViewCount()));
         holder.downCount.setText(String.valueOf(items.get(position).getDownCount()));
-        holder.goodCount.setText(String.valueOf(items.get(position).getGoodCount()));
+     //   holder.goodCount.setText(String.valueOf(items.get(position).getGoodCount()));
         if(search!=null){
             SpannableStringBuilder sb=new SpannableStringBuilder();
             String str=items.get(position).getGifname();
@@ -111,8 +115,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
             holder.title.setText(items.get(position).getGifname());
         }
        // Toast.makeText(context,String.valueOf(position)+" : "+String.valueOf(items.get(position).getJpgUrl()+" : "+String.valueOf(items.get(position).getGifname())),Toast.LENGTH_LONG).show();
-        Glide.with(context)
+        GlideApp.with(context)
                 .load(Uri.parse(items.get(position).getJpgUrl()))
+                .placeholder(R.drawable.search_icon)
                 .into(holder.image);
         //1. 카드뷰클릭시, BigImageActivity이동 (이미지커지도록)
         holder.cardview.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +125,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
             public void onClick(View v) {
               //  Toast.makeText(context,String.valueOf(items.get(position).getCaNum())+" : : : "+String.valueOf(items.get(position).getNumber()),Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context,BigImageActivity.class);
+                String gifname = items.get(position).getFilename();
+                intent.putExtra("gifname",gifname);
                 intent.putExtra("url",urladd);
+                intent.putExtra("Pkkey",items.get(position).getPkKey());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 
@@ -133,7 +141,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         });
 
         //2. 메인에서 보여지는 CardView 카카오버튼클릭시 downgif실행
-        holder.kakaoBtn.setOnClickListener(new View.OnClickListener() {
+       /* holder.kakaoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //String imgUrl = items.get(position).getJpgUrl();
@@ -153,17 +161,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
                 // Log.d("로그 user 출력한 값 = " , mAuth.getCurrentUser().toString());
 
-               /* FirebaseUser user = mAuth.getCurrentUser();
+               *//* FirebaseUser user = mAuth.getCurrentUser();
                 if (user != null) {
                     // do your stuff
                 } else {
                     Logger.e("user가 널입니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     //signInAnonymously();
-                }*/
+                }*//*
 
                 // Logger.e("tempUri 경로 = " + context.getPackageName().toString());
 
-                   /* if (Build.VERSION.SDK_INT < 24) {
+                   *//* if (Build.VERSION.SDK_INT < 24) {
                         providerUri = Uri.fromFile(tempFile);
                     } else {
                         providerUri = FileProvider.getUriForFile(context, "{package_name}.fileprovider", tempFile);
@@ -186,7 +194,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                         Logger.e("Temp파일 지운후 " + tempFile.toString());
                     } catch (Exception e) {
                         Log.e("로그exception  = ", e.toString());
-                    }*/
+                    }*//*
                     //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(imgUrl));
 
             }
@@ -215,7 +223,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                             }
                         });
                         sweetalert.show();
-                        /*new AlertDialog.Builder(context).setTitle("알림").setMessage("저장소 권한이 거부되었습니다. 저장기능을 사용하시려면 해당 권한을 직접 허용하셔야 합니다.").setNeutralButton("설정", new DialogInterface.OnClickListener() {
+                        *//*new AlertDialog.Builder(context).setTitle("알림").setMessage("저장소 권한이 거부되었습니다. 저장기능을 사용하시려면 해당 권한을 직접 허용하셔야 합니다.").setNeutralButton("설정", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -227,10 +235,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
                                 //finish();
                             }
-                        }).setCancelable(false).create().show();*/
+                        }).setCancelable(false).create().show();*//*
                    // }
-                    /*ActivityCompat.requestPermissions(mactivity,new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);*/
+                    *//*ActivityCompat.requestPermissions(mactivity,new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);*//*
 
                 }else {
 
@@ -247,7 +255,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
                 }
             }
         });
-
+*/
     }
 
     @Override

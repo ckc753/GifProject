@@ -64,15 +64,16 @@ public class Fragment1 extends HannaFontFragment {
                 final int downCount=gitem.getDownCount();
                 final int goodCount=gitem.getGoodCount();
 
-               /* final String category=gitem.getCategory();
+                /*final String category=gitem.getCategory();
                 final String member=gitem.getMember();*/
 
                adapter.addItem(new GifItem(jpgurl, url, filename, name, day, number,caNum,key,viewCount,downCount,goodCount));//변화값 adapter에 추가
                 /*final int number2=1000000+number;
                 final String caNum=category+number2;*/
+               // GifItem gitem = new GifItem(jpgUrl,downloadUrl, filename, gifname, day,caNum,number,category,member);
               //  GifItem gitem2 = new GifItem(jpgurl, url, filename, name, day,caNum, number, category, member);
              // DB복사후 새로넣기
-             //   databaseReference.child("gifTemp").push().setValue(gitem2); //DB값 넣기
+               // databaseReference.child("gifTemp").push().setValue(gitem2); //DB값 넣기
                 adapter.notifyDataSetChanged();
             }
 
