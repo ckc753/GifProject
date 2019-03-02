@@ -17,12 +17,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/image"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:scaleType="centerCrop" />
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/cardProgress"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="visible"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/image"
+                    card_view:layout_constraintEnd_toEndOf="@+id/image"
+                    card_view:layout_constraintStart_toStartOf="@+id/image"
+                    card_view:layout_constraintTop_toTopOf="@+id/image" />
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:scaleType="centerCrop" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
