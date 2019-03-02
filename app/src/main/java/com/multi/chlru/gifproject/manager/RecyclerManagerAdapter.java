@@ -29,6 +29,8 @@ import com.multi.chlru.gifproject.R;
 import com.multi.chlru.gifproject.main.BigImageActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHolder> {
     Context context;
@@ -152,9 +154,49 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
 
             }
         });
+        //5. 수정버튼
+        holder.modifyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String modifyfilename = holder.modifyEdit.getText().toString();
+                if (modifyfilename.getBytes().length > 0) {
+                    //holder.modifyBtn.setClickable(false); //여러번 수정을 위해
+                    //holder.agreeBtn.setClickable(false); 수정되도록
+                    //holder.delBtn.setClickable(false); 삭제되도록
 
+                    GifItem gifItem = new GifItem();
+                    String filename = gifItem.setFilename(modifyfilename); //void -> String으로 변경했음
+                    String jpgUrl = items.get(position).getJpgUrl();
+                    String downloadUrl = items.get(position).getDownloadUrl();
+                    String gifname = items.get(position).getGifname();
+                    String day = items.get(position).getDay();
+                    int number = items.get(position).getNumber();
+                    String category = items.get(position).getCategory();
+                    String member = items.get(position).getMember();
+                    int viewCount = items.get(position).getViewCount();
+                    int downCount = items.get(position).getDownCount();
+                    int goodCount = items.get(position).getGoodCount();
+                    GifItem gitem = new GifItem(jpgUrl, downloadUrl,filename ,gifname, day, number, category,member, viewCount, downCount, goodCount);
+
+                    Toast.makeText(context, modifyfilename, Toast.LENGTH_SHORT).show();
+
+                    //String key = databaseReference.child("gifManager").push().getKey(); //https://firebase.google.com/docs/database/android/save-data?hl=ko
+                    String presentkey =
+                            databaseReference.child("gifManager").child(items.get(position).getPkKey()).getKey(); //트랜잭션의 적용코드
+
+                    Map<String, Object> postValues = gitem.toMap();
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put(presentkey, postValues);
+                    databaseReference.child("gifManager").updateChildren(childUpdates);
+
+
+                    holder.title.setText(modifyfilename); //제목은 변경된 이름으로
+                    holder.modifyEdit.setText(""); //수정됬다면, 공백으로 변경
+                } else {
+                    Toast.makeText(context, "수정할 파일명이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }});//holder.modifyBtn_end
     }
-
     //4. Count메소드
     @Override
     public int getItemCount() {

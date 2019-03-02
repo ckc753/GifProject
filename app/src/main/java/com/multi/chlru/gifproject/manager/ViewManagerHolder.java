@@ -4,6 +4,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,9 @@ public class ViewManagerHolder extends RecyclerView.ViewHolder {
     Button delBtn;
     Button agreeBtn;
 
+    EditText modifyEdit;
+    Button modifyBtn;
+
     public ViewManagerHolder(View itemView) {
         super(itemView);
         image = (ImageView) itemView.findViewById(R.id.image);
@@ -25,5 +29,7 @@ public class ViewManagerHolder extends RecyclerView.ViewHolder {
         delBtn = (Button) itemView.findViewById(R.id.delBtn);
         agreeBtn = (Button) itemView.findViewById(R.id.agreeBtn);
 
+        modifyEdit = (EditText) itemView.findViewById(R.id.modifyEdit);
+        modifyBtn = (Button) itemView.findViewById(R.id.modifyBtn);
     }
 }

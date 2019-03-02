@@ -81,7 +81,7 @@ public class BigImageActivity extends HannaFontActivity {
                 .override(1200, 1000).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE);
 
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(3,169,244), PorterDuff.Mode.MULTIPLY);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(3,169,244), PorterDuff.Mode.MULTIPLY); //1. 빅이미지 카드뷰 Progressbar적용 (BigImage와 RecyclerAdapter)
         btnlayout = (LinearLayout) findViewById(R.id.btnLayout);
         GlideApp.with(BigImageActivity.this)
                 .load(Uri.parse(url))

@@ -1,6 +1,11 @@
 package com.multi.chlru.gifproject;
 
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class GifItem {
     private String downloadUrl;
     private String filename;//파일 이름  ex) sample.gif
@@ -70,7 +75,26 @@ public class GifItem {
         this.category=category;
         this.member=member;
     }
-   /* public GifItem(String jpgUrl,String downloadUrl, String filename, String gifname,String day,int number) {
+
+    //관리자모드 수정시 --> 매니저GIF용 생성자를 Map.put으로
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("jpgUrl", jpgUrl);
+        result.put("downloadUrl", downloadUrl);
+        result.put("filename", filename);
+        result.put("gifname", gifname);
+        result.put("day", day);
+        result.put("number", number);
+        result.put("category", category);
+        result.put("member", member);
+        result.put("viewCount",viewCount);
+        result.put("downCount",downCount);
+        result.put("goodCount",goodCount);
+        return result;
+    }
+
+    /* public GifItem(String jpgUrl,String downloadUrl, String filename, String gifname,String day,int number) {
         this.jpgUrl=jpgUrl;
         this.downloadUrl = downloadUrl;
         this.filename = filename;
