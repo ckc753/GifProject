@@ -165,10 +165,10 @@ public class RecyclerManagerAdapter extends RecyclerView.Adapter<ViewManagerHold
                     //holder.delBtn.setClickable(false); 삭제되도록
 
                     GifItem gifItem = new GifItem();
-                    String filename = gifItem.setFilename(modifyfilename); //void -> String으로 변경했음
+                    String filename = items.get(position).getFilename(); //void -> String으로 변경했음
                     String jpgUrl = items.get(position).getJpgUrl();
                     String downloadUrl = items.get(position).getDownloadUrl();
-                    String gifname = items.get(position).getGifname();
+                    String gifname = modifyfilename;
                     String day = items.get(position).getDay();
                     int number = items.get(position).getNumber();
                     String category = items.get(position).getCategory();

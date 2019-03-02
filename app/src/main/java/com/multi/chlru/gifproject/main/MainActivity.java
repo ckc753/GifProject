@@ -43,6 +43,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kakao.util.helper.log.Logger;
 import com.multi.chlru.gifproject.HannaFontActivity;
+import com.multi.chlru.gifproject.homeKeyEvnet;
 import com.multi.chlru.gifproject.login.LoginActivity;
 import com.multi.chlru.gifproject.R;
 import com.multi.chlru.gifproject.load.Fragment3;
@@ -251,6 +252,8 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                     Toast.makeText(getApplicationContext(), "검색어를 입력하세요", Toast.LENGTH_LONG).show();
                 } else {
                     String search=editText.getText().toString();
+                    homekey.setHomeflag(true);
+                    //homeflag=true;
                     Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                     intent.putExtra("search",search);
                     startActivity(intent);
@@ -296,6 +299,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                         Toast.makeText(getApplicationContext(), "검색어를 입력하세요", Toast.LENGTH_LONG).show();
                     } else {
                         String search=editText.getText().toString();
+                        homekey.setHomeflag(true);
                         Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                         intent.putExtra("search",search);
                         startActivity(intent);
@@ -385,6 +389,8 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                     MainLoginButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            homekey.setHomeflag(true);
+                            //homeflag=true;
                             intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
                            // finish();
@@ -398,6 +404,8 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
             MainLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    homekey.setHomeflag(true);
+                    //homeflag=true;
                     intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                     //finish();
@@ -642,6 +650,8 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                 searchbundle.putString("pkid", pkid);
                 fragment_member.setArguments(searchbundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container2, fragment_member).commit();*/
+                homekey.setHomeflag(true);
+                //homeflag=true;
                 Intent intent = new Intent(getApplicationContext(), MemberActivity.class);
                 intent.putExtra("pkid",pkid);
                 startActivity(intent);
@@ -663,20 +673,25 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
 
 
     }
-
-    /*Boolean homestatus=false;
+    homeKeyEvnet homekey = new homeKeyEvnet();
+    /*public static boolean homeflag=false;
+    public static boolean homestatus=false;*/
     Timer timer;
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        Log.d("홈", "홈버튼 누른 상태");
-        homestatus = true;
-    }*/
+        //homestatus=true;
+        homekey.setHomestatus(true);
+        Log.d("홈", "홈버튼 누른 상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        //Log.d("홈", "홈버튼 누른 상태 "+homestatus+" "+homeflag);
+    }
     @Override
     protected void onPause() {
 
-        /*Log.d("홈", "pause상태");
-        if(homestatus==true){
+        Log.d("홈", "pause상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        //Log.d("홈", "pause상태 "+homestatus+" "+homeflag);
+        if(homekey.isHomestatus()==true&&homekey.isHomeflag()==false){
+            Log.d("홈", "timer 실행상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
             timer.schedule( new TimerTask()
                             {
                                 public void run()
@@ -686,17 +701,20 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                             }
                     , 5000);
         }else{
-        }*/
+        }
+
         super.onPause();
     }
     @Override
     public void onResume() {
-        /*homestatus=false;
-        Log.d("홈", "resume상태");
+
+        homekey.setHomestatus(false);
+        homekey.setHomeflag(false);
+        Log.d("홈", "resume상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
         if(timer!=null) {
             timer.cancel();
         }
-        timer = new Timer();*/
+        timer = new Timer();
 
         super.onResume();  // Always call the superclass method first
 
@@ -722,7 +740,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
     @Override
     protected void onDestroy() {
         //Toast.makeText(this, "onDestroy()", Toast.LENGTH_LONG).show();
-        Log.e("!!!", "onDestroy()");
+        Log.e("홈", "onDestroy()");
 
         super.onDestroy();
         //시스템상 어플 종료

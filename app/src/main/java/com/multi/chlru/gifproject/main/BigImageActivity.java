@@ -37,10 +37,13 @@ import com.multi.chlru.gifproject.GifItem;
 import com.multi.chlru.gifproject.GlideApp;
 import com.multi.chlru.gifproject.HannaFontActivity;
 import com.multi.chlru.gifproject.R;
+import com.multi.chlru.gifproject.homeKeyEvnet;
 import com.multi.chlru.gifproject.load.DownGif;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -206,6 +209,7 @@ public class BigImageActivity extends HannaFontActivity {
     }
     @Override
     public void onBackPressed() {
+        homekey.setHomeflag(true);
         if(tempFile!=null) {
            // Logger.e("Temp파일 지우기전 " + tempFile.toString());
             try {
@@ -233,5 +237,55 @@ public class BigImageActivity extends HannaFontActivity {
         }*/
 
         finish();
+    }
+
+    homeKeyEvnet homekey = new homeKeyEvnet();
+    /*public static boolean homeflag=false;
+    public static boolean homestatus=false;*/
+    Timer timer;
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        //homestatus=true;
+        homekey.setHomestatus(true);
+        Log.d("홈", "빅이미지 홈버튼 누른 상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        //Log.d("홈", "홈버튼 누른 상태 "+homestatus+" "+homeflag);
+    }
+    @Override
+    protected void onPause() {
+
+        Log.d("홈", "빅이미지 pause상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        //Log.d("홈", "pause상태 "+homestatus+" "+homeflag);
+        if(homekey.isHomestatus()==true&&homekey.isHomeflag()==false){
+            Log.d("홈", "빅이미지 timer 실행상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+            timer.schedule( new TimerTask()
+                            {
+                                public void run()
+                                {
+                                    finish();
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                }
+                            }
+                    , 5000);
+        }else{
+        }
+
+        super.onPause();
+    }
+    @Override
+    public void onResume() {
+
+        homekey.setHomestatus(false);
+        homekey.setHomeflag(false);
+        Log.d("홈", "빅이미지 resume상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        if(timer!=null) {
+            timer.cancel();
+        }
+        timer = new Timer();
+
+        super.onResume();  // Always call the superclass method first
+
+        // Get the Camera instance as the activity achieves full user focus
+
     }
 }

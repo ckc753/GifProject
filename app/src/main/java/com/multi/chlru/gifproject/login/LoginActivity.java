@@ -41,8 +41,12 @@ import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 import com.multi.chlru.gifproject.HannaFontActivity;
 import com.multi.chlru.gifproject.R;
+import com.multi.chlru.gifproject.homeKeyEvnet;
 import com.multi.chlru.gifproject.main.MainActivity;
 import com.multi.chlru.gifproject.manager.ManagerActivity;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -147,6 +151,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
         SignPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                homekey.setHomeflag(true);
                 Intent intent = new Intent(getApplicationContext(), SignActivity.class);
                 startActivity(intent);
                 finish();
@@ -197,6 +202,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(editTextEmail.getText().toString().equals("manager") && editTextPw.getText().toString().equals("manager")){
+                            homekey.setHomeflag(true);
                             Intent intent = new Intent(getApplicationContext(), ManagerActivity.class);
                             startActivity(intent);
                             finish();
@@ -213,6 +219,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                                 sessionedit.commit();
 
                                 //Toast.makeText(getApplicationContext(),"로그인완료",Toast.LENGTH_LONG).show();
+                                homekey.setHomeflag(true);
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -258,6 +265,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
 
                             //구글로그인시 입력값이 들어간다면 Session할 수 있도록
                             //Toast.makeText(getApplicationContext(),"아이디생성완료",Toast.LENGTH_LONG).show();
+                            homekey.setHomeflag(true);
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -294,6 +302,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
 
                     ErrorCode result = ErrorCode.valueOf(errorResult.getErrorCode());
                     if (result == ErrorCode.CLIENT_ERROR_CODE) {
+                        homekey.setHomeflag(true);
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -320,7 +329,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                     sessionedit.putString("sessionid", userProfile.getNickname()); //아이디값 세션처리
                     sessionedit.putString("sessonpk",userProfile.getUUID()); //pk값 세션처리
                     sessionedit.commit();
-
+                    homekey.setHomeflag(true);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
 
@@ -342,10 +351,60 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
     //12. 뒤로가기버튼 클릭시 Main으로 되돌아가는 Override메소드
     @Override
     public void onBackPressed() {
+        homekey.setHomeflag(true);
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
         finish();
 
 
+
+    }
+    homeKeyEvnet homekey = new homeKeyEvnet();
+    /*public static boolean homeflag=false;
+    public static boolean homestatus=false;*/
+    Timer timer;
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        //homestatus=true;
+        homekey.setHomestatus(true);
+        Log.d("홈", "로그인 홈버튼 누른 상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        //Log.d("홈", "홈버튼 누른 상태 "+homestatus+" "+homeflag);
+    }
+    @Override
+    protected void onPause() {
+
+        Log.d("홈", "로그인 pause상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        //Log.d("홈", "pause상태 "+homestatus+" "+homeflag);
+        if(homekey.isHomestatus()==true&&homekey.isHomeflag()==false){
+            Log.d("홈", "로그인 timer 실행상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+            timer.schedule( new TimerTask()
+                            {
+                                public void run()
+                                {
+                                    finish();
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                }
+                            }
+                    , 5000);
+        }else{
+        }
+
+        super.onPause();
+    }
+    @Override
+    public void onResume() {
+
+        homekey.setHomestatus(false);
+        homekey.setHomeflag(false);
+        Log.d("홈", "로그인 resume상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        if(timer!=null) {
+            timer.cancel();
+        }
+        timer = new Timer();
+
+        super.onResume();  // Always call the superclass method first
+
+        // Get the Camera instance as the activity achieves full user focus
 
     }
 }

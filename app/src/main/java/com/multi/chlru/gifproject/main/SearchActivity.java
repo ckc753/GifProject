@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -21,6 +22,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.multi.chlru.gifproject.GifItem;
 import com.multi.chlru.gifproject.HannaFontActivity;
 import com.multi.chlru.gifproject.R;
+import com.multi.chlru.gifproject.homeKeyEvnet;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SearchActivity extends HannaFontActivity {
 
@@ -40,6 +45,7 @@ public class SearchActivity extends HannaFontActivity {
 
     @Override
     public void onBackPressed() {
+        homekey.setHomeflag(true);
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
         finish();
     }
@@ -120,6 +126,55 @@ public class SearchActivity extends HannaFontActivity {
 
             }
         });
+
+    }
+    homeKeyEvnet homekey = new homeKeyEvnet();
+    /*public static boolean homeflag=false;
+    public static boolean homestatus=false;*/
+    Timer timer;
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        //homestatus=true;
+        homekey.setHomestatus(true);
+        Log.d("홈", "서치 홈버튼 누른 상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        //Log.d("홈", "홈버튼 누른 상태 "+homestatus+" "+homeflag);
+    }
+    @Override
+    protected void onPause() {
+
+        Log.d("홈", "서치 pause상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        //Log.d("홈", "pause상태 "+homestatus+" "+homeflag);
+        if(homekey.isHomestatus()==true&&homekey.isHomeflag()==false){
+            Log.d("홈", "timer 실행상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+            timer.schedule( new TimerTask()
+                            {
+                                public void run()
+                                {
+                                    finish();
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                }
+                            }
+                    , 5000);
+        }else{
+        }
+
+        super.onPause();
+    }
+    @Override
+    public void onResume() {
+
+        homekey.setHomestatus(false);
+        homekey.setHomeflag(false);
+        Log.d("홈", "서치 resume상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+        if(timer!=null) {
+            timer.cancel();
+        }
+        timer = new Timer();
+
+        super.onResume();  // Always call the superclass method first
+
+        // Get the Camera instance as the activity achieves full user focus
 
     }
 }

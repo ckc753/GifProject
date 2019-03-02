@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Button;
 
 import com.multi.chlru.gifproject.HannaFontFragment;
 import com.multi.chlru.gifproject.R;
+import com.multi.chlru.gifproject.homeKeyEvnet;
 
 import java.util.ArrayList;
 
@@ -21,7 +23,7 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
     private ArrayList<String> cDataList;
     Fragment fragment_cat;
     Intent intent;
-
+    homeKeyEvnet homekey = new homeKeyEvnet();
     public Fragment2() {
 
     }
@@ -75,7 +77,7 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
             }
         }//for_end
     }//onClick_end*/
-
+    //MainActivity main = new MainActivity();
     @Override
     public void onClick(View v) {
         //클릭된 뷰를 버튼으로 받아옴
@@ -85,6 +87,12 @@ public class Fragment2 extends HannaFontFragment implements View.OnClickListener
             if(tempButton == newButton){
                 int position = (Integer)v.getTag();
                 String name = newButton.getText().toString();
+                //main.homekey.homeflag=true;
+                //main.homeflag=true;
+                //homekey.homeflag=true;
+                homekey.setHomeflag(true);
+                Log.d("홈", "카테고리 액티비티 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+                //Log.d("홈", "카테고리 액티비티 "+main.homestatus+" "+main.homeflag);
                 intent = new Intent(getActivity(),CategoryActivity.class);
                 intent.putExtra("Buttonname",name);
                 getActivity().startActivity(intent);

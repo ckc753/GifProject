@@ -34,6 +34,7 @@ import com.google.firebase.database.Transaction;
 import com.multi.chlru.gifproject.GifItem;
 import com.multi.chlru.gifproject.GlideApp;
 import com.multi.chlru.gifproject.R;
+import com.multi.chlru.gifproject.homeKeyEvnet;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     File tempFile;
     LinearLayout btnlayout;
     View v;
+    homeKeyEvnet homekey=new homeKeyEvnet();
 
     public RecyclerAdapter(Context context, Activity mactivity) {
         this.context = context;
@@ -129,6 +131,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
             @Override
             public void onClick(View v) {
               //  Toast.makeText(context,String.valueOf(items.get(position).getCaNum())+" : : : "+String.valueOf(items.get(position).getNumber()),Toast.LENGTH_LONG).show();
+                homekey.setHomeflag(true);
                 Intent intent = new Intent(context,BigImageActivity.class);
                 String gifname = items.get(position).getFilename();
                 intent.putExtra("gifname",gifname);
