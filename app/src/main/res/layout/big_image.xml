@@ -5,38 +5,50 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
     <ImageView
         android:id="@+id/bigimage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:srcCompat="@drawable/kakao_default_profile_image" />
+
     <LinearLayout
+        android:id="@+id/btnLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/saveBtn"
-        android:layout_width="41dp"
-        android:layout_height="30dp"
-        android:background="@drawable/button_custom"
-        android:textColor="#F8FFF7"
-        android:textSize="20sp"
-        android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="5dp"
-        android:text="저장"
-        />
-    <Button
-        android:id="@+id/kakaoBtn"
-        android:layout_width="41dp"
-        android:layout_height="30dp"
-        android:background="@drawable/button_custom"
-        android:textColor="#F8FFF7"
-        android:textSize="20sp"
-        android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="5dp"
-        android:text="공유"
-        />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="41dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_custom"
+            android:text="저장하기"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/kakaoBtn"
+            android:layout_width="41dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_custom"
+            android:text="공유하기"
+            android:textColor="#F8FFF7"
+            android:textSize="20sp" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -106,6 +106,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
        // Toast.makeText(context,String.valueOf(position)+" : "+String.valueOf(items.get(position).getJpgUrl()+" : "+String.valueOf(items.get(position).getGifname())),Toast.LENGTH_LONG).show();
         GlideApp.with(context)
                 .load(Uri.parse(items.get(position).getJpgUrl()))
+                .thumbnail(GlideApp.with(context).load(R.drawable.loading))
                 .placeholder(R.drawable.loadingimage)
                 .into(holder.image);
         //1. 카드뷰클릭시, BigImageActivity이동 (이미지커지도록)

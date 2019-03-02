@@ -5,7 +5,7 @@ android {
         keystore {
             keyAlias 'gitproject'
             keyPassword '123456'
-            storeFile file('C:/Users/cho88/StudioProjects/GifProject/key/keystore.jks')
+            storeFile file('C:\\Users\\chlru\\AndroidStudioProjects\\GifProject\\key\\keystore.jks')
             storePassword '123456'
         }
     }

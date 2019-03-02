@@ -2,6 +2,7 @@ package com.multi.chlru.gifproject.load;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -178,6 +179,12 @@ public class Fragment3 extends HannaFontFragment {
         if ((filePath != null) && (editText.getText().toString().length() != 0)) {
             //5.1 ProgressDialog 생성
             progressDialog = new ProgressDialog(getContext());
+            progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getActivity(),"취소완료!",Toast.LENGTH_SHORT).show();
+                }
+            });
             progressDialog.setTitle("업로드중...");
             progressDialog.show();
 

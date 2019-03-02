@@ -46,12 +46,31 @@
         </android.support.design.widget.AppBarLayout>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerSearch"
+    <RelativeLayout
+        android:id="@+id/relative"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"></android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/nosearchResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="검색 결과가 없네요 ㅠㅠ"
+            android:textSize="30dp"
+            android:visibility="gone" />
+
+
+    </RelativeLayout>
 
 
 </LinearLayout>

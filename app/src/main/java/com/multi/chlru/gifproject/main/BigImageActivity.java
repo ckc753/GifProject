@@ -2,20 +2,27 @@ package com.multi.chlru.gifproject.main;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +31,6 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.storage.StorageReference;
-import com.kakao.util.helper.log.Logger;
 import com.multi.chlru.gifproject.GifItem;
 import com.multi.chlru.gifproject.GlideApp;
 import com.multi.chlru.gifproject.HannaFontActivity;
@@ -51,6 +57,7 @@ public class BigImageActivity extends HannaFontActivity {
     String tempFolderName="움짤마켓Temp";
     SweetAlertDialog sweetalert;
     File tempFile;
+    LinearLayout btnlayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,15 +73,29 @@ public class BigImageActivity extends HannaFontActivity {
         kakaoBtn=(Button)findViewById(R.id.kakaoBtn);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference=firebaseDatabase.getReference();
-        // storage = FirebaseStorage.getInstance();
-        /*Glide.with(BigImageActivity.this).asGif()
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions
+                .override(1200, 1000).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
+        btnlayout = (LinearLayout) findViewById(R.id.btnLayout);
+        GlideApp.with(BigImageActivity.this)
                 .load(Uri.parse(url))
-                .apply(new RequestOptions().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.DATA))
-                .into(bigimage).clearOnDetach();*/
-        GlideApp.with(BigImageActivity.this).asGif()
-                .placeholder(R.drawable.loadingimage)
-                .load(Uri.parse(url))
-                .apply(new RequestOptions().override(1200, 1000).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                .apply(requestOptions)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        btnlayout.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+                })
                 .into(bigimage).clearOnDetach();
         kakaoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
