@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -107,6 +108,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         final ProgressBar progressBar = (ProgressBar) v.findViewById(R.id.cardProgress);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(3,169,244), PorterDuff.Mode.MULTIPLY);
         btnlayout = (LinearLayout) v.findViewById(R.id.btnLayout);
         GlideApp.with(context)
                 .load(Uri.parse(items.get(position).getJpgUrl()))

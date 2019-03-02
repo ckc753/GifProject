@@ -2,6 +2,8 @@ package com.multi.chlru.gifproject.main;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,6 +81,7 @@ public class BigImageActivity extends HannaFontActivity {
                 .override(1200, 1000).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE);
 
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(3,169,244), PorterDuff.Mode.MULTIPLY);
         btnlayout = (LinearLayout) findViewById(R.id.btnLayout);
         GlideApp.with(BigImageActivity.this)
                 .load(Uri.parse(url))
