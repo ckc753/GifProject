@@ -88,22 +88,19 @@ public class SearchActivity extends HannaFontActivity {
                 final int downCount=gitem.getDownCount();
                 final int goodCount=gitem.getGoodCount();
 
+                //데이터검색 == 화면에 표시. (nosearchResult을 GONE으로 전환)
                 if(name.contains(search)){
                     count++;
                     //relative.setVisibility(View.GONE);
                     nosearchResult.setVisibility(View.GONE);
                     adapter.addItem(new GifItem(jpgurl, url, filename, name, day, number,caNum,key,viewCount,downCount,goodCount));//변화값 adapter에 추가
                     adapter.notifyDataSetChanged();
-                }else{
-
+                }else{  //데이터검색 == 데이터가 검색되고 있는 횟수가 0일경우 nosearchResult를 VISIBLE로
                     if(count <1){
                         //Toast.makeText(SearchActivity.this, "count = " + count, Toast.LENGTH_SHORT).show();
                         nosearchResult.setVisibility(View.VISIBLE);
-
                     }
                 }
-
-
             }
 
             @Override
@@ -143,13 +140,13 @@ public class SearchActivity extends HannaFontActivity {
     @Override
     protected void onPause() {
 
-        Log.d("홈", "서치 pause상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
-        //Log.d("홈", "pause상태 "+homestatus+" "+homeflag);
-        if(homekey.isHomestatus()==true&&homekey.isHomeflag()==false){
-            Log.d("홈", "timer 실행상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
-            timer.schedule( new TimerTask()
-                            {
-                                public void run()
+                                Log.d("홈", "서치 pause상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+                                //Log.d("홈", "pause상태 "+homestatus+" "+homeflag);
+                                if(homekey.isHomestatus()==true&&homekey.isHomeflag()==false){
+                                    Log.d("홈", "timer 실행상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());
+                                    timer.schedule( new TimerTask()
+                                                    {
+                                                        public void run()
                                 {
                                     finish();
                                     android.os.Process.killProcess(android.os.Process.myPid());

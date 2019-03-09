@@ -109,9 +109,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
             holder.title.setText(items.get(position).getGifname());
         }
 
+        //로딩표시 == 메인카드뷰에 보여지는 progressbar를 직접 만들어서 적용 (Glide는 gif가 적용되지않기때문에 사용하는 것)
         final ProgressBar progressBar = (ProgressBar) v.findViewById(R.id.cardProgress);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(3,169,244), PorterDuff.Mode.MULTIPLY); //2. 메인카드뷰에도 progressbar적용 (BigImage와 RecyclerAdapter)
         btnlayout = (LinearLayout) v.findViewById(R.id.btnLayout);
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         GlideApp.with(context)
                 .load(Uri.parse(items.get(position).getJpgUrl()))
                 .listener(new RequestListener<Drawable>() {

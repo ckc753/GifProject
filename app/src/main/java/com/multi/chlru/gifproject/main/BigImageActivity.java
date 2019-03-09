@@ -79,10 +79,12 @@ public class BigImageActivity extends HannaFontActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference=firebaseDatabase.getReference();
 
+        //빅이미지 클릭시 사용되는 Glide의 디스크캐시
         RequestOptions requestOptions = new RequestOptions();
         requestOptions
                 .override(1200, 1000).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE);
 
+        //로딩표시 == 빅이미지 클랙시 보여지는 progressbar를 직접 만들어서 적용 (Glide는 gif가 적용되지않기때문에 사용하는 것)
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.rgb(3,169,244), PorterDuff.Mode.MULTIPLY); //1. 빅이미지 카드뷰 Progressbar적용 (BigImage와 RecyclerAdapter)
         btnlayout = (LinearLayout) findViewById(R.id.btnLayout);

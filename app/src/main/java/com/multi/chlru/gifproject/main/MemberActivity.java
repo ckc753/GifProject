@@ -157,7 +157,6 @@ public class MemberActivity extends HannaFontActivity {
     }
     @Override
     public void onResume() {
-
         homekey.setHomestatus(false);
         homekey.setHomeflag(false);
         Log.d("홈", "멤버 resume상태 "+homekey.isHomestatus()+" "+homekey.isHomeflag());

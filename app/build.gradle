@@ -5,7 +5,7 @@ android {
         keystore {
             keyAlias 'gitproject'
             keyPassword '123456'
-            storeFile file('C:/Users/cho88/StudioProjects/GifProject/key/keystore.jks')
+            storeFile file('C:/Users/app/AndroidStudioProjects/GifProject-master/GifProject/key/keystore.jks')
             storePassword '123456'
         }
     }
@@ -14,8 +14,8 @@ android {
         applicationId "com.multi.chlru.gifproject"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 12
-        versionName "1.11"
+        versionCode 13
+        versionName "1.12"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.keystore
