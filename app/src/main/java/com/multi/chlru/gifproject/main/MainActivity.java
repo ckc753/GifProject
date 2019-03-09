@@ -699,7 +699,7 @@ public class MainActivity extends HannaFontActivity { //한나체 클래스 상�
                                     finish();
                                 }
                             }
-                    , 5000);
+                    , 600000);
         }else{
         }
 

@@ -126,7 +126,7 @@ public class CategoryActivity extends HannaFontActivity {
                                     android.os.Process.killProcess(android.os.Process.myPid());
                                 }
                             }
-                    , 5000);
+                    , 600000);
         }else{
         }
 

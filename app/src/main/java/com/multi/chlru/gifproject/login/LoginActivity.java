@@ -385,7 +385,7 @@ public class LoginActivity extends HannaFontActivity implements GoogleApiClient.
                                     android.os.Process.killProcess(android.os.Process.myPid());
                                 }
                             }
-                    , 5000);
+                    , 600000);
         }else{
         }
 
